@@ -1,0 +1,50 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.whitelistModal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+
+  &_header {
+    border-bottom: solid 1px $gray-color-black-40;
+    padding-left: 24px;
+
+    &_heading {
+      font-weight: 400;
+    }
+  }
+
+  &_content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px 24px;
+
+    &_label {
+      color: $gray-color-black-40;
+      font-size: 12px;
+    }
+
+    .odsInput_Wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .odsInput_input.-multiline {
+      flex: 1;
+      resize: none;
+    }
+  }
+
+  &_footer {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding: 24px;
+    width: 100%;
+  }
+}

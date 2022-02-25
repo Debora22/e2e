@@ -1,0 +1,58 @@
+<div class="mediaShareLink">
+  <div
+    class="odsSmallIndicator -fullHeight"
+    ng-if="$ctrl.isLoadingLink"
+  ></div>
+  <div
+    class="mediaShareLink_content"
+    ng-if="!$ctrl.isLoadingLink"
+  >
+    <div
+      class="mediaShareLink_content_error"
+      ng-if="$ctrl.errorMessage"
+    >
+      <i class="fa fa-exclamation-triangle"></i>
+      <div ng-if="$ctrl.errorMessage === $ctrl.shareLinkErrorsTypes.noMediaSelected">
+        Please select an image from the left.
+      </div>
+      <div ng-if="$ctrl.errorMessage === $ctrl.shareLinkErrorsTypes.isVideo">
+        Video publishing is not supported for Instagram.
+        <br/>
+        Please select an image.
+      </div>
+    </div>
+    <div ng-if="!$ctrl.errorMessage">
+      <label
+        class="odsInput_label"
+        for="shareableLink"
+      >Shareable link</label>
+      <input
+        class="odsInput_input"
+        id="shareableLink"
+        name="shareableLink"
+        type="text"
+        readonly
+        ng-model="$ctrl.sharingUrl"
+      />
+    </div>
+  </div>
+  <div class="mediaShareLink_actions">
+    <a
+      class="odsButton -link"
+      target="_blank"
+      ng-href="{{ ::$ctrl.helpUrl }}"
+    >Help</a>
+    <a
+      class="odsButton -secondary"
+      target="_blank"
+      ng-class="{ '-disabled': !$ctrl.sharingUrl }"
+      ng-href="{{ $ctrl.sharingUrl }}"
+    >Open In New Tab</a>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-disabled="!$ctrl.sharingUrl"
+      olapic-copy-to-clipboard="{{ $ctrl.sharingUrl }}"
+    >Copy Link</button>
+  </div>
+</div>

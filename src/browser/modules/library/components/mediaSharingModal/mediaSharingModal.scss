@@ -1,0 +1,60 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.mediaSharingModal {
+  color: $gray-color-black-80;
+  font-size: 14px;
+  height: 100%;
+
+  &_content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &_activations {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+
+      &_divider {
+        width: 100%;
+      }
+
+      &_item {
+        height: 125px;
+        margin: 0 24px 24px 0;
+        text-align: center;
+        width: 86px;
+
+        &_button {
+          align-items: center;
+          background: none;
+          border: 1px solid $gray-color-black-20;
+          border-radius: 3px;
+          color: $gray-color-black-20;
+          display: flex;
+          height: 86px;
+          justify-content: center;
+          margin-bottom: 8px;
+          width: 100%;
+
+          img {
+            filter: saturate(0%);
+          }
+
+          &.-selected {
+            border: 2px solid $primary-color-blue-100;
+
+            img {
+              filter: saturate(100%);
+            }
+          }
+        }
+      }
+    }
+
+    &_activationOptions {
+      flex: 1;
+      min-height: 0;
+    }
+  }
+}

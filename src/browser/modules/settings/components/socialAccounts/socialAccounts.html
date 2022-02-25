@@ -1,0 +1,123 @@
+<div class="socialAccounts">
+  <div class="socialAccounts_header">
+    <h2 class="socialAccounts_header_title">Social Accounts</h2>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-click="$ctrl.onConnect()"
+    >Connect</button>
+  </div>
+  <div class="socialAccounts_table">
+    <div class="socialAccounts_table_header">
+      <div class="socialAccounts_table_header_column">Username</div>
+      <div class="socialAccounts_table_header_column">Status</div>
+      <div class="socialAccounts_table_header_column">Actions</div>
+    </div>
+    <div
+      class="socialAccounts_table_row"
+      ng-repeat="account in $ctrl.socialAccounts.facebook"
+    >
+      <div class="socialAccounts_table_row_user">
+        <i class="socialAccounts_table_row_user_logo fa fa-facebook-square"></i>
+        <div
+          class="socialAccounts_table_row_user_avatar"
+          ngf-background="account.handle.avatar"
+        ></div>
+        <p class="socialAccounts_table_row_user_username">{{ account.handle.username }}</p>
+      </div>
+      <div class="socialAccounts_table_row_status">
+        <i
+          class="socialAccounts_table_row_status_icon"
+          ng-class="{ '-inactive': account.connection.status  !== 'active' }"
+        ></i>
+        <p>{{ account.connection.status }}</p>
+      </div>
+      <div class="socialAccounts_table_row_actions">
+        <button
+          class="socialAccounts_table_row_actions_remove"
+          type="button"
+          ng-click="$ctrl.onRemoveSocialAccount({ socialAccount: account })"
+        >Remove</button>
+        <div class="socialAccounts_table_row_actions_expand">
+          <i
+            class="fa"
+            ng-class="$ctrl.areInstagramAccountsVisible ? 'fa-angle-down' : 'fa-angle-up'"
+            ng-click="$ctrl.onCollapseAccounts()"
+          ></i>
+        </div>
+      </div>
+    </div>
+    <div
+      class="socialAccounts_table_row -child"
+      ng-repeat="mentionsAccount in $ctrl.socialMentionsAccounts"
+      ng-if="$ctrl.hasFacebookAccount && $ctrl.areInstagramAccountsVisible"
+    >
+      <div class="socialAccounts_table_row_user">
+        <i class="socialAccounts_table_row_user_logo fa fa-instagram"></i>
+        <p class="socialAccounts_table_row_user_username">@{{ mentionsAccount.username }}</p>
+      </div>
+    </div>
+    <div
+      class="socialAccounts_table_row -child"
+      ng-if="$ctrl.hasFacebookAccount && $ctrl.areInstagramAccountsVisible"
+    >
+      <div class="socialAccounts_table_row_info">
+        All the business Instagram accounts that are connected to your Facebook Profile will automatically appear in this list.
+      </div>
+    </div>
+    <div
+      class="socialAccounts_table_row"
+      ng-repeat="account in $ctrl.socialAccounts.twitter"
+    >
+      <div class="socialAccounts_table_row_user">
+        <i class="socialAccounts_table_row_user_logo fa fa-twitter-square"></i>
+        <div
+          class="socialAccounts_table_row_user_avatar"
+          ngf-background="account.handle.avatar"
+        ></div>
+        <div class="socialAccounts_table_row_user_username">@{{ account.handle.username }}</div>
+      </div>
+      <div class="socialAccounts_table_row_status">
+        <i
+          class="socialAccounts_table_row_status_icon"
+          ng-class="{ '-inactive': account.connection.status  !== 'active' }"
+        ></i>
+        <p>{{ account.connection.status }}</p>
+      </div>
+      <div class="socialAccounts_table_row_actions">
+        <button
+          class="socialAccounts_table_row_actions_remove"
+          type="button"
+          ng-click="$ctrl.onRemoveSocialAccount({ socialAccount: account })"
+        >Remove</button>
+      </div>
+    </div>
+    <div
+      class="socialAccounts_table_row"
+      ng-repeat="account in $ctrl.socialAccounts.pinterest"
+    >
+      <div class="socialAccounts_table_row_user">
+        <i class="socialAccounts_table_row_user_logo fa fa-pinterest-square"></i>
+        <div
+          class="socialAccounts_table_row_user_avatar"
+          ngf-background="account.handle.avatar"
+        ></div>
+        <div class="socialAccounts_table_row_user_username">@{{ account.handle.username }}</div>
+      </div>
+      <div class="socialAccounts_table_row_status">
+        <i
+          class="socialAccounts_table_row_status_icon"
+          ng-class="{ '-inactive': account.connection.status  !== 'active' }"
+        ></i>
+        <p>{{ account.connection.status }}</p>
+      </div>
+      <div class="socialAccounts_table_row_actions">
+        <button
+          class="socialAccounts_table_row_actions_remove"
+          type="button"
+          ng-click="$ctrl.onRemoveSocialAccount({ socialAccount: account })"
+        >Remove</button>
+      </div>
+    </div>
+  </div>
+</div>

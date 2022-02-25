@@ -1,0 +1,13 @@
+<div
+  class="chatMessage"
+  ng-class="{ '-right': $ctrl.onRight }"
+>
+  <div class="chatMessage_text">{{ $ctrl.message }}</div>
+  <div class="chatMessage_user">
+    <div
+      class="chatMessage_user_avatar"
+      ng-style="{ 'background-image': 'url(' + $ctrl.userAvatar + ')' }"
+    ></div>
+    <div class="chatMessage_user_name">{{ $ctrl.userName }}</div>
+  </div>
+</div>

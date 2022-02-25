@@ -1,0 +1,67 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.mediaInfoModal {
+  color: $gray-color-black-80;
+  font-size: 14px;
+
+  &_rights {
+    padding-bottom: 16px;
+
+    &_icon {
+      border-radius: 50%;
+      display: inline-block;
+      height: 8px;
+      margin: 4px 4px 0 0;
+      width: 8px;
+
+      &.-noRights {
+        background-color: $gray-color-black-40;
+      }
+
+      &.-rightsPending {
+        background-color: $secondary-color-yellow-100;
+      }
+
+      &.-rightsApproved {
+        background-color: $primary-color-green-100;
+      }
+
+      &.-rightsExpired {
+        background-color: $secondary-color-magenta-100;
+      }
+    }
+  }
+
+  &_info {
+    display: flex;
+    height: 17px;
+    padding-bottom: 16px;
+
+    &_title {
+      font-weight: bold;
+      margin-right: 3px;
+    }
+
+    &_content.-sourceName {
+      text-transform: capitalize;
+    }
+
+    &_videoOrientation {
+      height: 22px;
+      left: 8px;
+      position: relative;
+      top: -2px;
+
+      &.-landscape {
+        height: 13px;
+        top: 2px;
+      }
+    }
+  }
+
+  &_reported {
+    border-bottom: 2px solid $gray-color-black-10;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+  }
+}

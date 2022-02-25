@@ -1,0 +1,39 @@
+<div class="whitelistLabel">
+  <div class="whitelistLabel_content">
+    <div class="whitelistLabel_content_text">with</div>
+    <div class="whitelistLabel_content_label">{{ $ctrl.labels || 'no label' }}</div>
+  </div>
+  <div class="whitelistLabel_options">
+    <span
+      class="whitelistLabel_options_link"
+      ng-click="$ctrl.onToggleLabelVisibility()"
+      >{{ $ctrl.labels ? 'change' : 'add label' }}</span>
+    <div ng-if="$ctrl.labels">
+      or
+      <span
+        class="whitelistLabel_options_link"
+        ng-click="$ctrl.onLabelsSet()"
+      >remove label</span>
+    </div>
+  </div>
+  <div
+    class="whitelistLabel_wrapper"
+    ng-if="$ctrl.showLabelInput"
+    >
+    <div
+      class="odsInput_wrapper"
+      olapic-click-outside="$ctrl.onToggleLabelVisibility()"
+      >
+      <input
+        class="odsInput_input"
+        name="label"
+        type="text"
+        ng-change="$ctrl.onLabelsSet({ labels: $ctrl.labels })"
+        ng-keydown="$ctrl.onKeydown($event)"
+        ng-pattern-restrict="^(@|#)?[\w-]{0,50}$"
+        ng-model="$ctrl.labels"
+        olapic-focus-on="$ctrl.showLabelInput"
+      />
+    </div>
+  </div>
+</div>

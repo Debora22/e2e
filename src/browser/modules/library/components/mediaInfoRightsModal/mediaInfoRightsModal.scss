@@ -1,0 +1,114 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$mediaModal-overlay-background1: rgba(255, 255, 255, 0);
+$mediaModal-overlay-background2: rgba(0, 0, 0, 0.79);
+
+.mediaInfoRightsModal {
+  &_title {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  &_subTitle {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  &_list {
+    align-content: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &_item {
+      background: {
+        position: center;
+        repeat: no-repeat;
+        size: contain;
+      }
+      border: 1px solid $gray-color-black-10;
+      box-sizing: border-box;
+      cursor: pointer;
+      height: 162px;
+      margin: 0 16px 16px 0;
+      position: relative;
+      width: 162px;
+
+      &_overlay,
+      &_check, {
+        opacity: 0;
+        transition: opacity ease 0.4s;
+      }
+
+      &_overlay {
+        background: linear-gradient(
+          0deg,
+          $mediaModal-overlay-background1 0,
+          $mediaModal-overlay-background2 100%,
+        );
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      &_checkbox {
+        display: none;
+      }
+
+      &_check {
+        border: 2px solid $primary-color-white-100;
+        border-radius: 50%;
+        box-sizing: border-box;
+        display: block;
+        height: 21px;
+        margin: 8px;
+        position: relative;
+        width: 21px;
+        z-index: 1;
+
+        &_icon {
+          color: $primary-color-white-100;
+          display: none;
+          font-size: 12px;
+          left: 2px;
+          position: relative;
+          top: -2px;
+        }
+      }
+
+      &.-selected {
+        .mediaInfoRightsModal_list_item_check {
+          background-color: palette(general, primary);
+          border-color: palette(general, primary);
+          opacity: 1;
+
+          &_icon {
+            display: inline-block;
+          }
+        }
+      }
+
+      &.-unselectable {
+        cursor: default;
+
+        .mediaInfoRightsModal_list_item_overlay,
+        .mediaInfoRightsModal_list_item_check {
+          display: none;
+        }
+      }
+
+      &:hover .mediaInfoRightsModal_list_item {
+        &_overlay,
+        &_check, {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

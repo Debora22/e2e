@@ -1,0 +1,118 @@
+<div class="mediaSharingModal">
+  <div class="mediaSharingModal_content">
+    <div class="mediaSharingModal_content_activations">
+      <div
+        class="mediaSharingModal_content_activations_item"
+        ng-repeat="activation in $ctrl.activations | filter:$ctrl.visibleActivationsFilter() track by activation.id"
+      >
+        <button
+          class="mediaSharingModal_content_activations_item_button"
+          type="button"
+          ng-class="{ '-selected': $ctrl.selectedActivation === activation }"
+          ng-click="$ctrl._onActivationSelected(activation)"
+        >
+          <img ng-src="{{ ::activation.icon }}">
+        </button>
+        <div class="mediaSharingModal_content_activations_item_title">
+          {{ ::activation.name }}
+        </div>
+      </div>
+      <svg
+        class="mediaSharingModal_content_activations_divider"
+        viewBox="0 0 441 11"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        ng-if="$ctrl.selectedActivation"
+      >
+        <path
+          vector-effect="non-scaling-stroke"
+          stroke-width="1"
+          d="M0 0.5H211.5L221 10L230.5 0.5H441"
+          stroke="#CCCCCC"
+        />
+      </svg>
+    </div>
+    <div
+      class="mediaSharingModal_content_activationOptions"
+      ng-switch="$ctrl.selectedActivation.id"
+    >
+      <media-sharing-facebook
+        facebook-accounts="$ctrl.socialAccounts.facebook"
+        facebook-ads-accounts="$ctrl.facebookAdsAccounts"
+        facebook-ads-accounts-error="$ctrl.facebookAdsAccountsError"
+        help-url="$ctrl.selectedActivation.helpUrl"
+        is-loading-ads-accounts="$ctrl.isLoadingOptions"
+        selected-media="$ctrl.selectedMedia"
+        selected-media-count="$ctrl.selectedMediaCount"
+        on-share="$ctrl.onShare({
+          selectedActivation: $ctrl.selectedActivation,
+          selectedAccount: selectedAdAccount,
+        })"
+        ng-switch-when="facebook"
+      ></media-sharing-facebook>
+      <media-sharing-link
+        help-url="$ctrl.selectedActivation.helpUrl"
+        media="$ctrl.media"
+        is-loading-link="$ctrl.isLoadingOptions"
+        selected-media="$ctrl.selectedMedia"
+        selected-media-count="$ctrl.selectedMediaCount"
+        sharing-url="$ctrl.sharingUrl"
+        ng-switch-when="shareLink"
+      ></media-sharing-link>
+      <media-sharing-instagram
+        facebook-username="$ctrl.socialAccounts.facebook[0].handle.username"
+        help-url="$ctrl.selectedActivation.helpUrl"
+        is-loading-instagram-accounts="$ctrl.isLoadingOptions"
+        instagram-business-accounts="$ctrl.instagramBusinessAccounts"
+        instagram-business-accounts-error="$ctrl.instagramBusinessAccountsError"
+        media="$ctrl.media"
+        selected-media="$ctrl.selectedMedia"
+        selected-media-count="$ctrl.selectedMediaCount"
+        on-share="$ctrl.onShare({
+          selectedActivation: $ctrl.selectedActivation,
+          selectedAccount: selectedAccount,
+          extras: extras,
+        })"
+        ng-switch-when="instagram"
+      ></media-sharing-instagram>
+      <media-sharing-tapshop
+        help-url="$ctrl.selectedActivation.helpUrl"
+        is-loading-tapshop-accounts="$ctrl.isLoadingOptions"
+        media="$ctrl.media"
+        selected-media="$ctrl.selectedMedia"
+        selected-media-count="$ctrl.selectedMediaCount"
+        streams="$ctrl.streams"
+        tapshop-accounts="$ctrl.tapshopAccounts"
+        on-share="$ctrl.onShare({
+          selectedActivation: $ctrl.selectedActivation,
+          selectedAccount: selectedAccount,
+          extras: extras,
+        })"
+        ng-switch-when="tapshop"
+      ></media-sharing-tapshop>
+      <media-sharing-pinterest
+        help-url="$ctrl.selectedActivation.helpUrl"
+        is-loading-pinterest-data="$ctrl.isLoadingOptions"
+        media="$ctrl.media"
+        pinterest-accounts="$ctrl.socialAccounts.pinterest"
+        pinterest-boards="$ctrl.pinterestBoards"
+        pinterest-pin="$ctrl.pinterestPin"
+        selected-media="$ctrl.selectedMedia"
+        selected-media-count="$ctrl.selectedMediaCount"
+        on-get-pinterest-data="$ctrl.onActivationSelected({
+          selectedActivation: $ctrl.selectedActivation,
+          extras: {
+            socialAccountId: socialAccountId,
+            pinterestAccount: pinterestAccount,
+          },
+        })"
+        on-share="$ctrl.onShare({
+          selectedActivation: $ctrl.selectedActivation,
+          selectedAccount: selectedAccount,
+          extras: extras,
+        })"
+        ng-switch-when="pinterest"
+      ></media-sharing-tapshop>
+    </div>
+  </div>
+</div>

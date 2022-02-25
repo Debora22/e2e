@@ -1,0 +1,133 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.advocatesRow {
+  background: $primary-color-white-100;
+  border: 1px solid $gray-color-black-20;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  height: 380px;
+  margin: 24px 0;
+  padding: 24px;
+
+  &_header {
+    flex-shrink: 0;
+    width: 400px;
+
+    &_user_name {
+      color: $gray-color-black-80;
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: 300;
+    }
+
+    &_user_source {
+      color: $gray-color-black-80;
+      font-size: 14px;
+    }
+
+    &_box {
+      display: flex;
+      margin-top: 65px;
+
+      &_column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &_value {
+          font-size: 18px;
+
+          p {
+            margin: 0;
+          }
+        }
+
+        &_label {
+          color: $gray-color-black-60;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 1.2px;
+          text-transform: uppercase;
+
+          &_icon {
+            color: $gray-color-black-20;
+
+            &_tooltip .odsTooltip_text {
+              color: $gray-color-black-60;
+              letter-spacing: 0;
+              min-width: 167px;
+              text-align: left;
+              text-transform: none;
+            }
+          }
+        }
+
+        &_svg {
+          width: 100%;
+        }
+
+        &.-left {
+          flex: 6;
+        }
+
+        &.-separator {
+          flex: 1;
+        }
+
+        &.-right {
+          flex: 9;
+          justify-content: center;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  &_content {
+    display: flex;
+    overflow: hidden;
+    padding: 0 62px;
+    position: relative;
+    width: 100%;
+
+    &_container {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    &_slider {
+      display: flex;
+      transition: margin 0.5s ease;
+    }
+
+    &_sliderButtons {
+      align-self: center;
+      background-color: transparent;
+      border: solid 1px $gray-color-black-60;
+      border-radius: 50%;
+      color: $primary-color-blue-100;
+      font-size: 18px;
+      height: 46px;
+      padding: 0;
+      position: absolute;
+      width: 46px;
+      z-index: 1;
+
+      &:disabled {
+        border-color: $gray-color-black-20;
+        color: $gray-color-black-20;
+      }
+
+      &.-left {
+        left: 0;
+        padding: 3px 3px 0 0;
+      }
+
+      &.-right {
+        padding: 3px 0 0 3px;
+        right: 0;
+      }
+    }
+  }
+}

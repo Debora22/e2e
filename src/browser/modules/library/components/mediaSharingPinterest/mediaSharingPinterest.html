@@ -1,0 +1,173 @@
+<div class="mediaSharePinterest">
+  <div
+    class="odsSmallIndicator -fullScreen -withOpacity -mediaSharePinterest"
+    ng-if="$ctrl.isLoadingPinterestBoards"
+  ></div>
+  <div class="mediaSharePinterest_content">
+  <div
+    class="mediaSharePinterest_content_error"
+    ng-if="$ctrl.errorMessage"
+  >
+    <i class="fa fa-exclamation-triangle"></i>
+    <div ng-if="$ctrl.errorMessage === $ctrl.sharePinterestErrorsTypes.empty">
+      You do not have a Pinterest account connected to your Olapic account.
+      <br/>
+      Please go to the Settings Page and access Social Accounts to connect a Pinterest account.
+    </div>
+    <div ng-if="$ctrl.errorMessage === $ctrl.sharePinterestErrorsTypes.noMediaSelected">
+      Please select an image from the left.
+    </div>
+    <div ng-if="$ctrl.errorMessage === $ctrl.sharePinterestErrorsTypes.isVideo">
+      Video publishing is not supported for Pinterest.
+      <br/>
+      Please select an image.
+    </div>
+  </div>
+    <div ng-if="!$ctrl.errorMessage">
+      <div class="odsMessageBanner -info" ng-if="$ctrl.pinterestPin">
+        This media was already sent to Pinterest, you won't be able to edit its title and or description here.
+        If you want to edit them please
+        <a
+          class="odsButton -link"
+          target="_blank"
+          ng-href="https://www.pinterest.com/pin/{{ ::$ctrl.pinterestPin.id }}"
+        >go to the Pin in Pinterest</a>.
+      </div>
+      <ods-dropdown
+        items-id-property="id"
+        items-label-property="name"
+        items="$ctrl.pinterestSocialAccounts"
+        label="Pinterest Account"
+        placeholder="Please select a Pinterest Account"
+        type="border"
+        selected-item="$ctrl.selectedPinterestSocialAccount"
+        on-item-selected="$ctrl.onPinterestSocialAccountSelected(item)"
+      ></ods-dropdown>
+      <div class="mediaSharePinterest_content_section">
+        <ods-dropdown
+          class="mediaSharePinterest_content_section_boards"
+          items-id-property="id"
+          items-label-property="name"
+          items="$ctrl.pinterestBoardsToUse"
+          label="Board"
+          placeholder="Please select a Pinterest Board"
+          type="border"
+          selected-item="$ctrl.selectedPinterestBoard"
+          on-item-selected="$ctrl.onPinterestBoardSelected(item)"
+        ></ods-dropdown>
+        <div
+          class="mediaSharePinterest_content_newBoard"
+          ng-if="$ctrl.showPinterestNewBoardInput"
+        >
+          <div class="odsCheckbox_wrapper">
+            <div class="odsCheckbox_container">
+              <input
+                class="odsCheckbox_checkbox"
+                id="boardProtectedCheckBox"
+                type="checkbox"
+                ng-model="$ctrl.isNewBoardSecret"
+              />
+              <label
+                class="odsCheckbox_label"
+                for="boardProtectedCheckBox"
+              >Make board Secret</label>
+              <i class="fa fa-question-circle odsTooltip -icon -right">
+                <span class="odsTooltip_text">Secret boards won't appear anywhere around Pinterest.</span>
+              </i>
+            </div>
+          </div>
+          <div class="odsInput_wrapper">
+            <label
+              class="odsInput_label"
+              for="boardName"
+            >New Board Name</label>
+            <input
+              class="odsInput_input"
+              id="boardName"
+              name="boardName"
+              placeholder="Enter a board name"
+              type="text"
+              ng-attr-maxlength="{{ $ctrl.boardNameMaxlength }}"
+              ng-model="$ctrl.newPinterestBoardName"
+            />
+          </div>
+          <div class="odsInput_wrapper">
+            <label
+              class="odsInput_label"
+              for="boardDescription"
+            >
+              Description
+              <span ng-if="$ctrl.newPinterestBoardDescription.length">
+                ({{ $ctrl.descriptionMaxlength - $ctrl.newPinterestBoardDescription.length }} characters remaining)
+              </span>
+            </label>
+            <textarea
+              class="odsInput_input -multiline"
+              id="boardDescription"
+              placeholder="Enter a board description"
+              ng-attr-maxlength="{{ $ctrl.descriptionMaxlength }}"
+              ng-model="$ctrl.newPinterestBoardDescription"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="mediaSharePinterest_content_section">
+        <div class="odsInput_wrapper">
+          <label
+            class="odsInput_label"
+            for="pinTitle"
+          >
+            Pin Title
+            <span ng-if="$ctrl.pinTitle.length">
+              ({{ $ctrl.titleMaxlength - $ctrl.pinTitle.length }} characters remaining)
+            </span>
+          </label>
+          <input
+            class="odsInput_input"
+            id="pinTitle"
+            name="pinTitle"
+            placeholder="Enter a pin title"
+            type="text"
+            ng-attr-maxlength="{{ $ctrl.titleMaxlength }}"
+            ng-model="$ctrl.pinTitle"
+            ng-disabled="$ctrl.pinterestPin"
+          />
+          <div class="odsInput_message">Your first 30 characters are what usually show up in feeds.</div>
+        </div>
+        <div class="odsInput_wrapper">
+          <label
+            class="odsInput_label"
+            for="pinDescription"
+          >
+            Description
+            <span ng-if="$ctrl.pinDescription.length">
+              ({{ $ctrl.descriptionMaxlength - $ctrl.pinDescription.length }} characters remaining)
+            </span>
+          </label>
+          <textarea
+            class="odsInput_input -multiline"
+            id="pinDescription"
+            placeholder="Tell everyone what is your pin about"
+            ng-attr-maxlength="{{ $ctrl.descriptionMaxlength }}"
+            ng-model="$ctrl.pinDescription"
+            ng-disabled="$ctrl.pinterestPin"
+          ></textarea>
+          <div class="odsInput_message">Your first 50 characters are what usually show up in feeds.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mediaSharePinterest_actions">
+    <a
+      class="odsButton -link"
+      target="_blank"
+      ng-href="{{ ::$ctrl.helpUrl }}"
+    >Help</a>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-click="$ctrl._onShare()"
+      ng-disabled="!$ctrl.selectedPinterestSocialAccount || !$ctrl.pinTitle || !($ctrl.showPinterestNewBoardInput ? $ctrl.newPinterestBoardName : $ctrl.selectedPinterestBoard)"
+    >Share Now</button>
+  </div>
+</div>

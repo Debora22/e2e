@@ -1,0 +1,21 @@
+<div class="settingsInstructionsModal">
+  <div class="settingsInstructionsModal_header">
+    <h2 class="settingsInstructionsModal_header_heading">Instructions</h2>
+  </div>
+  <div
+    class="settingsInstructionsModal_content"
+    ng-bind-html="::$ctrl.instructions"
+  ></div>
+  <div class="settingsInstructionsModal_footer">
+    <button
+      class="odsButton -secondary"
+      type="button"
+      ng-click="$ctrl.onClose()"
+    >Close</button>
+    <button
+      class="odsButton -primary"
+      type="button"
+      olapic-copy-to-clipboard="{{ ::$ctrl.instructions | htmlToPlaintext }}"
+    >Copy</button>
+  </div>
+</div>

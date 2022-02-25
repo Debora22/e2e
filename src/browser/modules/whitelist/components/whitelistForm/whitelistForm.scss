@@ -1,0 +1,92 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.whitelistForm {
+  align-items: baseline;
+  display: flex;
+  font-size: 14px;
+  height: 80px;
+  justify-content: space-between;
+  margin: 20px 0;
+
+  &_username {
+    flex-basis: 25%;
+    max-width: 260px;
+
+    &_modalLink {
+      background-color: transparent;
+      border: none;
+      color: $primary-color-blue-100;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 13px;
+      padding: 0;
+      text-decoration: underline;
+    }
+  }
+
+  &_source {
+    align-items: center;
+    display: flex;
+    padding: 0 14px;
+
+    &_text {
+      margin-right: 8px;
+    }
+
+    .odsDropdown {
+      &_wrapper {
+        min-width: 120px;
+        text-transform: capitalize;
+      }
+
+      &_text {
+        margin: 0 10px;
+      }
+    }
+  }
+
+  &_label,
+  &_calendar {
+    align-items: center;
+    display: flex;
+    padding: 0 8px;
+  }
+
+  &_buttons {
+    margin-left: auto;
+
+    &_submit {
+      background-color: $primary-color-blue-60;
+      width: 190px;
+    }
+  }
+
+  &_modal .odsModal {
+    display: flex;
+
+    &_content {
+      margin: auto;
+      max-height: 448px;
+      min-height: 320px;
+      width: 612px;
+    }
+  }
+
+  .odsInput {
+    &_label {
+      color: $gray-color-black-60;
+      font-size: 12px;
+      margin-top: 2px;
+      max-width: 260px;
+      padding: 2px;
+
+      &.-error {
+        color: $primary-color-red-100;
+      }
+    }
+
+    &_wrapper {
+      min-height: 0;
+    }
+  }
+}

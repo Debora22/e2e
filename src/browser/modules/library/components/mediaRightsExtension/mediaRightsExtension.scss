@@ -1,0 +1,110 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.mediaRightsExtension {
+  height: 100%;
+
+  &_link {
+    background: none;
+    border: none;
+    color: palette(general, primary);
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+  }
+
+  &_form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &_text {
+      margin: 0;
+    }
+
+    &_profile {
+      margin: 24px 0 30px;
+      padding-left: 58px;
+      position: relative;
+
+      &_image {
+        background: {
+          color: $gray-color-black-10;
+          position: center;
+          repeat: no-repeat;
+          size: contain;
+        }
+        border: 1px solid $gray-color-black-20;
+        border-radius: 50%;
+        box-sizing: border-box;
+        height: 45px;
+        left: 0;
+        position: absolute;
+        top: -4px;
+        width: 45px;
+      }
+
+      &_username {
+        margin-bottom: 6px;
+      }
+
+      &_name {
+        color: $gray-color-black-60;
+        font-size: 10px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+      }
+    }
+
+    &_accounts {
+      margin-bottom: 16px;
+
+      &_list {
+        list-style: none;
+        margin: 4px 0 0;
+        padding: 0;
+
+        &_item {
+          line-height: 24px;
+        }
+      }
+    }
+
+    &_row {
+      display: flex;
+      padding-bottom: 16px;
+
+      &_element {
+        flex: 1;
+      }
+    }
+
+    &_buttons {
+      margin-left: auto;
+      margin-top: 26px;
+
+      &.-bottom {
+        border-top: 1px solid $gray-color-black-20;
+        box-sizing: border-box;
+        display: flex;
+        flex-shrink: 0;
+        height: 54px;
+        justify-content: flex-end;
+        margin: auto -24px -24px;
+        padding: 8px 24px;
+      }
+
+      .odsButton {
+        margin-left: 16px;
+      }
+
+      &_login {
+        width: 130px;
+      }
+    }
+
+    .odsTooltip {
+      flex-shrink: 0;
+      margin: 33px 0 0 8px;
+    }
+  }
+}

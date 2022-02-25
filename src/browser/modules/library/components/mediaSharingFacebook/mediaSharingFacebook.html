@@ -1,0 +1,75 @@
+<div class="mediaSharingFacebook">
+  <div
+    class="odsSmallIndicator -fullHeight"
+    ng-if="$ctrl.isLoadingAdsAccounts"
+  ></div>
+  <div
+    class="mediaSharingFacebook_content"
+    ng-if="!$ctrl.isLoadingAdsAccounts"
+  >
+    <div
+      class="mediaSharingFacebook_content_error"
+      ng-if="$ctrl.facebookAdsAccountsErrorMessage"
+    >
+      <i class="fa fa-exclamation-triangle"></i>
+      <div ng-if="!$ctrl.facebookUsername">
+        You do not have a Facebook account connected to your Olapic account.
+        <br/>
+        Please go to the Settings Page and access Social Accounts to connect a Facebook account.
+      </div>
+      <div ng-if="$ctrl.facebookUsername">
+        <div ng-if="$ctrl.facebookAdsAccountsErrorMessage === $ctrl.facebookAdsAccountsErrorsTypes.errorGetting">
+          You are connected to
+          <strong>{{ ::$ctrl.facebookUsername }}</strong>,
+          but there was an error accessing your Facebook Ad Accounts. Please try again. If you are unable to resolve this error, please contact your support team.
+        </div>
+        <div ng-if="$ctrl.facebookAdsAccountsErrorMessage === $ctrl.facebookAdsAccountsErrorsTypes.preconditionFailed">
+          You are connected to
+          <strong>{{ ::$ctrl.facebookUsername }}</strong>,
+          but there was an error accessing your Facebook Ad Accounts. Please verify this account has the required permissions to access Facebook Ads Manager or connect another Facebook account.
+        </div>
+        <div ng-if="$ctrl.facebookAdsAccountsErrorMessage === $ctrl.facebookAdsAccountsErrorsTypes.empty">
+          You are connected to
+          <strong>{{ ::$ctrl.facebookUsername }}</strong>,
+          but this account doesn't have a Facebook Ads account associated. Please connect a Facebook account that is associated with your company's Facebook Ads Manager.
+        </div>
+        <div ng-if="$ctrl.facebookAdsAccountsErrorMessage === $ctrl.facebookAdsAccountsErrorsTypes.noMediaSelected">
+          Please select an image from the left.
+        </div>
+      </div>
+    </div>
+    <div
+      class="mediaSharingFacebook_content_options"
+      ng-if="!$ctrl.facebookAdsAccountsErrorMessage"
+    >
+      <div class="mediaSharingFacebook_content_options_message">
+        You are connected to
+        <strong>{{ ::$ctrl.facebookUsername }}</strong>.
+        Please select the Facebook Ad Account where you want to send the media to.
+      </div>
+      <ods-dropdown
+        items-id-property="id"
+        items-label-property="name"
+        items="$ctrl.facebookAdsAccounts"
+        label="Ad Account:"
+        placeholder="Please select a Facebook Ad Account"
+        type="border"
+        selected-item="$ctrl.selectedAdAccount"
+        on-item-selected="$ctrl.onSelectedAdAccount(item)"
+      ></ods-dropdown>
+    </div>
+  </div>
+  <div class="mediaSharingFacebook_actions">
+    <a
+      class="odsButton -link"
+      target="_blank"
+      ng-href="{{ ::$ctrl.helpUrl }}"
+    >Help</a>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-click="$ctrl.onShare({ selectedAdAccount: $ctrl.selectedAdAccount })"
+      ng-disabled="!$ctrl.selectedAdAccount"
+    >Share Now</button>
+  </div>
+</div>

@@ -1,0 +1,404 @@
+<form
+  class="collectionsForm"
+  id="collectionsForm"
+  name="collectionsForm"
+  novalidate
+  ng-submit="$ctrl.submit(collectionsForm)"
+>
+  <div class="collectionsForm_content">
+    <div class="collectionsForm_data">
+      <div
+        class="collectionsForm_data_title"
+      >{{ ::$ctrl.collection.id ? 'Edit collection' : 'Create new collection' }}</div>
+      <div
+        class="odsInput_wrapper collectionsForm_data_name"
+        ng-class="{ '-error': $ctrl.isInError(collectionsForm, 'collectionName') }"
+      >
+        <label
+          class="odsInput_label"
+          for="collectionName"
+        >Collection Name</label>
+        <input
+          class="odsInput_input"
+          id="collectionName"
+          maxlength="250"
+          name="collectionName"
+          placeholder="Enter a collection name"
+          required
+          type="text"
+          ng-class="{ '-error': $ctrl.isInError(collectionsForm, 'collectionName') }"
+          ng-model="$ctrl.collection.name"
+          olapic-validator-functions="{ 'nameInUse': $ctrl.validateCollectionName }"
+        />
+        <div class="odsInput_message">
+          <p ng-if="collectionsForm.collectionName.$error.required">Please enter a collection name.</p>
+          <p ng-if="collectionsForm.collectionName.$error.nameInUse">Sorry, this collection name is already in use. Please select another name.</p>
+        </div>
+      </div>
+      <div class="collectionsForm_data_row -rules">
+        <div class="collectionsForm_data_subtitle">Rules</div>
+        <div
+          class="odsMessageBanner -error"
+          ng-if="collectionsForm.collectionBaseTypeHashtagLimit.$error.hashtagLimit"
+        >
+          You have reached the maximum of 30 hashtag collections per account. You can delete one to add another. Please contact
+          <a
+            class="odsButton -link -inline"
+            href="mailto:support@olapic.com"
+          >support@olapic.com</a>
+          for more options.
+        </div>
+        <div class="collectionsForm_data_row_main">
+          <div class="collectionsForm_data_row_main_title">Collect media</div>
+          <ods-dropdown
+            class="collectionsForm_data_row_main_type"
+            id="collectionBaseType"
+            name="collectionBaseType"
+            required
+            items-id-property="id"
+            items-label-property="name"
+            placeholder="select"
+            disabled="$ctrl.collection.id"
+            error="$ctrl.isInError(collectionsForm, 'collectionBaseType')"
+            error-message="Please select a type of collection."
+            items="$ctrl.baseTypeList"
+            selected-item="$ctrl.collection.base.type"
+            on-item-selected="$ctrl.onBaseTypeSelected(item)"
+            ng-model="$ctrl.collection.base.type"
+          ></ods-dropdown>
+          <input
+            id="collectionBaseTypeHashtagLimit"
+            name="collectionBaseTypeHashtagLimit"
+            type="hidden"
+            ng-model="$ctrl.collection.base.type"
+            olapic-validator-functions="{ 'hashtagLimit': $ctrl.validateHashtagLimit }"
+          ></input>
+          <div
+            class="odsInput_wrapper collectionsForm_data_row_main_value"
+            ng-class="{
+              '-disabled': $ctrl.collection.id,
+              '-error': $ctrl.isInError(collectionsForm, 'collectionBaseValue'),
+            }"
+            ng-if="$ctrl.collection.id || $ctrl.collection.base.type.id !== 'mention'"
+          >
+            <input
+              class="odsInput_input"
+              id="collectionBaseValue"
+              name="collectionBaseValue"
+              placeholder="{{ $ctrl.collection.base.type.placeholder }}"
+              required
+              type="text"
+              ng-attr-maxlength="{{ $ctrl.collection.base.type.maxlength }}"
+              ng-class="{ '-error': $ctrl.isInError(collectionsForm, 'collectionBaseValue') }"
+              ng-change="$ctrl.onGeneratePhrase();"
+              ng-disabled="$ctrl.collection.id"
+              ng-model="$ctrl.collection.base.data.value"
+              ng-pattern="$ctrl.collection.base.type.pattern"
+            />
+            <div class="odsInput_message">
+              <p ng-if="collectionsForm.collectionBaseValue.$error.required">
+                <span ng-if="!$ctrl.collection.base.type">According to your selection, type a value.</span>
+                <span ng-if="$ctrl.collection.base.type">Please enter a Twitter profile.</span>
+              </p>
+              <p
+                ng-if="collectionsForm.collectionBaseValue.$error.pattern"
+                ng-switch="$ctrl.collection.base.type.id"
+              >
+                <span ng-switch-when="hashtag">
+                  Sorry, the hashtag cannot contain spaces or special characters.
+                  Please check the spelling of the hashtag or try another hashtag.
+                </span>
+                <span ng-switch-when="handler">
+                  Sorry, a user profile cannot contain spaces or special characters.
+                  Please confirm that the spelling is correct.
+                </span>
+              </p>
+            </div>
+          </div>
+          <ods-dropdown
+            class="collectionsForm_data_row_main_value"
+            id="collectionBaseMention"
+            name="collectionBaseMention"
+            required
+            items-id-property="id"
+            items-label-property="name"
+            placeholder="{{ $ctrl.collection.base.type.placeholder }}"
+            disabled="$ctrl.collection.id"
+            error="$ctrl.isInError(collectionsForm, 'collectionBaseMention')"
+            error-message="Please select a connected instagram account."
+            items="$ctrl.socialMentionsAccounts"
+            selected-item="$ctrl.collection.base.data.mention"
+            on-item-selected="$ctrl.onBaseMentionSelected(item)"
+            ng-model="$ctrl.collection.base.data.mention"
+            ng-if="!$ctrl.collection.id && $ctrl.collection.base.type.id === 'mention'"
+          ></ods-dropdown>
+        </div>
+        <div
+          class="collectionsForm_data_row_rule"
+          ng-repeat="rule in $ctrl.collection.rules track by $index"
+        >
+          <div class="collectionsForm_data_row_rule_line"></div>
+          <ods-dropdown
+            class="collectionsForm_data_row_rule_operator"
+            items-id-property="id"
+            items-label-property="name"
+            placeholder="select"
+            items="$ctrl.ruleOperatorList"
+            selected-item="rule.operator"
+            on-item-selected="$ctrl.onRuleOperatorSelected(rule, item)"
+          ></ods-dropdown>
+          <ods-dropdown
+            class="collectionsForm_data_row_rule_type"
+            items-id-property="id"
+            items-label-property="name"
+            placeholder="select"
+            error="rule.error"
+            error-message="{{ rule.error }}"
+            items="$ctrl.ruleTypeList"
+            selected-item="rule.type"
+            on-item-selected="$ctrl.onRuleTypeSelected(rule, item)"
+            ng-model="rule.type"
+          ></ods-dropdown>
+          <div
+            class="odsInput_wrapper collectionsForm_data_row_rule_value"
+            ng-class="{ '-error': !rule.error && $ctrl.isInError(collectionsForm, ruleIndexValue) }"
+            ng-init="ruleIndexValue = 'rule' + $index + 'Value'"
+          >
+            <input
+              class="odsInput_input"
+              type="text"
+              ng-attr-id="{{ ruleIndexValue }}"
+              ng-attr-maxlength="{{ rule.type.maxlength }}"
+              ng-attr-name="{{ ruleIndexValue }}"
+              ng-attr-placeholder="{{ rule.type.placeholder }}"
+              ng-change="$ctrl.onGeneratePhrase();"
+              ng-class="{ '-error': !rule.error && $ctrl.isInError(collectionsForm, ruleIndexValue) }"
+              ng-model="rule.value"
+              ng-pattern="rule.type.pattern"
+            />
+            <div class="odsInput_message">
+              <p
+                ng-if="collectionsForm[ruleIndexValue].$error.pattern"
+                ng-switch="rule.type.id"
+              >
+                <span ng-switch-when="mention">
+                  Sorry, a user mention cannot contain spaces or special characters.
+                  Please confirm that the spelling is correct.
+                </span>
+                <span ng-switch-when="hashtag">
+                  Sorry, the hashtag cannot contain spaces or special characters.
+                  Please check the spelling of the hashtag or try another hashtag.
+                </span>
+                <span ng-switch-when="handler">
+                  Sorry, a user profile cannot contain spaces or special characters.
+                  Please confirm that the spelling is correct.
+                </span>
+              </p>
+            </div>
+          </div>
+          <button
+            class="collectionsForm_data_row_rule_remove"
+            type="button"
+            ng-click="$ctrl.removeRule($index)"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="collectionsForm_data_add">
+          <div class="collectionsForm_data_add_line"></div>
+          <button
+            class="collectionsForm_data_add_button"
+            type="button"
+            ng-click="$ctrl.addRule()"
+          >
+            <i class="collectionsForm_data_add_button_icon fa fa-plus-circle"></i>
+            Add rule
+          </button>
+        </div>
+      </div>
+      <div class="collectionsForm_data_row -streams">
+        <div class="collectionsForm_data_subtitle">Stream</div>
+        <div
+          class="collectionsForm_data_row_rule"
+          ng-repeat="stream in $ctrl.collection.streams track by $index"
+        >
+          <div class="collectionsForm_data_row_rule_line"></div>
+          <div class="collectionsForm_data_row_rule_title">and assign to stream</div>
+          <ods-search-box
+            class="collectionsForm_data_row_rule_value"
+            loading="$ctrl.streamsLoading"
+            search="stream.name"
+            search-debounce-time="150"
+            suggestions="stream.suggestions"
+            placeholder="Enter a stream name"
+            on-search-blur="$ctrl.onSearchBlur(stream)"
+            on-search-text-change="$ctrl.triggerSearch(stream, search)"
+            on-suggestion-click="$ctrl.onSuggestionClick(stream, suggestion)"
+          ></ods-search-box>
+          <button
+            class="collectionsForm_data_row_rule_remove"
+            type="button"
+            ng-click="$ctrl.removeStream($index)"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="collectionsForm_data_add">
+          <div class="collectionsForm_data_add_line"></div>
+          <button
+            class="collectionsForm_data_add_button"
+            type="button"
+            ng-click="$ctrl.addStream()"
+          >
+            <i class="collectionsForm_data_add_button_icon fa fa-plus-circle"></i>
+            Add stream
+          </button>
+        </div>
+      </div>
+      <div class="collectionsForm_data_row">
+        <div class="collectionsForm_data_subtitle">Media type</div>
+        <div class="odsCheckbox_group">
+          <div class="odsCheckbox_wrapper">
+            <div class="odsCheckbox_container">
+              <input
+                class="odsCheckbox_checkbox"
+                id="photosCheckbox"
+                name="photosCheckbox"
+                type="checkbox"
+                ng-change="$ctrl.onMediaTypeChange('image')"
+                ng-model="$ctrl.collection.mediaTypes.image"
+              />
+              <label
+                class="odsCheckbox_label"
+                for="photosCheckbox"
+              >Photos</label>
+            </div>
+          </div>
+          <div class="odsCheckbox_wrapper -description">
+            <div class="odsCheckbox_container">
+              <input
+                class="odsCheckbox_checkbox"
+                id="videosCheckbox"
+                name="videosCheckbox"
+                type="checkbox"
+                ng-change="$ctrl.onMediaTypeChange('video')"
+                ng-model="$ctrl.collection.mediaTypes.video"
+                ng-disabled="!$ctrl.hasVideoCollection || $ctrl.collection.base.type.id !== 'mention'"
+              />
+              <label
+                class="odsCheckbox_label"
+                for="videosCheckbox"
+              >Videos</label>
+            </div>
+            <div class="odsCheckbox_description">
+              <p ng-if="$ctrl.hasVideoCollection">We can only collect videos from @mentions.</p>
+              <p ng-if="!$ctrl.hasVideoCollection">Video collection is disabled. Please contact your account manager.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="collectionsForm_data_row">
+        <div class="collectionsForm_data_subtitle">Destination</div>
+        <div class="odsRadioButton_group">
+          <div class="odsRadioButton_wrapper -description">
+            <div class="odsRadioButton_container">
+              <input
+                class="odsRadioButton_radioButton"
+                id="sendModerationRadiobutton"
+                name="sendModerationRadiobutton"
+                type="radio"
+                ng-disabled="$ctrl.disableSendModerationServices"
+                ng-model="$ctrl.collection.skipModeration"
+                ng-value="false"
+              />
+              <label
+                for="sendModerationRadiobutton"
+                class="odsRadioButton_label"
+              >
+                <strong>Send</strong> to Olapic Moderation Services
+              </label>
+            </div>
+            <div
+              class="odsRadioButton_description"
+              ng-if="$ctrl.disableSendModerationServices || (!$ctrl.hasVideoModerationServices && $ctrl.collection.mediaTypes.video) || (!$ctrl.hasModerationServices && $ctrl.collection.mediaTypes.image)"
+            >
+              <img
+                class="odsRadioButton_description_icon"
+                ng-src="{{ ::$ctrl.importantInfoIcon }}"
+              />
+              <p ng-if="$ctrl.disableSendModerationServices">
+                You don't have access to Moderation Services for {{ $ctrl.collection.mediaType }}.
+                <br/>
+                If you would like to subscribe to the Moderation Services for {{ $ctrl.collection.mediaType }} please contact your account manager.
+              </p>
+              <p ng-if="!$ctrl.disableSendModerationServices && !$ctrl.hasVideoModerationServices && $ctrl.collection.mediaTypes.video">
+                Only photos will be sent as you don't have access to Moderation Services for videos.
+                <br/>
+                If you would like to subscribe to the Moderation Services for videos please contact your account manager.
+              </p>
+              <p ng-if="!$ctrl.disableSendModerationServices && !$ctrl.hasModerationServices && $ctrl.collection.mediaTypes.image">
+                Only videos will be sent as you don't have access to Moderation Services for photos.
+                <br/>
+                If you would like to subscribe to the Moderation Services for photos please contact your account manager.
+              </p>
+            </div>
+          </div>
+          <div class="odsRadioButton_wrapper -description">
+            <div class="odsRadioButton_container">
+              <input
+                class="odsRadioButton_radioButton"
+                id="bypassModerationRadiobutton"
+                name="bypassModerationRadiobutton"
+                type="radio"
+                ng-model="$ctrl.collection.skipModeration"
+                ng-value="true"
+              />
+              <label
+                for="bypassModerationRadiobutton"
+                class="odsRadioButton_label"
+              >
+                <strong>Skip</strong> Olapic Moderation Services
+              </label>
+            </div>
+            <div class="odsRadioButton_description">
+              <p>{{ $ctrl.collection.mediaType | capitalize }} will go directly to the New Content section.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="collectionsForm_preview">
+      <div class="collectionsForm_preview_title">PREVIEW</div>
+      <div
+        class="collectionsForm_preview_name"
+        ng-class="{ '-empty': !$ctrl.collection.name }"
+      >{{ $ctrl.collection.name ? $ctrl.collection.name : 'Name' }}</div>
+      <div
+        class="collectionsForm_preview_phrase"
+        ng-if="$ctrl.collection.phrase"
+        ng-bind-html="$ctrl.collection.phrase"
+      ></div>
+      <div
+        class="collectionsForm_preview_phrase -empty"
+        ng-if="!$ctrl.collection.phrase"
+      >Collect {{ $ctrl.collection.mediaType }} ...</div>
+    </div>
+  </div>
+  <div class="collectionsForm_footer">
+    <button
+      class="odsButton -link"
+      type="button"
+      ng-click="$ctrl.onDelete({ collection: $ctrl.collection })"
+      ng-if="::$ctrl.collection.id"
+    >Delete</button>
+    <button
+      class="odsButton -secondary collectionsForm_footer_cancel"
+      type="button"
+      ng-click="$ctrl.onCancel()"
+    >Cancel</button>
+    <button
+      class="odsButton -primary collectionsForm_footer_submit"
+      type="submit"
+    >{{ ::$ctrl.collection.id ? 'Save' : 'Create' }}</button>
+  </div>
+</form>

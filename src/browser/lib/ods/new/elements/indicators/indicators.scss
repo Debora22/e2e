@@ -1,0 +1,43 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$indicator-background: rgba(242, 242, 242, 0.5);
+
+.odsSmallIndicator {
+  background-image: url('./images/indicator.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &.-fullHeight {
+    height: 100%;
+  }
+
+  &.-fullWidth {
+    width: 100%;
+  }
+
+  &.-fullScreen {
+    background-color: $indicator-background;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 20;
+  }
+
+  &.-fixed {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 95;
+  }
+
+  &.-noBackground {
+    background-color: transparent;
+  }
+
+  &.-withOpacity {
+    background-color: $primary-color-white-100;
+    opacity: 0.5;
+  }
+}

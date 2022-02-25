@@ -1,0 +1,34 @@
+<div class="whitelistCalendar">
+  <div class="whitelistCalendar_from">
+    <span class="whitelistCalendar_label">from</span>
+    <div>
+      <ods-calendar
+        options="$ctrl.fromCalendarOptions"
+        ng-attr-input-label="No start date"
+        on-date-change="$ctrl.onDateChange(selectedDates, dateStr, instance, 'dateFrom')"
+        on-instance-ready="$ctrl.onCalendarInstanceReady(selectedDates, dateStr, instance, 'dateFrom')"
+      ></ods-calendar>
+      <span
+        class="whitelistCalendar_link"
+        ng-click="$ctrl.onClearDate('dateFrom')"
+        ng-if="$ctrl.dates.dateFrom"
+      >set no start date</span>
+    </div>
+  </div>
+  <div class="whitelistCalendar_to">
+    <span class="whitelistCalendar_label">to</span>
+    <div>
+      <ods-calendar
+        options="$ctrl.toCalendarOptions"
+        ng-attr-input-label="No date limit"
+        on-date-change="$ctrl.onDateChange(selectedDates, dateStr, instance, 'dateTo' )"
+        on-instance-ready="$ctrl.onCalendarInstanceReady(selectedDates, dateStr, instance, 'dateTo')"
+      ></ods-calendar>
+      <span
+        class="whitelistCalendar_link"
+        ng-click="$ctrl.onClearDate('dateTo')"
+        ng-if="$ctrl.dates.dateTo"
+      >set no limit time</span>
+    </div>
+  </div>
+</div>

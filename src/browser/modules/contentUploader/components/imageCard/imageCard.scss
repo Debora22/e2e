@@ -1,0 +1,94 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$transitionHover: opacity ease-in 0.2s;
+
+.imageCard {
+  border: 1px solid $gray-color-black-20;
+  border-radius: 3px;
+  display: inline-block;
+  height: 270px;
+  margin: 0 24px 24px 0;
+  position: relative;
+  width: 270px;
+
+  &_media {
+    &_image {
+      background: {
+        position: center;
+        repeat: no-repeat;
+        size: cover;
+      }
+      border-radius: 3px;
+      height: 270px;
+      width: 100%;
+      z-index: 0;
+    }
+
+    &_overlay,
+    &_delete,
+    &_edit {
+      opacity: 0;
+      transition: $transitionHover;
+    }
+
+    &_overlay {
+      background: linear-gradient(
+        0deg,
+        transparent 0,
+        $mediaCard-overlay-background 100%,
+      );
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 1;
+    }
+
+    &_delete {
+      color: $gray-color-black-10;
+      cursor: pointer;
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      width: 15px;
+      z-index: 2;
+    }
+
+    &_edit {
+      background: none;
+      border: 1px solid $primary-color-white-100;
+      border-radius: 3px;
+      bottom: 0;
+      color: $primary-color-white-100;
+      font-size: 14px;
+      font-weight: 500;
+      height: 37px;
+      left: 0;
+      letter-spacing: 1.5px;
+      margin: auto;
+      padding: 2px 16px 0;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      text-transform: uppercase;
+      top: 0;
+      width: 134px;
+      z-index: 3;
+
+      &:hover {
+        background: $mediaCard-view-background;
+      }
+    }
+
+    &:hover {
+      .imageCard_media {
+        &_overlay,
+        &_delete,
+        &_edit {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

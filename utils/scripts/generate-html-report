@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+/* eslint-disable node/shebang */
+
+const reporter = require('cucumber-html-reporter');
+const minimist = require('minimist');
+
+const argvSlice = 2;
+
+const args = minimist(process.argv.slice(argvSlice), {
+  default: {
+    jsonFile: 'test/e2e/report/e2e-test-results.json',
+    launchReport: false,
+  },
+});
+
+const options = {
+  theme: 'bootstrap',
+  jsonFile: args.jsonFile,
+  output: 'test/e2e/report/e2e-test-results.html',
+  reportSuiteAsScenarios: true,
+  launchReport: args.launchReport,
+  metadata: {
+  },
+};
+
+reporter.generate(options);

@@ -1,0 +1,25 @@
+<div class="root_wrapper">
+  <div
+    ng-if="$ctrl.loading"
+    class="odsSmallIndicator -fullScreen"
+  ></div>
+  <ods-menu
+    ng-if="!$ctrl.loading && !$ctrl.hideMenu && $ctrl.customer"
+    app-name="{{ ::$ctrl.appTitle }}"
+    avatar="{{ $ctrl.avatar }}"
+    current-route="{{ $ctrl.currentRoute }}"
+    customer="{{ $ctrl.customer }}"
+    avatar-items="$ctrl.menu.avatarItems"
+    home="$ctrl.menu.home"
+    main-nav="$ctrl.menu.mainNav"
+    sub-nav="$ctrl.menu.subNav"
+    on-filter="$ctrl.onFilter({ item })"
+  ></ods-menu>
+  <div
+    ng-class="{ 'noMenu': $ctrl.hideMenu || !$ctrl.customer }"
+    ng-view
+    autoscroll
+    class="root_view"
+    ng-if="!$ctrl.loading"
+  ></div>
+</div>

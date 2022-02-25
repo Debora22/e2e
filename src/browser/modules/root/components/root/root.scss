@@ -1,0 +1,25 @@
+.root_wrapper {
+  height: 100%;
+
+  .root_view {
+    height: calc(100% - 56px);
+    overflow: hidden;
+    position: relative;
+
+    .sub_view {
+      height: calc(100% + 56px);
+      margin-top: -56px;
+      min-height: 500px;
+      width: 100%;
+    }
+
+    &.noMenu {
+      height: 100%;
+
+      .sub_view {
+        height: 100%;
+        margin-top: 0;
+      }
+    }
+  }
+}

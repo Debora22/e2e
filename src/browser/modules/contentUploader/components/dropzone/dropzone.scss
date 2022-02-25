@@ -1,0 +1,23 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.dropzone {
+  border: 2px dashed $primary-color-blue-100;
+  border-radius: 3px;
+  height: 237px;
+  text-align: center;
+
+  &_content {
+    margin: 40px auto;
+    width: 175px;
+
+    &_text {
+      font-size: 18px;
+      line-height: 27px;
+      margin: 0;
+    }
+
+    &_button {
+      width: 150px;
+    }
+  }
+}

@@ -1,0 +1,77 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.editModal {
+  width: 615px;
+
+  &_header {
+    border-bottom: 1px solid $gray-color-black-20;
+    height: 42px;
+    width: 613px;
+
+    &_title {
+      font-size: 18px;
+      margin: 18px 24px;
+    }
+  }
+
+  &_content {
+    display: flex;
+    justify-content: space-between;
+    margin: 22px 24px 14px 24px;
+
+    &_thumbnail {
+      background: {
+        position: center;
+        repeat: no-repeat;
+        size: contain;
+      }
+      border: 1px solid $gray-color-black-20;
+      float: left;
+      height: 270px;
+      width: 270px;
+    }
+
+    &_edit {
+      flex: 1;
+      margin-left: 24px;
+
+      .odsInput_input.-multiline {
+        height: 115px;
+        resize: none;
+      }
+    }
+  }
+
+  &_footer {
+    bottom: 0;
+    height: auto;
+    position: absolute;
+    width: 610px;
+
+    &_actions {
+      float: right;
+
+      .odsButton.-primary {
+        margin: 19px 24px;
+        width: 150px;
+      }
+    }
+
+    &_info {
+      display: inline-block;
+      margin-left: 24px;
+      position: absolute;
+      top: 0;
+      width: 70px;
+
+      &_fileInfo {
+        font-size: 11px;
+        top: 0;
+      }
+
+      .odsButton.-link {
+        margin: 10px 0;
+      }
+    }
+  }
+}

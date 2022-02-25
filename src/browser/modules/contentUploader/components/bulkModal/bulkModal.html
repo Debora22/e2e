@@ -1,0 +1,96 @@
+<div class="bulkModal">
+  <div class="bulkModal_info">
+    <div class="bulkModal_info_title">
+      You are editing
+      <strong>{{ ::$ctrl.media.length }}</strong>
+      media.
+    </div>
+    <div class="bulkModal_info_list">
+      <div
+        class="bulkModal_info_list_item"
+        ngf-background="media"
+        ng-repeat="media in $ctrl.media track by $index"
+      ></div>
+    </div>
+  </div>
+  <div class="bulkModal_section">
+    <div class="bulkModal_section_list">
+      <button
+        class="bulkModal_section_list_item"
+        type="button"
+        ng-class="{ '-active': $ctrl.selectedSection === 'edit' }"
+        ng-click="$ctrl.onSectionChange({ section: 'edit' })"
+      >Edit</button>
+      <button
+        class="bulkModal_section_list_item"
+        type="button"
+        ng-class="{ '-active': $ctrl.selectedSection === 'tag' }"
+        ng-click="$ctrl.onSectionChange({ section: 'tag' })"
+      >Tag To Stream</button>
+    </div>
+    <div
+      class="bulkModal_section_main"
+      ng-switch="$ctrl.selectedSection"
+    >
+      <div
+        class="bulkModal_section_main_edit"
+        ng-switch-when="edit"
+      >
+        <form
+          id="usernameForm"
+          name="usernameForm"
+          class="odsInput_wrapper bulkModal_section_main_edit_username"
+          novalidate
+          ng-class="{ '-error': usernameForm.username.$error.pattern }"
+          ng-submit="$ctrl.submit(usernameForm)"
+        >
+          <label
+            class="odsInput_label"
+            for="username"
+          >Username</label>
+          <input
+            id="username"
+            class="odsInput_input"
+            name="username"
+            maxlength="64"
+            ng-attr-placeholder="{{ $ctrl.placeholder }}"
+            ng-class="{ '-error': usernameForm.username.$error.pattern }"
+            ng-model="$ctrl.username"
+            ng-pattern="$ctrl.usernameRegexp"
+            required
+          />
+          <div class="odsInput_message">
+            <p>Sorry, the username cannot contain more than 64 characters, spaces, and special characters.</p>
+          </div>
+          <button
+            class="bulkModal_section_main_edit_username_button odsButton -primary"
+            type="submit"
+            ng-disabled="usernameForm.$pristine || usernameForm.$invalid"
+          >Save</button>
+        </form>
+        <media-keywords
+          has-automatic-keywords="false"
+          has-keywords-action-enabled="true"
+          keywords="$ctrl.keywords"
+          on-add-keyword="$ctrl.onAddKeyword({ keyword: keyword })"
+          on-remove-keyword="$ctrl.onRemoveKeyword({ keyword: keyword })"
+          on-search-for-keywords="$ctrl.onSearchForKeywords({ search: search })"
+        ></media-keywords>
+      </div>
+      <media-tagging-modal
+        exist-more-streams="$ctrl.existMoreStreams"
+        has-tagging-action-enabled="true"
+        media="$ctrl.media"
+        media-selected-count="1"
+        streams="$ctrl.streams"
+        on-change-streams-positions="$ctrl.onChangeStreamsPositions({ streams: streams })"
+        on-error="$ctrl.appErrorHandler.silent({ error: error })"
+        on-load-more-streams="$ctrl.onLoadMoreStreams()"
+        on-remove-stream="$ctrl.onRemoveStream({ streamId: streamId })"
+        on-search-for-streams="$ctrl.onSearchForStreams({ text: text })"
+        on-tag-streams="$ctrl.onTagStreams({ newStreams: streams })"
+        ng-switch-when="tag"
+      ></media-tagging-modal>
+    </div>
+  </div>
+</div>

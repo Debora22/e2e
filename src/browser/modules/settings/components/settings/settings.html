@@ -1,0 +1,37 @@
+<div class="settings">
+  <div class="settings_sidebar">
+    <div
+      class="settings_sidebar_item"
+      ng-class="{ '-selected': $ctrl.currentSection === $ctrl.sections.account}"
+      ng-click="$ctrl.onSectionChange($ctrl.sections.account)"
+    >Account</div>
+    <div
+      class="settings_sidebar_item"
+      ng-class="{ '-selected': $ctrl.currentSection === $ctrl.sections.socialAccounts}"
+      ng-click="$ctrl.onSectionChange($ctrl.sections.socialAccounts)"
+    >Social Accounts</div>
+  </div>
+  <div class="settings_content">
+    <settings-account
+      account-api-key="$ctrl.accountApiKey"
+      account-avatar="$ctrl.accountAvatar"
+      account-name="$ctrl.accountName"
+      checkout-pixel="$ctrl.checkoutPixel"
+      checkout-pixel-instructions="$ctrl.checkoutPixelInstructions"
+      currencies="$ctrl.currencies"
+      settings="$ctrl.settings"
+      on-save-avatar="$ctrl.onSaveAvatar({ avatar: avatar })"
+      on-save-settings="$ctrl.onSaveSettings({ settings: settings })"
+      ng-if="$ctrl.currentSection === $ctrl.sections.account"
+    ></settings-account>
+    <settings-social-accounts
+      auth-url="$ctrl.authUrl"
+      social-accounts="$ctrl.socialAccounts"
+      social-accounts-loading="$ctrl.socialAccountsLoading"
+      social-mentions-accounts="$ctrl.socialMentionsAccounts"
+      on-remove-social-account="$ctrl.onRemoveSocialAccount({ socialAccount: socialAccount })"
+      on-save-social-account="$ctrl.onSaveSocialAccount()"
+      ng-if="$ctrl.currentSection === $ctrl.sections.socialAccounts"
+    ></settings-social-accounts>
+  </div>
+</div>

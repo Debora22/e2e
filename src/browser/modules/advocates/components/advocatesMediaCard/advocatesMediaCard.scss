@@ -1,0 +1,103 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.advocatesMediaCard {
+  background: $primary-color-white-100;
+  border: 1px solid $gray-color-black-20;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-sizing: border-box;
+  height: 330px;
+  margin-right: 24px;
+  position: relative;
+  text-align: center;
+  width: 270px;
+
+  &_image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 268px;
+  }
+
+  &_detail {
+    display: flex;
+    flex-direction: column;
+    height: 270px;
+    justify-content: space-around;
+
+    &_thumbnail {
+      height: 74px;
+      margin: 16px auto;
+    }
+
+    &_caption {
+      color: $gray-color-black-60;
+      font-size: 12px;
+      height: 70px;
+      overflow: auto;
+      padding: 0 16px;
+      position: relative;
+      text-align: left;
+    }
+
+    &_caption,
+    &_data {
+      font-size: 12px;
+      margin-top: 4px;
+      padding: 0 16px;
+      text-align: left;
+    }
+  }
+
+  &_arrow {
+    bottom: 44px;
+    font-size: 8px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+  }
+
+  &_footer {
+    bottom: 0;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    height: 60px;
+    justify-content: flex-start;
+    position: absolute;
+    width: 100%;
+
+    &_rights {
+      font-size: 11px;
+      line-height: 14px;
+      padding: 6px 14px;
+      text-align: left;
+      width: 100%;
+
+      &_circle {
+        background: $gray-color-black-60;
+        border-radius: 50%;
+        display: inline-block;
+        height: 8px;
+        margin-right: 6px;
+        width: 8px;
+
+        &.-approved {
+          background: $primary-color-green-100;
+        }
+      }
+    }
+
+    &_value {
+      font-size: 18px;
+      height: 36px;
+      overflow: hidden;
+      padding: 0 10px;
+      text-align: right;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+  }
+}

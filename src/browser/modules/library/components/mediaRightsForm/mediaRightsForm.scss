@@ -1,0 +1,112 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.mediaRightsForm {
+  height: 100%;
+
+  &_single {
+    display: flex;
+    flex-direction: column;
+
+    &_title {
+      padding-bottom: 30px;
+    }
+
+    &_row {
+      display: flex;
+      padding-bottom: 16px;
+
+      &_element {
+        flex: 1;
+      }
+    }
+
+    &_send {
+      margin-left: auto;
+      margin-top: 26px;
+      width: 225px;
+    }
+
+    .odsInput_wrapper {
+      min-height: initial;
+    }
+
+    .odsInput_input.-multiline {
+      resize: none;
+    }
+
+    .odsTooltip {
+      flex-shrink: 0;
+      margin: 33px 0 0 8px;
+    }
+
+    .charCountNegative {
+      color: palette(general, danger);
+    }
+  }
+
+  &_bulk {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &_title {
+      line-height: 24px;
+      padding-bottom: 30px;
+    }
+
+    &_network {
+      padding-bottom: 8px;
+
+      &_title {
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 1.2px;
+        padding-bottom: 16px;
+        text-transform: uppercase;
+      }
+    }
+
+    &_row {
+      display: flex;
+      padding-bottom: 16px;
+
+      &_element {
+        flex: 1;
+      }
+    }
+
+    &_buttons {
+      border-top: 1px solid $gray-color-black-20;
+      box-sizing: border-box;
+      display: flex;
+      flex-shrink: 0;
+      height: 54px;
+      margin: auto -24px -24px;
+      padding: 8px 24px;
+
+      &_send {
+        margin-left: auto;
+        width: 225px;
+      }
+    }
+  }
+
+  .odsDropdown_label,
+  .odsInput_label {
+    padding: 0 0 5px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    &_bulk_buttons {
+      margin: auto -16px -16px;
+      padding: 8px 16px;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    &_bulk_buttons {
+      margin: auto -8px -8px;
+      padding: 8px;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+<form
+  class="whitelistForm"
+  id="whitelistForm"
+  name="whitelistForm"
+  novalidate
+  ng-submit="$ctrl.onSubmit()"
+>
+  <!-- Username -->
+  <div class="whitelistForm_username">
+    <div class="odsInput_wrapper">
+      <input
+        class="odsInput_input"
+        name="userNames"
+        placeholder="@username, @username2"
+        required
+        type="text"
+        ng-change="$ctrl.onUsernameInputChange()"
+        ng-class="{ '-error': $ctrl.usernamesError }"
+        ng-model="$ctrl.usernames"
+      />
+    </div>
+    <div
+      class="odsInput_label"
+      ng-if="$ctrl.parsedUsernames.length < 2 && !$ctrl.usernamesError"
+    >Add up to 200 users separated by comma, semicolon or a space.</div>
+    <div
+      class="odsInput_label"
+      ng-if="$ctrl.parsedUsernames.length > 1 && $ctrl.parsedUsernames.length <= 200"
+    >{{ $ctrl.parsedUsernames.length }} users </div>
+    <div
+      class="odsInput_label -error"
+      ng-if="$ctrl.usernamesError"
+    >{{ $ctrl.usernamesError }}</div>
+    <div
+      class="odsInput_label"
+      ng-if="$ctrl.parsedUsernames.length > 1 && !$ctrl.usernamesError"
+    >(<button
+      class="whitelistForm_username_modalLink"
+      type=button
+      ng-click="$ctrl.onModalOpen()"
+    >show all</button>)
+    </div>
+  </div>
+  <!-- Source -->
+  <div class="whitelistForm_source">
+    <span class="whitelistForm_source_text">from</span>
+    <ods-dropdown
+      name="source"
+      required
+      items-id-property="id"
+      items-label-property="name"
+      items="$ctrl.sources"
+      selected-item="$ctrl.selectedSource"
+      on-item-selected="$ctrl.onSourceSelected(item)"
+      ng-model="$ctrl.selectedSource"
+    ></ods-dropdown>
+  </div>
+  <!-- Label -->
+  <div class="whitelistForm_label">
+    <whitelist-label
+      labels="$ctrl.labels"
+      on-labels-set="$ctrl.onLabelsSet(labels)"
+    ></whitelist-label>
+  </div>
+  <!-- Calendar -->
+  <div class="whitelistForm_calendar">
+    <whitelist-calendar
+      dates="$ctrl.dates"
+      on-date-set="$ctrl.onDateSet(date, value)"
+    ></whitelist-calendar>
+  </div>
+  <!-- Button -->
+  <div class="whitelistForm_buttons">
+    <button
+      class="odsButton -primary whitelistForm_buttons_submit"
+      type="submit"
+      ng-disabled="!whitelistForm.$valid || $ctrl.usernamesError"
+    >Add User</button>
+  </div>
+</form>
+<ods-modal
+  class="whitelistForm_modal"
+  ng-if="$ctrl.isModalVisible"
+  on-close="$ctrl.onModalClose()"
+>
+  <whitelist-modal
+    usernames="$ctrl.usernames"
+    on-cancel="$ctrl.onModalClose()"
+    on-submit="$ctrl.onModalSubmit(usernames)"
+  ></whitelist-modal>
+</ods-modal>

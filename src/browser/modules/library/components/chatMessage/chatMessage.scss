@@ -1,0 +1,73 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.chatMessage {
+  &_text {
+    background-color: $gray-color-black-5;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    padding: 16px;
+    position: relative;
+    word-wrap: break-word;
+
+    &::after {
+      border-color: $gray-color-black-5 transparent transparent transparent;
+      border-style: solid;
+      border-width: 16px 8px 0 8px;
+      bottom: -14px;
+      content: '';
+      display: block;
+      height: 0;
+      left: 7px;
+      position: absolute;
+      width: 0;
+    }
+  }
+
+  &_user {
+    align-items: center;
+    display: flex;
+
+    &_avatar {
+      background: {
+        color: $gray-color-black-10;
+        position: center;
+        repeat: no-repeat;
+        size: contain;
+      }
+      border: 1px solid $gray-color-black-20;
+      border-radius: 50%;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      height: 30px;
+      margin-right: 8px;
+      width: 30px;
+    }
+
+    &_name {
+      flex: 1;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &.-right {
+    text-align: right;
+
+    .chatMessage {
+      &_text::after {
+        left: initial;
+        right: 7px;
+      }
+
+      &_user {
+        flex-direction: row-reverse;
+
+        &_avatar {
+          margin: 0 0 0 8px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.settingsInstructionsModal {
+  display: flex;
+  flex-direction: column;
+
+  &_header {
+    border-bottom: solid 1px $gray-color-black-40;
+    padding-left: 24px;
+
+    &_heading {
+      font-weight: 400;
+    }
+  }
+
+  &_content {
+    box-sizing: border-box;
+    font-size: 14px;
+    height: 262px;
+    line-height: 24px;
+    margin: 16px 0;
+    overflow: auto;
+    padding: 0 24px;
+  }
+
+  &_footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+}

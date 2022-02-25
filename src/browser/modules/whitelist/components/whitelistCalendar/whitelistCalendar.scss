@@ -1,0 +1,37 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.whitelistCalendar {
+  display: flex;
+  font-size: 14px;
+  max-width: 432px;
+
+  &_from,
+  &_to {
+    display: flex;
+    height: 53px;
+  }
+
+  &_label {
+    align-items: center;
+    display: flex;
+    height: 36px;
+  }
+
+  &_link {
+    color: $primary-color-blue-100;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 0 16px;
+    text-decoration: underline;
+
+    &.-center {
+      padding: 0;
+      text-align: center;
+    }
+  }
+
+  .odsCalendar {
+    padding: 0 16px;
+    width: 110px;
+  }
+}

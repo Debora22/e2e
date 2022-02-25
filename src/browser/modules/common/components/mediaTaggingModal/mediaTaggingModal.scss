@@ -1,0 +1,355 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$mediaTaggingModal-gradient1: rgba(255, 255, 255, 0);
+$mediaTaggingModal-gradient2: rgba(255, 255, 255, 0.9);
+
+.mediaTaggingModal {
+  color: $gray-color-black-80;
+  font-size: 14px;
+  height: 100%;
+
+  &_single {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &_addStream {
+    background: none;
+    border: none;
+    color: $primary-color-blue-100;
+    display: block;
+    font-size: 14px;
+    height: 98px;
+    line-height: 98px;
+    margin: 0 0 16px;
+    padding: 0;
+    text-decoration: underline;
+
+    &:focus,
+    &:hover {
+      color: $primary-color-blue-100;
+      text-decoration: underline;
+    }
+
+    &_symbol {
+      border: 2px solid $primary-color-blue-100;
+      box-sizing: border-box;
+      display: inline-block;
+      font-size: 20px;
+      font-weight: bold;
+      height: 98px;
+      margin-right: 16px;
+      text-align: center;
+      text-decoration: none;
+      width: 98px;
+    }
+  }
+
+  &_searchBox {
+    margin-bottom: 16px;
+  }
+
+  &_title {
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  &_message {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    text-align: center;
+  }
+
+  &_searchResults {
+    flex: 1;
+    overflow: auto;
+    padding-bottom: 16px;
+  }
+
+  &_streamList {
+    &_item {
+      align-items: center;
+      border: 1px solid transparent;
+      border-bottom-color: $gray-color-black-10;
+      border-radius: 3px;
+      display: flex;
+
+      &_tools {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        height: 98px;
+        width: 35px;
+
+        &_draggable {
+          margin-top: 11px;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        &_position {
+          color: $gray-color-black-40;
+          font-size: 14px;
+          margin: auto 0 11px;
+        }
+      }
+
+      &_img {
+        border: none;
+        margin-right: 16px;
+        padding: 0;
+        position: relative;
+
+        &_element {
+          display: block;
+          height: 98px;
+          position: relative;
+          width: 98px;
+
+          &_background {
+            background: {
+              position: center;
+              repeat: no-repeat;
+              size: contain;
+            }
+            height: 100%;
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+          }
+
+          &_icon {
+            align-items: center;
+            color: $gray-color-black-20;
+            display: flex;
+            font-size: 30px;
+            height: 100%;
+            justify-content: center;
+            width: 100%;
+          }
+
+          &_overlay {
+            background: linear-gradient(
+              0deg,
+              transparent 60%,
+              $mediaCard-overlay-background 100%,
+            );
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: opacity ease 0.4s;
+            z-index: 2;
+          }
+        }
+
+        &_check {
+          align-items: center;
+          border: 2px solid $primary-color-white-100;
+          border-radius: 50%;
+          box-sizing: border-box;
+          display: flex;
+          height: 21px;
+          justify-content: center;
+          left: 0;
+          margin: 8px;
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          width: 21px;
+          z-index: 3;
+
+          &_symbol {
+            color: $primary-color-white-100;
+            display: none;
+            font-size: 12px;
+          }
+
+          &.-selected {
+            background-color: palette(general, primary);
+            border-color: palette(general, primary);
+            opacity: 1;
+
+            .mediaTaggingModal_streamList_item_img_check_symbol {
+              display: inline-block;
+            }
+          }
+        }
+
+        &.-added .mediaTaggingModal_streamList_item_img {
+          &_element {
+            cursor: default;
+          }
+
+          &_check {
+            background-color: $primary-color-green-100;
+            border-color: $primary-color-green-100;
+            opacity: 1;
+
+            &_symbol {
+              display: inline-block;
+            }
+          }
+        }
+      }
+
+      &_info {
+        overflow: hidden;
+        position: relative;
+
+        .info {
+          color: $gray-color-black-60;
+          font-size: 11px;
+          line-height: 14px;
+          margin: 4px 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .tag {
+          background: $gray-color-black-10;
+          border-radius: 10px;
+          display: inline-block;
+          font-size: 10px;
+          padding: 2px 6px;
+          text-transform: uppercase;
+        }
+
+        .gradient {
+          background: $primary-color-white-100;
+          background: linear-gradient(
+            90deg,
+            $mediaTaggingModal-gradient1 0%,
+            $mediaTaggingModal-gradient2 100%,
+          );
+          height: 100%;
+          opacity: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          transition: opacity ease 0.4s;
+          width: 10px;
+        }
+      }
+
+      &_action {
+        background: none;
+        border: none;
+        color: $primary-color-blue-100;
+        font-size: 12px;
+        margin: 0 16px 0 auto;
+        opacity: 0;
+        padding: 0;
+        transition: opacity ease 0.4s;
+
+        &:hover {
+          color: $primary-color-blue-100;
+        }
+
+        &.-primary {
+          font-weight: bold;
+        }
+
+        &.-remove {
+          color: $primary-color-red-100;
+
+          &:hover {
+            color: $primary-color-red-100;
+          }
+        }
+
+        // If there are two _action together, the latter shouldn't have margin
+        & + & {
+          margin-left: 0;
+        }
+      }
+
+      &:first-child {
+        border-top-color: $gray-color-black-10;
+      }
+
+      &:hover {
+        border-color: $gray-color-black-40;
+
+        .mediaTaggingModal_streamList_item_tools_draggable,
+        .mediaTaggingModal_streamList_item_img_element_overlay,
+        .mediaTaggingModal_streamList_item_img_check,
+        .mediaTaggingModal_streamList_item_info .gradient,
+        .mediaTaggingModal_streamList_item_action {
+          opacity: 1;
+        }
+      }
+
+      &.-draggable {
+        cursor: grab;
+      }
+    }
+
+    &.dndDragover .mediaTaggingModal_streamList_item:hover {
+      border-color: transparent;
+      border-top-color: $gray-color-black-10;
+    }
+
+    .dndDraggingSource {
+      display: none;
+    }
+
+    .dndPlaceholder {
+      border: 2px dashed $primary-color-blue-100;
+      border-radius: 3px;
+      height: 96px;
+      list-style: none;
+    }
+
+    .dndDragging {
+      border: 2px solid $primary-color-blue-100;
+    }
+  }
+
+  &_actions {
+    background: none;
+    border: none;
+    border-top: 1px solid $gray-color-black-20;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    height: 54px;
+    margin: auto -24px -24px;
+    padding: 8px 24px;
+
+    &_cancel {
+      background: none;
+      border: none;
+      float: left;
+      font-size: 14px;
+      line-height: 37px;
+      margin: 0;
+      padding: 0;
+    }
+
+    &_tag {
+      float: right;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    &_actions {
+      margin: auto -16px -16px;
+      padding: 8px 16px;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    &_actions {
+      margin: auto -8px -8px;
+      padding: 8px;
+    }
+  }
+}

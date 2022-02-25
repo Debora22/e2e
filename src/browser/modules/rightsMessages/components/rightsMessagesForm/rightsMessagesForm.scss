@@ -1,0 +1,173 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$color-rightsMessages-footer-shadow: rgba(0, 0, 0, 0.27);
+
+.rightsMessagesForm {
+  background-color: $primary-color-white-100;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  &_content {
+    display: flex;
+    padding: 30px 16px 87px;
+
+    &_body {
+      flex: 2;
+      max-width: 564px;
+      min-width: 300px;
+
+      &_header {
+        font-size: 18px;
+        margin-bottom: 25px;
+      }
+
+      &_messages {
+        &_item {
+          border-top: 1px solid $gray-color-black-40;
+
+          &_title {
+            align-items: center;
+            display: flex;
+            font-size: 18px;
+            height: 71px !important;
+
+            &.-expandable {
+              cursor: pointer;
+            }
+
+            &_icon {
+              font-size: 14px;
+              margin-right: 5px;
+
+              &:first-child {
+                margin-left: auto;
+              }
+
+              &.-status {
+                font-size: 20px;
+                margin-right: 40px;
+              }
+
+              &.-ready {
+                color: $primary-color-green-100;
+              }
+
+              &.-error {
+                color: $primary-color-red-100;
+                margin-right: 47px;
+              }
+            }
+          }
+
+          &_body {
+            padding: 14px 0 0;
+
+            .odsInput_wrapper {
+              margin-bottom: 36px !important;
+            }
+
+            &_negative {
+              color: $primary-color-red-100;
+            }
+
+            &_noResize {
+              resize: none !important;
+            }
+
+            &_tag {
+              color: $primary-color-blue-100;
+              cursor: pointer;
+            }
+
+            &_next {
+              margin-bottom: 36px;
+              text-align: right;
+            }
+          }
+        }
+      }
+
+      .odsInput {
+        &_message {
+          display: block;
+          margin: 0;
+          position: relative;
+
+          p {
+            margin: 8px 0 0;
+
+            &.-error {
+              display: none;
+            }
+          }
+        }
+
+        &_wrapper {
+          margin-bottom: 26px;
+          min-height: initial;
+          position: initial;
+
+          &.-error {
+            .odsInput_message p {
+              color: $gray-color-black-60;
+              font-size: 11px;
+              font-weight: normal;
+
+              &.-error {
+                color: $primary-color-red-100;
+                display: block;
+                font-size: 14px;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+
+        &_label {
+          padding: 0 0 4px;
+        }
+      }
+
+      .odsDropdown_label {
+        padding: 0 0 4px;
+      }
+    }
+
+    &_example {
+      flex: 1;
+      padding: 0 16px;
+      position: relative;
+
+      &_image {
+        background: {
+          image: url('../../../../assets/images/rightsMessagesExample.png');
+          position: top;
+          repeat: no-repeat;
+        }
+        height: 511px;
+        position: sticky;
+        top: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  &_footer {
+    background-color: $primary-color-white-100;
+    bottom: 0;
+    box-shadow: 1px -1px 2px 1px $color-rightsMessages-footer-shadow;
+    box-sizing: border-box;
+    display: flex;
+    padding: 16px;
+    position: fixed;
+    width: 100%;
+
+    .-primary {
+      margin-left: auto;
+    }
+  }
+}

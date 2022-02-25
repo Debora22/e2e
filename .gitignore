@@ -1,0 +1,12 @@
+.env
+node_modules
+coverage
+.DS_Store
+npm-debug.log
+dist
+.idea
+documentation/html
+/revision
+projextrunner.json
+test/e2e/report/*.json
+test/e2e/report/e2e-test-results.html

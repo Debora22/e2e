@@ -1,0 +1,218 @@
+<div class="mediaRightsModal">
+  <div
+    class="odsSmallIndicator -fullScreen -noBackground"
+    ng-if="$ctrl.loading"
+  ></div>
+  <div
+    class="mediaRightsModal_single"
+    ng-if="!$ctrl.loading && !$ctrl.isBulk"
+    ng-switch="$ctrl.firstMedia.approvalInfo.type"
+  >
+    <div
+      class="mediaRightsModal_single_withRights"
+      ng-switch-when="withRights"
+    >
+      <div ng-switch="$ctrl.firstMedia.rights_data.status">
+        <div ng-switch-when="GIVEN">
+          <div class="odsMessageBanner -success">
+            <strong>
+              The media already has rights<span ng-if="!$ctrl.firstMedia.approvalInfo.rightsReason">.</span>
+            </strong>
+            {{ $ctrl.firstMedia.approvalInfo.rightsReason }}
+          </div>
+          <div class="mediaRightsModal_single_withRights_date">
+            Rights were approved on
+            {{ $ctrl.firstMedia.rights_data.given_date | date:'M/d/yyyy' }}
+          </div>
+        </div>
+        <div ng-switch-when="REQUESTED">
+          <div class="odsMessageBanner -info">Waiting for rights approval.</div>
+          <div class="mediaRightsModal_single_withRights_date">
+            Rights were requested on
+            {{ $ctrl.firstMedia.rights_date | date:'M/d/yyyy' }}
+          </div>
+        </div>
+        <div ng-switch-when="RIGHTS-REQUEST-EXPIRED">
+          <div class="odsMessageBanner -error">
+            The Right Request has expired because the user did not respond to your request within 30 days.
+          </div>
+          <div class="mediaRightsModal_single_withRights_date">
+            Rights Request expired on
+            {{ $ctrl.firstMedia.rights_data.expired_date | date:'M/d/yyyy' }}
+          </div>
+        </div>
+      </div>
+      <div ng-if="$ctrl.showRequestResponse">
+        <chat-message
+          class="mediaRightsModal_single_withRights_chatMessage"
+          message="$ctrl.firstMedia.rights_data.request.message.text"
+          on-right="false"
+          user-avatar="$ctrl.firstMedia.rights_data.request.user.avatar"
+          user-name="$ctrl.firstMedia.rights_data.request.user.username"
+          ng-if="$ctrl.showRequest"
+        ></chat-message>
+        <chat-message
+          class="mediaRightsModal_single_withRights_chatMessage"
+          message="$ctrl.firstMedia.rights_data.response.message"
+          on-right="true"
+          user-avatar="$ctrl.firstMedia.rights_data.response.user.avatar"
+          user-name="$ctrl.firstMedia.rights_data.response.user.username"
+          ng-if="$ctrl.showResponse"
+        ></chat-message>
+      </div>
+      <button
+          class="odsButton -primary mediaRightsModal_single_withRights_approve"
+          type="button"
+          ng-click="$ctrl.approveMedia()"
+          ng-disabled="!$ctrl.hasApproveActionEnabled"
+          ng-if="$ctrl.showModalApproveButton"
+        >{{ ::($ctrl.hasForReviewFlow && $ctrl.selectedSection.name === 'New Content' ? 'Save' : 'Approve') }}</button>
+    </div>
+    <media-rights-form
+      has-approve-action-enabled="$ctrl.hasApproveActionEnabled"
+      is-bulk="false"
+      media="$ctrl.mediaByApprovalType.contentEngine"
+      rights-max-chars="$ctrl.rightsMaxChars"
+      rights-messages="$ctrl.rightsMessages"
+      selected-count-map="$ctrl.approvalTypeSelectedCountMap"
+      social-accounts="$ctrl.socialAccounts"
+      on-go-to-rights-messages="$ctrl.onGoToRightsMessages()"
+      on-go-to-social-accounts="$ctrl.onGoToSocialAccounts()"
+      on-send-rights-request="$ctrl.onSendRightsRequest({ rightsRequest: rightsRequest })"
+      on-validate-rights-message="$ctrl.onValidateRightsMessage({ rightsMessage: rightsMessage })"
+      ng-switch-when="contentEngine"
+    ></media-rights-form>
+    <media-rights-extension
+      pii-consent-stream="{{ $ctrl.piiConsentStream }}"
+      rights-extension-id="{{ $ctrl.rightsExtensionId }}"
+      has-approve-action-enabled="$ctrl.hasApproveActionEnabled"
+      instagram-profile="$ctrl.instagramProfile"
+      is-bulk="false"
+      is-extension-installed="$ctrl.isExtensionInstalled"
+      is-extension-up-to-date="$ctrl.isExtensionUpToDate"
+      media="$ctrl.mediaByApprovalType.chromeExtension"
+      rights-messages="$ctrl.rightsMessages"
+      selected-count-map="$ctrl.approvalTypeSelectedCountMap"
+      social-mentions-accounts="$ctrl.socialMentionsAccounts"
+      on-go-to-rights-messages="$ctrl.onGoToRightsMessages()"
+      on-go-to-social-accounts="$ctrl.onGoToSocialAccounts()"
+      on-open-rights-extension="$ctrl.onOpenRightsExtension({ selectedRightsMessageGroup: selectedRightsMessageGroup })"
+      ng-switch-when="chromeExtension"
+    ></media-rights-extension>
+    <div
+      class="odsMessageBanner -error"
+      ng-switch-when="unavailableMentions"
+    >
+      We cannot request for rights on this media. You need to connect a Facebook account that has privileges over
+      <strong>{{ $ctrl.getUnavailableMentionsFromMedia([$ctrl.firstMedia]) }}</strong>.
+    </div>
+    <div
+      class="odsMessageBanner -error"
+      ng-switch-default
+    >
+      We cannot request rights on this media. There is not available method at the moment.
+    </div>
+  </div>
+  <div
+    class="mediaRightsModal_bulk"
+    ng-if="!$ctrl.loading && $ctrl.isBulk"
+  >
+    <div
+      class="mediaRightsModal_bulk_summary"
+      ng-if="$ctrl.rightsStatusCount.approved || $ctrl.rightsStatusCount.requested"
+    >
+      <div class="odsMessageBanner -success">
+        <div
+          class="mediaRightsModal_bulk_summary_message"
+          ng-if="$ctrl.rightsStatusCount.approved"
+        >
+          <strong>
+            {{ $ctrl.rightsStatusCount.approved }}
+            media already had rights
+          </strong>
+          <ng-pluralize
+            count="$ctrl.rightsStatusCount.approved"
+            when="{
+              'one': 'and was sent to {{ $ctrl.rightsStatusCount.destination }}.',
+              'other': 'and were sent to {{ $ctrl.rightsStatusCount.destination }}.'
+            }">
+          </ng-pluralize>
+        </div>
+        <div
+          class="mediaRightsModal_bulk_summary_message"
+          ng-if="$ctrl.rightsStatusCount.requested"
+        >
+          <strong>Rights were successfully requested for {{ $ctrl.rightsStatusCount.requested }} media</strong>.
+          You can find this media in Rights Pending.
+        </div>
+      </div>
+    </div>
+    <div
+      class="mediaRightsModal_bulk_withRights"
+      ng-if="$ctrl.approvalType === $ctrl.mediaByApprovalType.withRights"
+    >
+      <div class="odsMessageBanner -info">
+        <strong>
+          {{ $ctrl.approvalTypeSelectedCountMap.total }}
+          media already have rights</strong>
+        and will be sent to
+        {{ $ctrl.approvalTypeSelectedCountMap.destination || 'Approved Content' }}.
+      </div>
+      <div class="mediaRightsModal_bulk_withRights_buttons">
+        <button
+          class="odsButton -primary mediaRightsModal_single_withRights_approve"
+          type="button"
+          ng-disabled="!$ctrl.hasApproveActionEnabled || !$ctrl.approvalTypeSelectedCountMap.total"
+          ng-click="$ctrl.approveMedia()"
+        >Continue</button>
+      </div>
+    </div>
+    <media-rights-form
+      class="mediaRightsModal_bulk_component"
+      has-approve-action-enabled="$ctrl.hasApproveActionEnabled"
+      is-bulk="true"
+      media="$ctrl.mediaByApprovalType.contentEngine"
+      rights-messages="$ctrl.rightsMessages"
+      selected-count-map="$ctrl.approvalTypeSelectedCountMap"
+      social-accounts="$ctrl.socialAccounts"
+      on-go-to-rights-messages="$ctrl.onGoToRightsMessages()"
+      on-go-to-social-accounts="$ctrl.onGoToSocialAccounts()"
+      on-send-rights-request="$ctrl.onSendRightsRequest({ rightsRequest: rightsRequest })"
+      ng-if="$ctrl.approvalType === $ctrl.mediaByApprovalType.contentEngine"
+    ></media-rights-form>
+    <media-rights-extension
+      class="mediaRightsModal_bulk_component"
+      pii-consent-stream="{{ $ctrl.piiConsentStream }}"
+      rights-extension-id="{{ $ctrl.rightsExtensionId }}"
+      has-approve-action-enabled="$ctrl.hasApproveActionEnabled"
+      instagram-profile="$ctrl.instagramProfile"
+      is-bulk="true"
+      is-extension-installed="$ctrl.isExtensionInstalled"
+      is-extension-up-to-date="$ctrl.isExtensionUpToDate"
+      media="$ctrl.mediaByApprovalType.chromeExtension"
+      rights-messages="$ctrl.rightsMessages"
+      selected-count-map="$ctrl.approvalTypeSelectedCountMap"
+      social-mentions-accounts="$ctrl.socialMentionsAccounts"
+      on-go-to-social-accounts="$ctrl.onGoToSocialAccounts()"
+      on-open-rights-extension="$ctrl.onOpenRightsExtension({ selectedRightsMessageGroup: selectedRightsMessageGroup })"
+      ng-if="$ctrl.approvalType === $ctrl.mediaByApprovalType.chromeExtension"
+    ></media-rights-extension>
+    <div
+      class="odsMessageBanner -error"
+      ng-if="$ctrl.approvalType === $ctrl.mediaByApprovalType.unavailableMentions || $ctrl.approvalType === $ctrl.mediaByApprovalType.canNotApprove"
+    >
+      <div
+        class="mediaRightsModal_bulk_message"
+        ng-if="$ctrl.mediaByApprovalType.unavailableMentions.list.length"
+      >
+        We cannot request for rights on {{$ctrl.mediaByApprovalType.unavailableMentions.list.length}} media. You need to connect a Facebook account that has privileges over
+        <strong>{{ $ctrl.getUnavailableMentionsFromMedia($ctrl.mediaByApprovalType.unavailableMentions.list) }}</strong>.
+      </div>
+      <div
+        class="mediaRightsModal_bulk_message"
+        ng-if="$ctrl.mediaByApprovalType.canNotApprove.list.length"
+      >
+        We cannot request rights on {{$ctrl.mediaByApprovalType.canNotApprove.list.length}} media. There is not available method at the moment.</strong>.
+      </div>
+    </div>
+</div>

@@ -1,0 +1,225 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.library {
+  display: flex;
+  height: 100%;
+
+  &_filters {
+    flex-shrink: 0;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &_content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+
+    &_sections {
+      box-sizing: border-box;
+      display: flex;
+      flex-shrink: 0;
+      padding: 28px 8px;
+
+      &_item {
+        align-items: center;
+        display: flex;
+        margin: 0 16px;
+
+        &_button {
+          background-color: transparent;
+          border: none;
+          font-size: 12px;
+          font-weight: 500;
+          height: 30px;
+          letter-spacing: 1px;
+          line-height: 30px;
+          padding: 0;
+          text-transform: uppercase;
+
+          &.-active {
+            box-shadow: inset 0 -2px 0 0 $primary-color-blue-100;
+            color: $primary-color-blue-100;
+          }
+        }
+
+        &_tooltip {
+          font-size: 12px;
+          margin-left: 8px;
+        }
+
+        &_dropdown {
+          .odsDropdown {
+            &_arrow {
+              height: 30px;
+            }
+
+            &_dropdown {
+              height: 30px;
+              line-height: 30px;
+            }
+
+            &_dropdownOptions {
+              top: 33px;
+              width: auto;
+            }
+
+            &_selection {
+              height: 30px;
+              line-height: 30px;
+
+              &.-placeholder {
+                color: $primary-color-black-100;
+              }
+            }
+          }
+
+          &.-active {
+            box-shadow: inset 0 -2px 0 0 $primary-color-blue-100;
+
+            .odsDropdown_selection,
+            .odsDropdown_arrow::before {
+              color: $primary-color-blue-100;
+            }
+          }
+        }
+      }
+    }
+
+    &_scroll {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      overflow: auto;
+    }
+
+    &_searchBar {
+      border-bottom: 1px solid $gray-color-black-20;
+      display: flex;
+      flex-shrink: 0;
+      padding-bottom: 24px;
+
+      &_summary {
+        display: flex;
+        flex: 1;
+        padding: 0 24px;
+
+        &_text {
+          font-size: 16px;
+          line-height: 28px;
+          margin-right: 24px;
+          min-height: 36px;
+          word-wrap: break-word;
+        }
+
+        &_clear {
+          background-color: transparent;
+          border: none;
+          color: $gray-color-black-40;
+          flex-shrink: 0;
+          font-size: 14px;
+          height: 28px;
+          line-height: 28px;
+          padding: 0;
+        }
+      }
+
+      &_searchWrapper {
+        flex-shrink: 0;
+        margin-left: auto;
+        padding-right: 24px;
+        width: 335px;
+      }
+    }
+
+    &_toolBar {
+      flex-shrink: 0;
+      padding: 24px;
+
+      &.-bottom {
+        padding: 0 24px 24px;
+      }
+
+      &_sort {
+        float: left;
+      }
+
+      &_pagination {
+        float: right;
+      }
+    }
+
+    &_media {
+      display: flex;
+      flex: 1 0 auto;
+      flex-wrap: wrap;
+      padding-left: 24px;
+    }
+
+    &_empty {
+      align-items: center;
+      color: $primary-color-black-100;
+      display: flex;
+      flex: 1;
+      font-size: 14px;
+      margin: 0 auto;
+      text-align: center;
+      width: 270px;
+    }
+
+    &_bulkBar {
+      background-color: $primary-color-white-100;
+      box-shadow: inset 0 1px 0 0 $gray-color-black-10;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      height: 69px;
+      margin-top: auto;
+
+      &_leftActions {
+        float: left;
+        padding: 24px;
+
+        &_bulkSelectors {
+          float: left;
+          margin-right: 24px;
+
+          .bulkBarButton {
+            margin-right: 0;
+          }
+
+          &_summary {
+            color: $gray-color-black-60;
+            font-size: 14px;
+            font-style: italic;
+            margin-left: 2px;
+          }
+        }
+
+        .bulkBarButton {
+          background: none;
+          border: none;
+          color: $gray-color-black-80;
+          font-size: 14px;
+          margin-right: 16px;
+          padding: 0;
+
+          &:disabled {
+            color: $gray-color-black-20;
+            cursor: default;
+          }
+        }
+      }
+
+      &_rightActions {
+        float: right;
+        padding: 15px 24px;
+
+        .odsButton {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

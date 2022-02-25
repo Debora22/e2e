@@ -1,0 +1,224 @@
+<div class="mediaModal">
+  <div class="mediaModal_info">
+    <div
+      class="mediaModal_info_single"
+      ng-if="!$ctrl.isBulk"
+    >
+      <div class="mediaModal_info_single_content">
+        <div
+          class="mediaModal_info_single_image"
+          ng-style="{ 'background-image': 'url(' + $ctrl.firstMedia.images[$ctrl.mediaImageSize] + ')' }"
+          ng-if="!$ctrl.firstMedia.video_url"
+        ></div>
+        <ods-video-player
+          media-image="{{ $ctrl.firstMedia.images[$ctrl.mediaImageSize] }}"
+          media-source="{{ $ctrl.firstMedia.source.name }}"
+          media-video-url="{{ $ctrl.firstMedia.video_url }}"
+          ng-if="$ctrl.firstMedia.video_url"
+        ></ods-video-player>
+        <div
+          class="mediaModal_info_single_editStatus"
+          ng-if="$ctrl.firstMedia.assets_edit_status"
+        >
+          <div
+            class="mediaModal_info_single_editStatus_tooltip odsTooltip -top"
+            ng-class="{ ['-failed']: $ctrl.editStatusMap[$ctrl.firstMedia.assets_edit_status].errorIcon }"
+          >
+            <span class="odsTooltip_text">
+              {{ $ctrl.editStatusMap[$ctrl.firstMedia.assets_edit_status].toolTip }}
+            </span>
+            <img
+              class="mediaModal_info_single_editStatus_image"
+              ng-src="{{ ::$ctrl.editStatusMap[$ctrl.firstMedia.assets_edit_status].image }}"
+            ></img>
+            <span
+              class="mediaModal_info_single_editStatus_icon -failed"
+              ng-if="$ctrl.editStatusMap[$ctrl.firstMedia.assets_edit_status].errorIcon"
+            >
+              <i class="fa fa-exclamation-circle"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mediaModal_info_single_caption"
+        ng-attr-data="{{ ::$ctrl.captionContainerData }}"
+        ng-class="{ '-expanded': $ctrl.captionExpanded }"
+      >
+        <a
+          class="mediaModal_info_single_caption_link"
+          target="_blank"
+          ng-click="$event.stopPropagation();"
+          ng-if="$ctrl.firstMedia.source.data.url"
+          ng-href="{{ $ctrl.firstMedia.source.data.url }}"
+        >{{ $ctrl.firstMedia.user.label }}</a>
+        <span
+          class="mediaModal_info_single_caption_link"
+          ng-if="!$ctrl.firstMedia.source.data.url"
+        >{{ $ctrl.firstMedia.user.label }}</span>
+        <span ng-if="$ctrl.selectedSection.id !== 'share'">{{ $ctrl.firstMedia.caption }}</span>
+        <div
+          class="mediaModal_info_single_caption_more"
+          ng-if="$ctrl.selectedSection.id !== 'share'"
+        >
+          <button
+            class="mediaModal_info_single_caption_more_link"
+            type="button"
+            ng-click="$ctrl.toggleCaptionExpanded()"
+          >{{ $ctrl.captionExpanded ? 'less' : 'more' }}</button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mediaModal_info_bulk"
+      ng-if="$ctrl.isBulk && $ctrl.selectedSection.id !== 'rights'"
+    >
+      <div class="mediaModal_info_bulk_info">
+        {{ $ctrl.selectedMediaCount }}
+        <span ng-if="$ctrl.media.length !== $ctrl.selectedMediaCount">of {{ $ctrl.media.length }}</span>
+        Media Selected
+      </div>
+      <div class="mediaModal_info_bulk_list">
+        <label
+          class="mediaModal_info_bulk_list_item"
+          ng-class="{ '-selected': $ctrl.selectedMedia[media.id] }"
+          ng-repeat="media in $ctrl.media track by media.id"
+          ng-style="::{ 'background-image': 'url(' + media.images.mobile + ')' }"
+        >
+          <div class="mediaModal_info_bulk_list_item_overlay"></div>
+          <input
+            type="checkbox"
+            class="mediaModal_info_bulk_list_item_checkbox"
+            ng-change="$ctrl.onMediaSelectedChange({
+              media: media,
+              isSelected: $ctrl.selectedMedia[media.id],
+            })"
+            ng-model="$ctrl.selectedMedia[media.id]"
+          />
+          <span class="mediaModal_info_bulk_list_item_check">
+            <i class="mediaModal_info_bulk_list_item_check_icon fa fa-check"></i>
+          </span>
+        </label>
+      </div>
+    </div>
+    <div
+      ng-if="$ctrl.isBulk && $ctrl.selectedSection.id === 'rights'"
+      class="mediaModal_info_rights"
+    >
+      <div
+        class="odsSmallIndicator -fullScreen -noBackground"
+        ng-if="!$ctrl.isRightsDataLoaded"
+      ></div>
+      <div
+        class="mediaModal_info_bulk"
+        ng-if="$ctrl.isRightsDataLoaded"
+      >
+        <div class="mediaModal_info_bulk_info">
+          {{
+            (
+              $ctrl.approvalType !== $ctrl.mediaByApprovalType.unavailableMentions &&
+              $ctrl.approvalType !== $ctrl.mediaByApprovalType.canNotApprove
+            ) ?
+              $ctrl.approvalTypeSelectedCount :
+              0
+          }}
+          <span
+            ng-if="$ctrl.approvalType.list.length !== $ctrl.approvalTypeSelectedCount"
+          >of {{ $ctrl.approvalType.list.length }}</span>
+          Media Selected
+        </div>
+        <div class="mediaModal_info_rights_list">
+          <media-info-rights-modal
+            class="mediaModal_info_rights_list_fragment"
+            headline="
+              {{ $ctrl.mediaByApprovalType.withRights.list.length }}
+              media
+              <strong>already have rights</strong>.
+            "
+            approval-type="$ctrl.mediaByApprovalType.withRights"
+            enable-selection="$ctrl.approvalType === $ctrl.mediaByApprovalType.withRights"
+            on-refresh-approval-type-selected-count="$ctrl.onRefreshApprovalTypeSelectedCount()"
+            ng-if="$ctrl.mediaByApprovalType.withRights.list.length"
+          ></media-info-rights-modal>
+          <media-info-rights-modal
+            class="mediaModal_info_rights_list_fragment"
+            headline="
+              Request Rights to
+              {{ $ctrl.mediaByApprovalType.contentEngine.list.length }}
+              media <strong>In Platform</strong>.
+            "
+            approval-type="$ctrl.mediaByApprovalType.contentEngine"
+            approval-type-by-source="$ctrl.mediaContentEngineBySource"
+            enable-selection="$ctrl.approvalType === $ctrl.mediaByApprovalType.contentEngine"
+            on-refresh-approval-type-selected-count="$ctrl.onRefreshApprovalTypeSelectedCount()"
+            ng-if="$ctrl.mediaByApprovalType.contentEngine.list.length"
+          ></media-info-rights-modal>
+          <media-info-rights-modal
+            class="mediaModal_info_rights_list_fragment"
+            headline="
+              Request Rights to {{ $ctrl.mediaByApprovalType.chromeExtension.list.length }}
+              media via <strong>Rights Requester</strong>.
+            "
+            approval-type="$ctrl.mediaByApprovalType.chromeExtension"
+            enable-selection="$ctrl.approvalType === $ctrl.mediaByApprovalType.chromeExtension"
+            on-refresh-approval-type-selected-count="$ctrl.onRefreshApprovalTypeSelectedCount()"
+            ng-if="$ctrl.mediaByApprovalType.chromeExtension.list.length"
+          ></media-info-rights-modal>
+          <media-info-rights-modal
+            class="mediaModal_info_rights_list_fragment"
+            headline="
+              {{ $ctrl.mediaCanNotRequest.list.length }}
+              media <strong>can't be requested for rights</strong>.
+            "
+            approval-type="$ctrl.mediaCanNotRequest"
+            enable-selection="false"
+            ng-if="$ctrl.mediaCanNotRequest.list.length"
+          ></media-info-rights-modal>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="mediaModal_section"
+    ng-class="{ '-expanded': !$ctrl.showActions }"
+  >
+    <div class="mediaModal_section_list">
+      <button
+        class="mediaModal_section_list_item"
+        type="button"
+        ng-class="{ '-active': section.id === $ctrl.selectedSection.id }"
+        ng-click="$ctrl.onSectionChange({ section: section })"
+        ng-if="$ctrl.onSectionVisibilityCheck({ section: section })"
+        ng-repeat="section in $ctrl.sections track by section.id"
+      >{{ ::section.name }}</button>
+    </div>
+    <div
+      class="mediaModal_section_main"
+      ng-transclude
+    ></div>
+  </div>
+  <div
+    class="mediaModal_actions"
+    ng-if="$ctrl.showActions"
+  >
+    <div class="mediaModal_actions_leftActions">
+      <button
+        class="bulkBarButton"
+        type="button"
+        ng-click="$ctrl.onActionClick({ action: action })"
+        ng-disabled="!$ctrl.selectedMediaCount || $ctrl.onActionDisableCheck({ action: action })"
+        ng-repeat="action in $ctrl.actions | filter:$ctrl.visibleActionsFilter('secondary') track by $index"
+      >{{ ::action.name }}</button>
+    </div>
+    <div class="mediaModal_actions_rightActions">
+      <button
+        class="odsButton"
+        type="button"
+        ng-class="$last ? '-primary' : '-secondary'"
+        ng-click="$ctrl.onActionClick({ action: action })"
+        ng-disabled="!$ctrl.selectedMediaCount || $ctrl.onActionDisableCheck({ action: action })"
+        ng-repeat="action in $ctrl.actions | filter:$ctrl.visibleActionsFilter('primary') track by $index"
+      >{{ ::action.name }}</button>
+    </div>
+  </div>
+</div>

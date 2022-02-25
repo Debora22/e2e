@@ -1,0 +1,158 @@
+<div class="advocatesRow">
+  <div class="advocatesRow_header">
+    <div class="advocatesRow_header_user">
+      <a
+        class="advocatesRow_header_user_name"
+        target="_blank"
+        ng-href="https://www.instagram.com/{{ ::$ctrl.advocate.ambassador.username }}"
+      >@{{ ::$ctrl.advocate.ambassador.username }}</a>
+      <div class="advocatesRow_header_user_source">
+        {{ ::$ctrl.advocate.ambassador.source }} |
+        {{ ::$ctrl.advocate.ambassador.user_photos }}
+        Live Photos
+      </div>
+    </div>
+    <div class="advocatesRow_header_box">
+      <div class="advocatesRow_header_box_column -left">
+        <div
+          class="advocatesRow_header_box_column_wrapper"
+          ng-if="$ctrl.isFocusRevenue"
+        >
+          <div class="advocatesRow_header_box_column_value">
+            <div class="advocatesRow_header_box_column_value_conversions">{{ ::$ctrl.advocate.totals.conversions }}</div>
+            <p>
+              (<span class="advocatesRow_header_box_column_value_cvr">{{ ::$ctrl.advocate.totals.cvr }}</span>% CVR)
+            </p>
+          </div>
+          <div class="advocatesRow_header_box_column_label">
+            Conversions
+            <span class="advocatesRow_header_box_column_label_icon odsTooltip -right">
+              <i class="fa fa-question-circle"></i>
+              <div class="advocatesRow_header_box_column_label_icon_tooltip">
+                <span class="odsTooltip_text">{{ $ctrl.tooltips.conversions }}</span>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          class="advocatesRow_header_box_column_wrapper"
+          ng-if="!$ctrl.isFocusRevenue"
+        >
+          <div class="advocatesRow_header_box_column_value">
+            {{ ::$ctrl.advocate.totals.clicks | number:0 }}
+          </div>
+          <div class="advocatesRow_header_box_column_label">
+            Shopping clicks
+            <span class="advocatesRow_header_box_column_label_icon odsTooltip -right">
+              <i class="fa fa-question-circle"></i>
+              <div class="advocatesRow_header_box_column_label_icon_tooltip">
+                <span class="odsTooltip_text">{{ $ctrl.tooltips.shoppingClicks }}</span>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div class="advocatesRow_header_box_column_label">Out of</div>
+        <div class="advocatesRow_header_box_column_wrapper">
+          <div class="advocatesRow_header_box_column_value -lightBoxViews">
+            {{ ::$ctrl.advocate.totals.views | number:0 }}
+          </div>
+          <div class="advocatesRow_header_box_column_label">
+            Lightbox views
+            <span class="advocatesRow_header_box_column_label_icon odsTooltip -right">
+              <i class="fa fa-question-circle"></i>
+              <div class="advocatesRow_header_box_column_label_icon_tooltip">
+                <span class="odsTooltip_text">{{ $ctrl.tooltips.lightBoxViews }}</span>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="advocatesRow_header_box_column -separator">
+        <svg class="advocatesRow_header_box_column_svg">
+          <line
+            stroke="#CCC"
+            vector-effect="non-scaling-stroke"
+            x1="5px"
+            y1="0"
+            x2="100%"
+            y2="50%"
+          ></line>
+          <line
+            stroke="#CCC"
+            vector-effect="non-scaling-stroke"
+            x1="5px"
+            y1="100%"
+            x2="100%"
+            y2="50%"
+          ></line>
+        </svg>
+      </div>
+      <div
+        class="advocatesRow_header_box_column -right"
+        ng-if="$ctrl.isFocusRevenue"
+      >
+        <div class="advocatesRow_header_box_column_value">
+          {{ ::$ctrl.currencySymbol }}<span class="advocatesRow_header_box_column_value_revenue">{{ ::$ctrl.advocate.totals.revenue.amount | number:2 }}</span>
+        </div>
+        <div class="advocatesRow_header_box_column_label">
+          Revenue
+          <span class="advocatesRow_header_box_column_label_icon odsTooltip -right">
+            <i class="fa fa-question-circle"></i>
+            <div class="advocatesRow_header_box_column_label_icon_tooltip">
+              <span class="odsTooltip_text">{{ $ctrl.tooltips.revenue }}</span>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div
+        class="advocatesRow_header_box_column -right"
+        ng-if="!$ctrl.isFocusRevenue"
+      >
+        <div class="advocatesRow_header_box_column_value">
+          {{ ::$ctrl.advocate.totals.ctr }}%
+        </div>
+        <div class="advocatesRow_header_box_column_label">
+          CTR
+          <span class="advocatesRow_header_box_column_label_icon odsTooltip -right">
+            <i class="fa fa-question-circle"></i>
+            <div class="advocatesRow_header_box_column_label_icon_tooltip">
+              <span class="odsTooltip_text">{{ $ctrl.tooltips.ctr }}</span>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="advocatesRow_content">
+    <button
+      class="advocatesRow_content_sliderButtons -left"
+      type="button"
+      ng-click="$ctrl.moveSlider(false)"
+      ng-disabled="!$ctrl.sliderPosition"
+      ng-if="$ctrl.advocate.media.length > $ctrl.maxMediasSlider"
+    >
+      <i class="fa fa-chevron-left"></i>
+    </button>
+    <div class="advocatesRow_content_container">
+      <div
+        class="advocatesRow_content_slider"
+        ng-style="{ 'margin-left': -($ctrl.sliderMoveWidth * $ctrl.sliderPosition) + 'px' }"
+      >
+        <advocates-media-card
+          is-focus-revenue="$ctrl.isFocusRevenue"
+          currency-symbol='$ctrl.currencySymbol'
+          media-data="item"
+          ng-repeat="item in $ctrl.advocate.media track by item.media_id"
+        ></advocates-media-card>
+      </div>
+    </div>
+    <button
+      class="advocatesRow_content_sliderButtons -right"
+      type="button"
+      ng-click="$ctrl.moveSlider(true)"
+      ng-disabled="($ctrl.sliderPosition + $ctrl.maxMediasSlider - 1) >= $ctrl.advocate.media.length"
+      ng-if="$ctrl.advocate.media.length > $ctrl.maxMediasSlider"
+    ><i class="fa fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

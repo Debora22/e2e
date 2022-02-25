@@ -1,0 +1,118 @@
+<div class="mediaInfoModal">
+  <div
+    class="mediaInfoModal_reported"
+    ng-if="$ctrl.firstMedia.reported"
+  >
+    <div class="odsMessageBanner -error">
+      <strong>This media has been reported.</strong>
+      You can discard it or if you think it's a mistake, you can re-approve.
+    </div>
+    <p>Media was reported on {{ $ctrl.firstMedia.reported.date | date:'MM/dd/yyyy' }}.</p>
+    <chat-message
+      message="$ctrl.firstMedia.reported.reason"
+      on-right="true"
+      user-name="$ctrl.firstMedia.reported.email"
+    ></chat-message>
+  </div>
+  <div ng-if="!$ctrl.isBulk">
+    <div
+      class="mediaInfoModal_rights"
+      ng-switch="$ctrl.firstMedia.rights_data.status"
+    >
+      <div ng-switch-default>
+        <i class="mediaInfoModal_rights_icon -noRights"></i>
+        No Rights
+      </div>
+      <div ng-switch-when="REQUESTED">
+        <i class="mediaInfoModal_rights_icon -rightsPending"></i>
+        Rights Pending
+      </div>
+      <div ng-switch-when="GIVEN">
+        <i class="mediaInfoModal_rights_icon -rightsApproved"></i>
+        Rights Approved
+      </div>
+      <div ng-switch-when="RIGHTS-REQUEST-EXPIRED">
+        <i class="mediaInfoModal_rights_icon -rightsExpired"></i>
+        Request Expired
+      </div>
+    </div>
+    <div class="mediaInfoModal_info">
+      <span class="mediaInfoModal_info_title">Content ID:</span>
+      <span class="mediaInfoModal_info_content -mediaId">{{ $ctrl.firstMedia.id }}</span>
+    </div>
+    <div class="mediaInfoModal_info">
+      <span class="mediaInfoModal_info_title">Collected From:</span>
+      <span class="mediaInfoModal_info_content -sourceName">{{ $ctrl.firstMedia.source.name }}</span>
+    </div>
+    <div class="mediaInfoModal_info">
+      <span class="mediaInfoModal_info_title">Date Collected:</span>
+      <span class="mediaInfoModal_info_content -dateCollected">{{ $ctrl.firstMedia.date_submitted | date:'dd MMMM yyyy HH:mm' }}</span>
+    </div>
+    <div class="mediaInfoModal_info">
+      <span class="mediaInfoModal_info_title">Media Resolution:</span>
+      <span class="mediaInfoModal_info_content">{{ $ctrl.firstMedia.width }} x {{ $ctrl.firstMedia.height }} px</span>
+    </div>
+    <div
+      class="mediaInfoModal_info"
+      ng-if="$ctrl.firstMedia.video_url"
+    >
+      <span class="mediaInfoModal_info_title">Aspect Ratio:</span>
+      <span class="mediaInfoModal_info_content">{{ $ctrl.firstMedia.video_metadata.aspect_ratio }}</span>
+      <img
+        class="mediaInfoModal_info_videoOrientation -landscape"
+        ng-if="$ctrl.firstMedia.video_orientation.landscape"
+        ng-src="{{ $ctrl.videoAspectRatioLandscapeIcon }}"
+      />
+      <img
+        class="mediaInfoModal_info_videoOrientation"
+        ng-if="$ctrl.firstMedia.video_orientation.portrait"
+        ng-src="{{ $ctrl.videoAspectRatioPortraitIcon }}"
+      />
+      <img
+        class="mediaInfoModal_info_videoOrientation"
+        ng-if="$ctrl.firstMedia.video_orientation.square"
+        ng-src="{{ $ctrl.videoAspectRatioSquareIcon }}"
+      />
+    </div>
+  </div>
+  <div ng-if="$ctrl.isBulk">
+    <div
+      class="mediaInfoModal_rights"
+      ng-if="$ctrl.mediaRightsStatusMap['GIVEN']"
+    >
+      <i class="mediaInfoModal_rights_icon -rightsApproved"></i>
+      <strong>{{ $ctrl.mediaRightsStatusMap['GIVEN'] }} media</strong> with rights approved
+    </div>
+    <div
+      class="mediaInfoModal_rights"
+      ng-if="$ctrl.mediaRightsStatusMap['NOT-REQUESTED']"
+    >
+      <i class="mediaInfoModal_rights_icon -noRights"></i>
+      <strong>{{ $ctrl.mediaRightsStatusMap['NOT-REQUESTED'] }} media</strong> with no rights
+    </div>
+    <div
+      class="mediaInfoModal_rights"
+      ng-if="$ctrl.mediaRightsStatusMap['REQUESTED']"
+    >
+      <i class="mediaInfoModal_rights_icon -rightsPending"></i>
+      <strong>{{ $ctrl.mediaRightsStatusMap['REQUESTED'] }} media</strong> with rights pending
+    </div>
+    <div
+      class="mediaInfoModal_rights"
+      ng-if="$ctrl.mediaRightsStatusMap['RIGHTS-REQUEST-EXPIRED']"
+    >
+      <i class="mediaInfoModal_rights_icon -rightsExpired"></i>
+      <strong>{{ $ctrl.mediaRightsStatusMap['RIGHTS-REQUEST-EXPIRED'] }} media</strong> with rights expired
+    </div>
+  </div>
+  <media-keywords
+    has-automatic-keywords="$ctrl.hasAutomaticKeywords"
+    has-keywords-action-enabled="$ctrl.hasKeywordsActionEnabled"
+    keywords="$ctrl.firstMedia.keywords_with_providers"
+    media="$ctrl.media"
+    on-add-keyword="$ctrl.onAddKeyword({ media: media, keyword: keyword })"
+    on-remove-keyword="$ctrl.onRemoveKeyword({ media: media, keyword: keyword })"
+    on-search-for-keywords="$ctrl.onSearchForKeywords({ search: search })"
+    ng-if="$ctrl.hasKeywordsEnabled && !$ctrl.isBulk"
+  ></media-keywords>
+</div>

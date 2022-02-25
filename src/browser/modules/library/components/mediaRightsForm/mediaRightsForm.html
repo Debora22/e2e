@@ -1,0 +1,192 @@
+<div class="mediaRightsForm">
+  <form
+    class="mediaRightsForm_single"
+    name="singleRightsFrom"
+    novalidate
+    ng-if="!$ctrl.isBulk"
+    ng-submit="$ctrl.sendSingleRightsRequest()"
+  >
+    <div class="mediaRightsForm_single_title">
+      <strong>Let's request rights!</strong>
+      Once rights are granted we will move this media to your {{ $ctrl.firstMedia.approveNextStatus.section }}.
+    </div>
+    <div
+      class="mediaRightsForm_single_row"
+      ng-if="$ctrl.firstMediaSource === 'twitter'"
+    >
+      <ods-dropdown
+        class="mediaRightsForm_single_row_element"
+        name="userName"
+        required
+        items-id-property="id"
+        items-label-property="name"
+        label="Select User Name"
+        items="$ctrl.twitterSocialAccounts"
+        selected-item="$ctrl.selectedTwitterSocialAccount"
+        on-item-selected="$ctrl.onTwitterSocialAccountSelected(item)"
+        ng-model="$ctrl.selectedTwitterSocialAccount"
+      ></ods-dropdown>
+    </div>
+    <div class="mediaRightsForm_single_row">
+      <ods-dropdown
+        class="mediaRightsForm_single_row_element"
+        name="singleRightsMessageGroup"
+        required
+        items-id-property="id"
+        items-label-property="name"
+        label="Rights Message Group"
+        items="$ctrl.singleRightsMessageGroups"
+        selected-item="$ctrl.selectedSingleRightsMessageGroup"
+        on-item-selected="$ctrl.onSingleRightsMessageGroupSelected(item)"
+        ng-model="$ctrl.selectedSingleRightsMessageGroup"
+      ></ods-dropdown>
+      <i class="fa fa-question-circle odsTooltip -icon -left">
+        <span class="odsTooltip_text">Use this option to select a Rights Message Group you have created to populate the fields below.</span>
+      </i>
+    </div>
+    <div class="mediaRightsForm_single_row">
+      <ods-dropdown
+        class="mediaRightsForm_single_row_element"
+        name="singleRightsMessageTemplate"
+        required
+        items-id-property="id"
+        items-label-property="name"
+        label="Rights Message"
+        items="$ctrl.singleRightsMessageTemplates"
+        selected-item="$ctrl.selectedSingleRightsMessageTemplate"
+        on-item-selected="$ctrl.onSingleRightsMessageTemplateSelected(item)"
+        ng-model="$ctrl.selectedSingleRightsMessageTemplate"
+      ></ods-dropdown>
+      <i class="fa fa-question-circle odsTooltip -icon -left">
+        <span class="odsTooltip_text">Use this option to select a Rights Message you have created to populate the fields below.</span>
+      </i>
+    </div>
+    <div class="mediaRightsForm_single_row">
+      <div class="odsInput_wrapper mediaRightsForm_single_row_element">
+        <label
+          class="odsInput_label"
+          for="approvalHashtag"
+        >Approval Hashtag</label>
+        <input
+          id="approvalHashtag"
+          class="odsInput_input"
+          name="approvalHashtag"
+          type="text"
+          required
+          ng-model="$ctrl.rightsHashtag"
+        />
+      </div>
+      <i class="fa fa-question-circle odsTooltip -icon -left">
+        <span class="odsTooltip_text">This is the hashtag rights holders will use to approve your rights request.</span>
+      </i>
+    </div>
+    <div class="mediaRightsForm_single_row">
+      <div
+        class="odsInput_wrapper mediaRightsForm_single_row_element"
+        ng-class="{ '-error': $ctrl.error }"
+      >
+        <label
+          class="odsInput_label"
+          for="message"
+        >
+          Message
+          (<span ng-class="{ 'charCountNegative': $ctrl.remainingChars < 0 }">{{ $ctrl.remainingChars }}</span>
+          characters
+          <span ng-if="$ctrl.rightsMessage.length">remaining)</span>
+          <span ng-if="!$ctrl.rightsMessage.length">max)</span>
+        </label>
+        <textarea
+          id="message"
+          class="odsInput_input -multiline"
+          name="message"
+          required
+          ng-change="$ctrl.onSingleRightsMessageChange()"
+          ng-class="{ '-error': $ctrl.error }"
+          ng-model="$ctrl.rightsMessage"
+        ></textarea>
+        <div class="odsInput_message">
+          <p>{{ $ctrl.error }}</p>
+        </div>
+      </div>
+    </div>
+    <button
+      class="odsButton -primary mediaRightsForm_single_send"
+      type="submit"
+      ng-disabled="!$ctrl.hasApproveActionEnabled || $ctrl.remainingChars < 0 || !singleRightsFrom.$valid"
+    >Send Rights Request</button>
+  </form>
+  <form
+    class="mediaRightsForm_bulk"
+    name="bulkRightsFrom"
+    novalidate
+    ng-if="$ctrl.isBulk"
+    ng-submit="$ctrl.sendBulkRightsRequest()"
+  >
+    <div class="mediaRightsForm_bulk_title">
+      <strong>Request Rights on {{ $ctrl.selectedCountMap.total }} media</strong>
+        {{ $ctrl.getSummaryText() }} using
+        <strong>Content Engine Rights Request Method</strong>.
+    </div>
+    <div
+      class="mediaRightsForm_bulk_network"
+      ng-if="$ctrl.selectedCountMap.bySource.instagram"
+    >
+      <div class="mediaRightsForm_bulk_network_title">Instagram</div>
+      <div class="mediaRightsForm_bulk_row">
+        <ods-dropdown
+          class="mediaRightsForm_bulk_row_element"
+          name="instagramRightsMessageGroup"
+          required
+          items-id-property="id"
+          items-label-property="name"
+          label="Rights Message Group"
+          items="$ctrl.instagramRightsMessageGroups"
+          selected-item="$ctrl.selectedInstagramRightsMessageGroup"
+          on-item-selected="$ctrl.onInstagramRightsMessageGroupSelected(item)"
+          ng-model="$ctrl.selectedInstagramRightsMessageGroup"
+        ></ods-dropdown>
+      </div>
+    </div>
+    <div
+      class="mediaRightsForm_bulk_network"
+      ng-if="$ctrl.selectedCountMap.bySource.twitter"
+    >
+      <div class="mediaRightsForm_bulk_network_title">Twitter</div>
+       <div class="mediaRightsForm_bulk_row">
+        <ods-dropdown
+          class="mediaRightsForm_bulk_row_element"
+          name="userName"
+          required
+          items-id-property="id"
+          items-label-property="name"
+          label="Select User Name"
+          items="$ctrl.twitterSocialAccounts"
+          selected-item="$ctrl.selectedTwitterSocialAccount"
+          on-item-selected="$ctrl.onTwitterSocialAccountSelected(item)"
+          ng-model="$ctrl.selectedTwitterSocialAccount"
+        ></ods-dropdown>
+      </div>
+      <div class="mediaRightsForm_bulk_row">
+        <ods-dropdown
+          class="mediaRightsForm_bulk_row_element"
+          name="twitterRightsMessageGroup"
+          required
+          items-id-property="id"
+          items-label-property="name"
+          label="Rights Message Group"
+          items="$ctrl.twitterRightsMessageGroups"
+          selected-item="$ctrl.selectedTwitterRightsMessageGroup"
+          on-item-selected="$ctrl.onTwitterRightsMessageGroupSelected(item)"
+          ng-model="$ctrl.selectedTwitterRightsMessageGroup"
+        ></ods-dropdown>
+      </div>
+    </div>
+    <div class="mediaRightsForm_bulk_buttons">
+      <button
+        class="odsButton -primary mediaRightsForm_bulk_buttons_send"
+        type="submit"
+        ng-disabled="!$ctrl.hasApproveActionEnabled || !bulkRightsFrom.$valid || !$ctrl.selectedCountMap.total"
+      >Send Rights Request</button>
+    </div>
+  </form>
+</div>

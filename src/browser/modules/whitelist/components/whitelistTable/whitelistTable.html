@@ -1,0 +1,239 @@
+<div class="whitelistTable">
+  <div class="whitelistTable_header">
+    <div class="whitelistTable_header_filter">
+      <div class="odsInput_wrapper">
+        <i
+          class="fa fa-search whitelistTable_header_filter_icon"
+          ng-click="$ctrl.onSearchWhitelistUsers({
+            search: $ctrl.search,
+            criteria: $ctrl.selectedSearchCriteria,
+            force: true,
+          })"
+        ></i>
+        <input
+          class="odsInput_input whitelistTable_header_filter_input"
+          type="text"
+          placeholder="Search"
+          ng-attr-maxlength="{{ $ctrl.selectedSearchCriteria.maxlength }}"
+          ng-change="$ctrl.onSearchWhitelistUsers({
+            search: $ctrl.search,
+            criteria: $ctrl.selectedSearchCriteria,
+          })"
+          ng-model="$ctrl.search"
+          ng-model-options="{ debounce: 450 }"
+          ng-pattern-restrict="{{ $ctrl.selectedSearchCriteria.regex }}"
+        />
+      </div>
+      <ods-dropdown
+        class="whitelistTable_header_filter_dropdown"
+        items-id-property="id"
+        items-label-property="name"
+        prefix="By:"
+        type="borderless"
+        items="$ctrl.searchCriteria"
+        selected-item="$ctrl.selectedSearchCriteria"
+        on-item-selected="$ctrl.onSearchWhitelistUsers({
+          search: '',
+          criteria: item,
+        })"
+      ></ods-dropdown>
+    </div>
+    <div class="whitelistTable_header_sorting">
+      <ods-dropdown
+        class="whitelistTable_header_sorting_dropdown"
+        items-id-property="id"
+        items-label-property="fullName"
+        prefix="Showing:"
+        type="borderless"
+        items="$ctrl.statusTypes"
+        selected-item="$ctrl.selectedStatus"
+        on-item-selected="$ctrl.onStatusChange({ status: item })"
+      ></ods-dropdown>
+      <ods-dropdown
+        class="whitelistTable_header_sorting_dropdown"
+        items-id-property="id"
+        items-label-property="name"
+        prefix="Sorting By:"
+        type="borderless"
+        items="$ctrl.sortTypes"
+        selected-item="$ctrl.selectedSortType"
+        on-item-selected="$ctrl.onSortingChange({ sortType: item })"
+      ></ods-dropdown>
+    </div>
+  </div>
+  <div
+    class="whitelistTable_body"
+    ng-if="$ctrl.whitelistUsers.length"
+  >
+    <div class="whitelistTable_body_row">
+      <div class="whitelistTable_body_row_username -header">Username</div>
+      <div class="whitelistTable_body_row_source -header">Network</div>
+      <div class="whitelistTable_body_row_label -header">Label</div>
+      <div class="whitelistTable_body_row_date -header">Time in Automatic Rights List</div>
+      <div class="whitelistTable_body_row_buttons"></div>
+    </div>
+    <div
+      class="whitelistTable_body_row -body"
+      ng-class="{
+        '-selected': $ctrl.selectedWhitelistUsers[user.id] && $ctrl.userEditMode,
+        '-background': !$ctrl.selectedWhitelistUsers[user.id] && $ctrl.userEditMode,
+      }"
+      ng-repeat="user in $ctrl.whitelistUsers track by user.id"
+    >
+      <div class="whitelistTable_body_row_username">
+        <div class="odsCheckbox_wrapper">
+          <div class="odsCheckbox_container">
+            <input
+              class="odsCheckbox_checkbox"
+              type="checkbox"
+              ng-change="$ctrl.onWhitelistUserSelectedChange({
+                whitelistUser: user,
+                isSelected: $ctrl.selectedWhitelistUsers[user.id],
+              })"
+              ng-disabled="$ctrl.userEditMode"
+              ng-model="$ctrl.selectedWhitelistUsers[user.id]"
+            />
+          </div>
+        </div>
+        @{{ ::user.username }}
+      </div>
+      <div class="whitelistTable_body_row_source">
+        {{ ::user.source }}
+      </div>
+      <div
+        class="whitelistTable_body_row_label"
+      >
+        <span
+          class="whitelistTable_body_row_label_content"
+          ng-click="$ctrl.onLabelStrictSearch(user.labelsDisplay)"
+          ng-if="user.labelsDisplay && (!$ctrl.userEditMode || !$ctrl.selectedWhitelistUsers[user.id])"
+        >{{ user.labelsDisplay }}</span>
+        <div ng-if="$ctrl.userEditMode && $ctrl.selectedWhitelistUsers[user.id]">
+          <whitelist-label
+            labels="$ctrl.labels"
+            on-labels-set="$ctrl.onLabelsSet(labels)"
+          ></whitelist-label>
+        </div>
+      </div>
+      <div class="whitelistTable_body_row_date">
+        <div
+          class="whitelistTable_body_row_date_view"
+          ng-if="!$ctrl.userEditMode || !$ctrl.selectedWhitelistUsers[user.id]"
+        >
+          <span ng-if="user.dateFrom">
+            from <strong>{{ user.dateFrom | date:'MM/dd/yyyy' }}</strong>
+          </span>
+          <span ng-if="user.dateTo">
+            until <strong>{{ user.dateTo | date:'MM/dd/yyyy' }}</strong>
+          </span>
+          <span ng-if="!user.dateFrom && !user.dateTo">
+            Unlimited Period of Time
+          </span>
+          <span class="whitelistTable_body_row_date_view_status">
+            {{ user.userDatePhrase }}
+          </span>
+        </div>
+        <div
+          class="whitelistTable_body_row_date_edit"
+          ng-if="$ctrl.userEditMode && $ctrl.selectedWhitelistUsers[user.id]"
+        >
+          <whitelist-calendar
+            dates="$ctrl.dates"
+            on-date-set="$ctrl.onDateSet(date, value)"
+          ></whitelist-calendar>
+        </div>
+      </div>
+      <div
+        class="whitelistTable_body_row_buttons"
+        ng-if="!$ctrl.userEditMode || !$ctrl.selectedWhitelistUsers[user.id]"
+      >
+        <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onDeleteWhitelistUser({ whitelistUser: user })"
+          ng-disabled="$ctrl.userEditMode && !$ctrl.selectedWhitelistUsers[user.id]"
+        >Delete</button>
+        <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onUserEdit(user)"
+          ng-disabled="$ctrl.userEditMode && !$ctrl.selectedWhitelistUsers[user.id]"
+        >Edit</button>
+      </div>
+      <div
+        class="whitelistTable_body_row_buttons"
+        ng-if="$ctrl.userEditMode && $ctrl.selectedWhitelistUsers[user.id]"
+      >
+        <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onCancelEditMode()"
+        >Cancel</button>
+        <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onSaveUserEdit({ user: user })"
+        >Save</button>
+      </div>
+      <div class="whitelistTable_body_row_info">
+        <span ng-if="user.created_by">
+          Created by
+          {{ ::user.created_by }}
+          on
+          {{ ::user.created_at | date:'MM/dd/yyyy' }}
+        </span>
+        <span ng-if="user.created_by && user.updated_by">-</span>
+        <span ng-if="user.updated_by">
+          Last updated by
+          {{ ::user.updated_by }}
+          on
+          {{ ::user.updated_at | date:'MM/dd/yyyy' }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="whitelistTable_empty"
+    ng-if="!$ctrl.loading && !$ctrl.whitelistUsers.length"
+  >
+    <div class="whitelistTable_empty_content">
+      Sorry, we couldn't find any user in the Automatic Rights List matching your search. Please try again.
+    </div>
+  </div>
+  <div
+    class="whitelistTable_footer"
+    ng-if="!$ctrl.loading && $ctrl.whitelistUsers.length"
+  >
+    <div class="whitelistTable_footer_buttons">
+      <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onBulkSelectionToggle({ selectAll: true })"
+          ng-disabled="$ctrl.userEditMode"
+          ng-if="!$ctrl.selectedWhitelistUsersCount"
+        >Select All</button>
+        <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onBulkSelectionToggle({ selectAll: false })"
+          ng-if="$ctrl.selectedWhitelistUsersCount"
+        >Deselect All </button>
+        <button
+          class="odsButton"
+          type="button"
+          ng-click="$ctrl.onDeleteSelectedUsers()"
+          ng-disabled="!$ctrl.selectedWhitelistUsersCount"
+        >Delete Selected</button>
+    </div>
+    <ods-pagination
+      end="{{ $ctrl.pagination.to }}"
+      start="{{ $ctrl.pagination.from }}"
+      total="{{ $ctrl.pagination.total }}"
+      has-next="$ctrl.pagination.links.next"
+      has-previous="$ctrl.pagination.links.prev"
+      on-next-click="$ctrl.onPaginationNextClick()"
+      on-previous-click="$ctrl.onPaginationPreviousClick()"
+    ></ods-pagination>
+    <div class="whitelistTable_footer_empty"></div>
+  </div>
+</div>

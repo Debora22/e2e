@@ -1,0 +1,228 @@
+<div class="mediaSharingTapshop">
+  <div
+    class="odsSmallIndicator -fullHeight"
+    ng-if="$ctrl.isLoadingTapshopAccounts"
+  ></div>
+  <div
+    class="mediaSharingTapshop_content"
+    ng-if="!$ctrl.isLoadingTapshopAccounts"
+  >
+    <div
+      class="mediaSharingTapshop_content_error"
+      ng-if="$ctrl.tapshopAccountsErrorMessage"
+    >
+      <i class="fa fa-exclamation-triangle"></i>
+      <div ng-if="$ctrl.tapshopAccountsErrorMessage === $ctrl.tapshopAccountsErrorsTypes.empty">
+        This account doesn't have any valid Tapshop account associated. Please contact your support team.
+      </div>
+      <div ng-if="$ctrl.tapshopAccountsErrorMessage === $ctrl.tapshopAccountsErrorsTypes.noMediaSelected">
+        Please select an image from the left.
+      </div>
+      <div ng-if="$ctrl.tapshopAccountsErrorMessage === $ctrl.tapshopAccountsErrorsTypes.isBulk">
+        Bulk publishing is not supported for Tapshop.
+        <br/>
+        Please select a single image.
+      </div>
+      <div ng-if="$ctrl.tapshopAccountsErrorMessage === $ctrl.tapshopAccountsErrorsTypes.isVideo">
+        Video publishing is not supported for Tapshop.
+        <br/>
+        Please select an image.
+      </div>
+    </div>
+    <div
+      class="mediaSharingTapshop_content_options"
+      ng-if="!$ctrl.tapshopAccountsErrorMessage"
+    >
+      <div class="odsMessageBanner -info">
+        Before sharing, please make sure that the minimum aspect ratio of the media you want to share is 1:1 (square) and a maximum of 16:9 or 9:16 (landscape or portrait).
+      </div>
+      <ods-dropdown
+        items-id-property="id"
+        items-label-property="username"
+        items="$ctrl.tapshopAccounts"
+        label="Tapshop Account"
+        placeholder="Please select a Tapshop Account"
+        type="border"
+        selected-item="$ctrl.selectedTapshopAccount"
+        on-item-selected="$ctrl.onSelectedTapshopAccount(item)"
+      ></ods-dropdown>
+      <div
+        class="mediaSharingTapshop_content_options_message"
+        ng-if="$ctrl.selectedTapshopAccount"
+      >
+        When sharing media to Tapshop, that media will also be shared to the <strong>@{{ $ctrl.selectedTapshopAccount.handle }}</strong> Instagram Account.
+        </br>
+        Doing this multiple times will result in multiple posts in Instagram but media will appear only once in your Tapshop Page.
+      </div>
+      <svg
+        class="mediaSharingTapshop_content_options_divider"
+        viewBox="0 0 441 11"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          vector-effect="non-scaling-stroke"
+          stroke-width="1"
+          d="M0 0.5H211.5L221 10L230.5 0.5H441"
+          stroke="#CCCCCC"
+        />
+      </svg>
+      <div class="mediaSharingTapshop_content_options_caption">
+        <div>Instagram Caption</div>
+        <p class="mediaSharingTapshop_content_options_message">Media will be shared with the following caption.</p>
+        <div
+          class="mediaSharingTapshop_content_options_caption_container"
+          ng-class="{ '-expanded': $ctrl.isCaptionExpanded }"
+          ng-if="!$ctrl.isEditingCaption"
+        >
+          <span>{{ $ctrl.editedCaption }}</span>
+          <div class="mediaSharingTapshop_content_options_caption_container_more">
+            <button
+              class="mediaSharingTapshop_content_options_caption_container_more_link"
+              type="button"
+              ng-click="$ctrl.onToggleCaptionExpanded()"
+            >{{ $ctrl.isCaptionExpanded ? 'less' : 'more' }}</button>
+            <button
+              class="mediaSharingTapshop_content_options_caption_container_more_link odsButton -link"
+              type="button"
+              ng-click="$ctrl.onToggleEditCaption()"
+            >{{ $ctrl.editedCaption ? 'Edit' : 'Add' }} Caption</button>
+          </div>
+        </div>
+
+        <!-- Edit Caption -->
+        <div
+          class="mediaSharingTapshop_content_options_caption_edit"
+          ng-if="$ctrl.isEditingCaption"
+        >
+          <textarea
+            class="odsInput_input -multiline"
+            placeholder="Edit your caption. This caption will replace the original."
+            ng-attr-maxlength="{{ $ctrl.captionMaxlength }}"
+            ng-model="$ctrl.editedCaption"
+          ></textarea>
+          <div
+            class="mediaSharingTapshop_content_options_caption_edit_actions"
+          >
+            <span
+              class="mediaSharingTapshop_content_options_message_characters"
+              ng-class="{ '-error': $ctrl.editedCaption.length >= $ctrl.captionMaxlength }"
+            >Number of Characters: {{ $ctrl.editedCaption.length }}</span>
+            <button
+              class="odsButton -link"
+              type="button"
+              ng-click="$ctrl.onCancelEditCaption()"
+            >Cancel</button>
+            <button
+              class="odsButton -link"
+              type="button"
+              ng-click="$ctrl.onResetCaption()"
+              ng-if="$ctrl.editedCaption !== $ctrl.originalCaption"
+            >Revert to original</button>
+            <button
+              class="odsButton -link"
+              type="button"
+              target="_blank"
+              ng-click="$ctrl.onToggleEditCaption()"
+            >Save</button>
+          </div>
+        </div>
+      </div>
+      <svg
+        class="mediaSharingTapshop_content_options_divider"
+        viewBox="0 0 441 11"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          vector-effect="non-scaling-stroke"
+          stroke-width="1"
+          d="M0 0.5H211.5L221 10L230.5 0.5H441"
+          stroke="#CCCCCC"
+        />
+      </svg>
+      <div class="mediaSharingTapshop_content_options_customLink">
+        <div>Custom Link</div>
+        <div class="mediaSharingTapshop_content_options_message">When users clicks on the media on the Tapshop Page, this custom link will open. Leave this blank if you want to show the Tagged Products instead.</div>
+        <div class="mediaSharingTapshop_content_options_customLink_input">
+          <input
+            class="odsInput_input"
+            placeholder="https://url.to/customlink"
+            ng-model="$ctrl.customLink"
+          />
+        </div>
+      </div>
+      <div class="mediaSharingTapshop_content_options_streamList">
+        <div>Tagged Products</div>
+        <div class="mediaSharingTapshop_content_options_message">
+          <span ng-if="$ctrl.streams.length">These products will show up on Tapshop.</span>
+          <span
+            class="mediaSharingTapshop_content_error -streams"
+            ng-if="!$ctrl.streams.length"
+          >
+            <i class="fa fa-exclamation-triangle"></i>
+            You don't have tagged products.
+            </br>
+            You can tag your products in the Tag to Stream tab.
+          </span>
+        </div>
+        <div class="mediaSharingTapshop_content_options_streamList_list">
+          <div
+            class="mediaSharingTapshop_content_options_streamList_list_item"
+            ng-repeat="stream in $ctrl.streams track by stream.id"
+          >
+            <div class="mediaSharingTapshop_content_options_streamList_list_item_img">
+              <div class="mediaSharingTapshop_content_options_streamList_list_item_img_element">
+                <div
+                  class="mediaSharingTapshop_content_options_streamList_list_item_img_element_background"
+                  ng-style="{ 'background-image': 'url(' + stream.image + ')' }"
+                ></div>
+                <i class="mediaSharingTapshop_content_options_streamList_list_item_img_element_icon fa fa-image"></i>
+              </div>
+            </div>
+            <div class="mediaSharingTapshop_content_options_streamList_list_item_info">{{ stream.name }}</div>
+            <a
+              class="mediaSharingTapshop_content_options_streamList_list_item_action"
+              target="_blank"
+              ng-href="{{ stream.product_url }}"
+              ng-if="stream.product_url"
+            >Open Product Page</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mediaSharingTapshop_actions">
+    <a
+      class="odsButton -link"
+      target="_blank"
+      ng-href="{{ ::$ctrl.helpUrl }}"
+    >Help</a>
+    <div>
+      <button
+        class="odsButton -secondary"
+        type="button"
+        ng-click="$ctrl.onSchedulerModalOpen()"
+        ng-disabled="$ctrl.checkPublishConditions()"
+      >Schedule</button>
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl._onShare()"
+        ng-disabled="$ctrl.checkPublishConditions()"
+      >Share Now</button>
+    </div>
+  </div>
+  <ods-modal
+    size="small"
+    on-close="$ctrl.onSchedulerModalClose()"
+    ng-if="$ctrl.isSchedulerModalVisible"
+  >
+    <scheduler-modal
+      media-count="$ctrl.selectedMediaCount"
+      selected-activation="'tapshop'"
+      on-cancel="$ctrl.onSchedulerModalClose()"
+      on-schedule="$ctrl._onShare(scheduleTime)"
+    ></scheduler-modal>
+  </ods-modal>
+</div>

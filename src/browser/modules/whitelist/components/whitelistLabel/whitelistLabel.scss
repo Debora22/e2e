@@ -1,0 +1,73 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.whitelistLabel {
+  position: relative;
+
+  &_content {
+    display: flex;
+    font-size: 14px;
+    max-width: 200px;
+
+    &_text {
+      display: inline-block;
+      height: 100%;
+      margin: auto 0 auto;
+    }
+
+    &_label {
+      background: $gray-color-black-5;
+      border-radius: 15px;
+      display: inline-block;
+      height: 16px;
+      margin-left: 8px;
+      max-width: 150px;
+      min-width: 32px;
+      overflow: hidden;
+      padding: 5px 8px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &_options {
+    display: flex;
+    font-size: 11px;
+    justify-content: center;
+    margin-top: 8px;
+
+    &_link {
+      color: $primary-color-blue-100;
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 2px;
+      text-decoration: underline;
+    }
+  }
+
+  &_wrapper {
+    background-color: $primary-color-white-100;
+    border: solid 1px $gray-color-black-40;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px $gray-color-black-60;
+    box-sizing: border-box;
+    margin-left: 32px;
+    margin-top: 8px;
+    max-width: 320px;
+    min-width: 192px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  &_label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .odsInput {
+    &_wrapper {
+      min-height: 0;
+    }
+  }
+}

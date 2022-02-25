@@ -1,0 +1,116 @@
+<svg
+  width="130"
+  height="144"
+  viewBox="0 0 130 144"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <rect
+    x="0.586242"
+    y="0.39585"
+    width="100.914"
+    height="125.76"
+    transform="matrix(0.981793 -0.18995 0.190691 0.981649 -0.0648111 19.5766)"
+    fill="white"
+    stroke="#999999"
+  />
+  <rect
+    x="13.2646"
+    y="49.3824"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 13.2646 49.3824)"
+    fill="#E5E5E5"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="43.6952"
+    y="43.4673"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 43.6952 43.4673)"
+    fill="#F2F2F2"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="74.1255"
+    y="37.5522"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 74.1255 37.5522)"
+    fill="#F2F2F2"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="19.1798"
+    y="79.8128"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 19.1798 79.8128)"
+    fill="#F2F2F2"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="49.6104"
+    y="73.8977"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 49.6104 73.8977)"
+    fill="#F2F2F2"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="80.0406"
+    y="67.9827"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 80.0406 67.9827)"
+    fill="#E5E5E5"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="25.0949"
+    y="110.243"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 25.0949 110.243)"
+    fill="#F2F2F2"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="55.5256"
+    y="104.328"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 55.5256 104.328)"
+    fill="#E5E5E5"
+    stroke="#CCCCCC"
+  />
+  <rect
+    x="85.9558"
+    y="98.4131"
+    width="25.8644"
+    height="26.3614"
+    transform="rotate(-10.9713 85.9558 98.4131)"
+    fill="#F2F2F2"
+    stroke="#CCCCCC"
+  />
+  <rect
+    width="54.6254"
+    height="10.9191"
+    transform="matrix(0.981744 -0.190202 0.190227 0.98174 24.2318 25.8245)"
+    fill="#C4C4C4"
+  />
+  <path
+    d="M94 132.439L125.942 100.533"
+    stroke="#FA9EB6"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
+  <path
+    d="M94.0593 100.473L125.849 132.531"
+    stroke="#FA9EB6"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
+</svg>

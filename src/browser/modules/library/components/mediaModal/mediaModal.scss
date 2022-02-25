@@ -1,0 +1,412 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$mediaModal-overlay-background: rgba(0, 0, 0, 0.79);
+$mediaModal-caption-more-gradient: rgba(255, 255, 255, 0);
+
+.mediaModal {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+
+  &_info {
+    float: left;
+    height: calc(100% - 54px);
+    width: 60%;
+
+    &_single {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+
+      &_content {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+      }
+
+      &_image {
+        background: {
+          position: center;
+          repeat: no-repeat;
+          size: contain;
+        }
+        height: 100%;
+        width: 100%;
+      }
+
+      &_editStatus {
+        bottom: 0;
+        height: 46px;
+        padding-right: 16px;
+        position: absolute;
+        right: 0;
+
+        &_tooltip {
+          display: flex;
+
+          &.odsTooltip.-top .odsTooltip_text {
+            bottom: 56px;
+            right: -1px;
+          }
+
+          &.odsTooltip.-top.-failed .odsTooltip_text {
+            bottom: 52px;
+            right: -7px;
+          }
+        }
+
+        &_image {
+          height: 46px;
+        }
+
+        &_icon {
+          align-items: center;
+          display: flex;
+          padding-right: 10px;
+
+          &.-failed {
+            color: $tertiary-color-magenta-100;
+            font-size: 18px;
+          }
+        }
+      }
+
+      &_caption {
+        box-sizing: border-box;
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 16px;
+        max-height: 36px;
+        overflow: hidden;
+        padding: 16px 24px 0;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &.-expanded {
+          max-height: 50%;
+          overflow-y: auto;
+          white-space: normal;
+        }
+
+        &_link {
+          color: $gray-color-black-80;
+          font-weight: bold;
+        }
+
+        &_more {
+          background: linear-gradient(
+            270deg,
+            $primary-color-white-100 50%,
+            $mediaModal-caption-more-gradient 100%,
+          );
+          bottom: 1px;
+          float: right;
+          height: 20px;
+          position: sticky;
+          position: -webkit-sticky;
+          right: 0;
+          text-align: right;
+          text-decoration-line: underline;
+          width: 90px;
+
+          &_link {
+            background: none;
+            border: none;
+            color: $gray-color-black-80;
+            font-size: 16px;
+            padding: 0;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    &_bulk {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 24px 0 24px 24px;
+      width: 100%;
+
+      &_info {
+        color: $gray-color-black-80;
+        flex-shrink: 0;
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+
+      &_list {
+        align-content: flex-start;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow: auto;
+        padding-right: 8px;
+
+        &_item {
+          background: {
+            position: center;
+            repeat: no-repeat;
+            size: contain;
+          }
+          border: 1px solid $gray-color-black-10;
+          box-sizing: border-box;
+          cursor: pointer;
+          height: 162px;
+          margin: 0 16px 16px 0;
+          position: relative;
+          width: 162px;
+
+          &_overlay,
+          &_check, {
+            opacity: 0;
+            transition: opacity ease 0.4s;
+          }
+
+          &_overlay {
+            background: linear-gradient(
+              0deg,
+              transparent 0,
+              $mediaModal-overlay-background 100%,
+            );
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+          }
+
+          &_checkbox {
+            display: none;
+          }
+
+          &_check {
+            border: 2px solid $primary-color-white-100;
+            border-radius: 50%;
+            box-sizing: border-box;
+            display: block;
+            height: 21px;
+            margin: 8px;
+            position: relative;
+            width: 21px;
+            z-index: 1;
+
+            &_icon {
+              color: $primary-color-white-100;
+              display: none;
+              font-size: 12px;
+              left: 2px;
+              position: relative;
+              top: -2px;
+            }
+          }
+
+          &.-selected {
+            .mediaModal_info_bulk_list_item_check {
+              background-color: palette(general, primary);
+              border-color: palette(general, primary);
+              opacity: 1;
+
+              &_icon {
+                display: inline-block;
+              }
+            }
+          }
+
+          &:hover .mediaModal_info_bulk_list_item {
+            &_overlay,
+            &_check, {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    &_rights {
+      height: 100%;
+      position: relative;
+      width: 100%;
+
+      &_list {
+        flex: 1;
+        overflow: auto;
+        padding-right: 8px;
+
+        &_fragment {
+          display: block;
+          margin-bottom: 34px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &_section {
+    border-left: 1px solid $gray-color-black-20;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    height: calc(100% - 54px);
+    padding: 40px 0 0;
+    width: 40%;
+
+    &.-expanded {
+      height: 100%;
+    }
+
+    &_list {
+      display: flex;
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+      overflow: hidden;
+      padding: 0 24px;
+
+      &_item {
+        background-color: transparent;
+        border: none;
+        flex-shrink: 0;
+        font-size: 15px;
+        font-weight: 500;
+        height: 30px;
+        letter-spacing: 1px;
+        line-height: 30px;
+        margin-right: 32px;
+        padding: 0;
+        text-transform: uppercase;
+
+        &.-active {
+          box-shadow: inset 0 -2px 0 0 $primary-color-blue-100;
+          color: $primary-color-blue-100;
+        }
+      }
+    }
+
+    &_main {
+      flex: 1;
+      overflow: auto;
+      padding: 24px;
+    }
+  }
+
+  &_actions {
+    border-top: 1px solid $gray-color-black-20;
+    bottom: 0;
+    box-sizing: border-box;
+    height: 54px;
+    padding: 8px 24px;
+    position: absolute;
+    width: 100%;
+
+    &_leftActions {
+      float: left;
+
+      .bulkBarButton {
+        background: none;
+        border: none;
+        color: $primary-color-black-100;
+        font-size: 14px;
+        line-height: 37px;
+        margin-right: 16px;
+        padding: 0;
+
+        &:disabled {
+          color: $gray-color-black-60;
+          cursor: default;
+        }
+      }
+    }
+
+    &_rightActions {
+      float: right;
+
+      .odsButton {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    &_info {
+      &_single {
+        &_editStatus {
+          padding-right: 8px;
+        }
+
+        &_caption {
+          padding: 16px 16px 0;
+        }
+      }
+
+      &_bulk {
+        padding: 16px 0 16px 16px;
+
+        &_list {
+          padding-right: 0;
+        }
+      }
+
+      &_rights_list {
+        padding-right: 0;
+      }
+    }
+
+    &_section {
+      &_list {
+        padding: 0 16px;
+      }
+
+      &_main {
+        padding: 16px;
+      }
+    }
+
+    &_actions {
+      padding: 8px 16px;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    &_info {
+      &_single {
+        &_editStatus {
+          padding-right: 4px;
+        }
+
+        &_caption {
+          margin-bottom: 8px;
+          max-height: 31px;
+          padding: 8px 8px 0;
+        }
+      }
+
+      &_bulk {
+        padding: 8px 0 8px 8px;
+      }
+    }
+
+    &_section {
+      padding: 32px 0 0;
+
+      &_list {
+        padding: 0 8px;
+      }
+
+      &_main {
+        padding: 8px;
+      }
+    }
+
+    &_actions {
+      padding: 8px;
+    }
+  }
+}

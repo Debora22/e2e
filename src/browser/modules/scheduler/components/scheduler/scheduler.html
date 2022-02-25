@@ -1,0 +1,148 @@
+<div class="scheduler">
+  <div class="scheduler_content">
+    <div class="scheduler_header">
+      <div class="scheduler_header_title">Scheduled Content</div>
+      <div class="scheduler_header_info">
+        <div class="scheduler_header_info_today">
+          <strong>Today: </strong>
+          <a
+            class="scheduler_header_info_today_link"
+            href="https://www.timeanddate.com/worldclock/timezone/utc"
+            target="_blank"
+            rel="nofollow"
+          >{{ ::$ctrl.todayDate | date:'EEEE, MMMM d, yyyy - hh:mma' : 'UTC' }}</a>
+          <div class="scheduler_header_info_today_timezone">(UTC) Universal Coordinated Time</div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="scheduler_month"
+      ng-repeat="month in $ctrl.scheduledTasks"
+    >
+      <div class="scheduler_month_title track by $index">
+        {{ ::month.date | date:'MMMM yyyy' : 'UTC' }}
+      </div>
+      <div
+        class="scheduler_month_day"
+        ng-repeat="day in month.days track by $index"
+      >
+        <div
+          class="scheduler_month_day_date"
+          ng-class="::{
+            '-isPast': day.isPast,
+            '-isToday': day.isToday,
+          }"
+        >
+          <div class="scheduler_month_day_date_dayName">{{ ::day.date | date:'EEE' : 'UTC' }}</div>
+          <div class="scheduler_month_day_date_dayNumber">{{ ::day.date | date:'dd' : 'UTC' }}</div>
+          <div
+            class="scheduler_month_day_date_todayTag"
+            ng-if="::day.isToday"
+          >today</div>
+        </div>
+        <div class="scheduler_month_day_tasksContainer">
+          <div
+            class="scheduler_month_day_tasksContainer_task"
+            ng-class="::{ '-isPast': day.isPast }"
+            ng-repeat="task in day.tasks track by task.id"
+          >
+            <div
+              class="scheduler_month_day_tasksContainer_task_image"
+              ng-class="::{ '-unavailable': !task.extra_data.media_url }"
+              ngf-background="::task.extra_data.media_url || ''"
+            >
+              <div
+                class="scheduler_month_day_tasksContainer_task_image_unavailable"
+                ng-if="::!task.extra_data.media_url"
+              >
+                <i class="scheduler_month_day_tasksContainer_task_image_unavailable_icon fa fa-image"></i>
+                Image not available
+              </div>
+            </div>
+            <div class="scheduler_month_day_tasksContainer_task_info -isNarrow">
+              {{ ::task.schedule_time | date:'hh:mma' : 'UTC' }}
+            </div>
+            <div class="scheduler_month_day_tasksContainer_task_info -isMultiline">
+              <div class="scheduler_month_day_tasksContainer_task_info_destination">
+                <img
+                  class="scheduler_month_day_tasksContainer_task_info_icon -isSmall"
+                  ng-src="{{ ::$ctrl.tapshopIcon}}"
+                  ng-if="::task.destination === 'tapshop'"
+                ></img>
+                <i
+                  class="scheduler_month_day_tasksContainer_task_info_icon -isSmall fa"
+                  ng-class="::{ ['fa-' + task.destination]: true }"
+                  ng-if="::task.destination !== 'tapshop'"
+                ></i>
+                <div class="scheduler_month_day_tasksContainer_task_info_account">
+                  {{ ::task.destination | capitalize }}: @{{ ::task.extra_data.account_name }}
+                </div>
+              </div>
+              <div
+                class="scheduler_month_day_tasksContainer_task_info_reminder"
+                ng-if="::task.extra_data.shoppable_instagram_publish && task.status === 'scheduled'"
+              >Also will be sent to Instagram</div>
+            </div>
+            <div
+              class="scheduler_month_day_tasksContainer_task_info"
+              ng-if="::day.isToday && task.status === 'scheduled'"
+            >
+              <img
+                class="scheduler_month_day_tasksContainer_task_info_icon"
+                ng-src="{{ ::$ctrl.sendTaskIcon }}"
+              />
+              <p class="scheduler_month_day_tasksContainer_task_info_status">
+                To be sent.
+              </p>
+            </div>
+            <div
+              class="scheduler_month_day_tasksContainer_task_info"
+              ng-if="::task.status === 'success'"
+            >
+              <img
+                class="scheduler_month_day_tasksContainer_task_info_icon"
+                ng-src="{{ ::$ctrl.sentTaskIcon }}"
+              />
+              <p class="scheduler_month_day_tasksContainer_task_info_status -isSuccess">
+                Successfully sent to {{ ::task.destination | capitalize }}.
+              </p>
+            </div>
+            <div
+              class="scheduler_month_day_tasksContainer_task_info"
+              ng-if="::task.status === 'failed'"
+            >
+              <img
+                class="scheduler_month_day_tasksContainer_task_info_icon"
+                ng-src="{{ ::$ctrl.failedTaskIcon }}"
+              />
+              <p class="scheduler_month_day_tasksContainer_task_info_status -isError">
+                <strong>There was an error</strong> when trying to send to {{ ::task.destination | capitalize }}.
+              </p>
+            </div>
+            <div class="scheduler_month_day_tasksContainer_task_actions">
+              <button
+                class="scheduler_month_day_tasksContainer_task_actions_item -isDanger"
+                ng-if="::task.status === 'scheduled'"
+                ng-click="$ctrl.onCancelTask({ taskId: task.id })"
+              >Cancel</button>
+              <button
+                class="scheduler_month_day_tasksContainer_task_actions_item"
+                ng-if="::task.status === 'scheduled'"
+                ng-click="$ctrl.onSchedulerModalOpen({ task: task })"
+              >Change date and time</button>
+              <button
+                class="scheduler_month_day_tasksContainer_task_actions_item"
+                ng-if="::task.status === 'scheduled'"
+                ng-click="$ctrl.onSendTask({ task: task })"
+              >Send Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="scheduler_month_emptyMessage"
+        ng-if="::!month.days.length"
+      >Nothing scheduled for these dates.</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.schedulerModal {
+  color: $gray-color-black-80;
+  font-size: 14px;
+  height: 100%;
+
+  &_header {
+    border-bottom: 1px solid $gray-color-black-20;
+    font-size: 18px;
+    line-height: 23px;
+    padding: 16px;
+  }
+
+  &_content {
+    box-sizing: border-box;
+    padding: 16px;
+
+    &_options {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 24px 0 48px;
+
+      &_calendar,
+      &_time {
+        display: flex;
+        flex-direction: column;
+        width: 270px;
+      }
+
+      .odsCalendar {
+        padding: 0;
+      }
+    }
+  }
+
+  &_actions {
+    bottom: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    position: absolute;
+    width: 100%;
+
+    .odsButton {
+      margin-left: 16px;
+    }
+  }
+}

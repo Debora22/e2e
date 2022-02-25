@@ -1,0 +1,40 @@
+<div class="editModal">
+  <div class="editModal_header">
+    <p class="editModal_header_title">Edit media</p>
+  </div>
+  <div class="editModal_content">
+    <div
+      class="editModal_content_thumbnail"
+      ngf-background="$ctrl.media"
+    ></div>
+    <div class="editModal_content_edit">
+      <label
+        class="odsInput_label"
+        for="caption"
+      >Caption</label>
+      <textarea
+        class="odsInput_input -multiline"
+        id="caption"
+        type="text"
+        ng-model="$ctrl.mediaCaption"
+      ></textarea>
+    </div>
+  </div>
+  <div class="editModal_footer">
+    <div class="editModal_footer_info">
+      <span class="editModal_footer_info_fileInfo">{{ ::$ctrl.mediaSizeInMB }} MB - {{ ::$ctrl.mediaExtension }}</span>
+      <button
+        class="odsButton -link"
+        type="button"
+        ng-click="$ctrl.onModalClose()"
+      >Cancel</button>
+    </div>
+    <div class="editModal_footer_actions">
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl.onMediaSave({ caption: $ctrl.mediaCaption })"
+      >Save</button>
+    </div>
+  </div>
+</div>

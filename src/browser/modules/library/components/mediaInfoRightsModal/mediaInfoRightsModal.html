@@ -1,0 +1,67 @@
+<div class="mediaInfoRightsModal">
+  <div
+    class="mediaInfoRightsModal_title"
+    ng-bind-html="$ctrl.headline"
+  >
+  </div>
+  <div
+    class="mediaInfoRightsModal_list"
+    ng-if="!$ctrl.approvalTypeBySource"
+  >
+    <label
+      class="mediaInfoRightsModal_list_item"
+      ng-class="{
+        '-selected': $ctrl.approvalType.selected[media.id],
+        '-unselectable': !$ctrl.enableSelection
+      }"
+      ng-repeat="media in $ctrl.approvalType.list track by media.id"
+      ng-style="::{ 'background-image': 'url(' + media.images.mobile + ')' }"
+    >
+      <div class="mediaInfoRightsModal_list_item_overlay"></div>
+      <input
+        type="checkbox"
+        class="mediaInfoRightsModal_list_item_checkbox"
+        ng-change="$ctrl.onRefreshApprovalTypeSelectedCount()"
+        ng-if="$ctrl.enableSelection"
+        ng-model="$ctrl.approvalType.selected[media.id]"
+      />
+      <span class="mediaInfoRightsModal_list_item_check">
+        <i class="mediaInfoRightsModal_list_item_check_icon fa fa-check"></i>
+      </span>
+    </label>
+  </div>
+  <div
+    ng-if="$ctrl.approvalTypeBySource"
+    ng-repeat="(source, list) in $ctrl.approvalTypeBySource track by $index"
+  >
+    <div class="mediaInfoRightsModal_subTitle">
+      {{ list.length }} From {{ source }}
+    </div>
+    <div class="mediaInfoRightsModal_list">
+      <label
+        class="mediaInfoRightsModal_list_item"
+        ng-class="{
+          '-selected': $ctrl.approvalType.selected[media.id],
+          '-unselectable': !$ctrl.enableSelection
+        }"
+        ng-repeat="media in list track by media.id"
+        ng-style="::{ 'background-image': 'url(' + media.images.mobile + ')' }"
+      >
+        <div class="mediaInfoRightsModal_list_item_overlay"></div>
+        <input
+          type="checkbox"
+          class="mediaInfoRightsModal_list_item_checkbox"
+          ng-change="$ctrl.onRefreshApprovalTypeSelectedCount()"
+          ng-if="$ctrl.enableSelection"
+          ng-model="$ctrl.approvalType.selected[media.id]"
+        />
+        <span
+          class="mediaInfoRightsModal_list_item_check"
+          ng-if="$ctrl.enableSelection"
+        >
+          <i class="mediaInfoRightsModal_list_item_check_icon fa fa-check"></i>
+        </span>
+      </label>
+    </div>
+  </div>
+</div>

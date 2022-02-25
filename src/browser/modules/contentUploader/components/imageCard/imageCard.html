@@ -1,0 +1,20 @@
+<div class="imageCard">
+  <div class="imageCard_media">
+    <div
+      class="imageCard_media_image"
+      ngf-background="$ctrl.image"
+    ></div>
+    <div class="imageCard_media_overlay"></div>
+    <span
+      class="imageCard_media_delete"
+      ng-click="$ctrl.onImageDelete({ item: $ctrl.image })"
+    >
+      <i class="fa fa-trash"></i>
+    </span>
+    <button
+      class="imageCard_media_edit"
+      type="button"
+      ng-click="$ctrl.onModalOpen({ item: $ctrl.image })"
+    >Edit</button>
+  </div>
+</div>

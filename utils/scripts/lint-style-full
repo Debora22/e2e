@@ -1,0 +1,2 @@
+#!/bin/bash -e
+stylelint **/*.scss **/*.css

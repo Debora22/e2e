@@ -1,0 +1,4 @@
+#!/bin/sh -e
+if [ "$NODE_ENV" != "production" ]; then
+  projext create-revision
+fi

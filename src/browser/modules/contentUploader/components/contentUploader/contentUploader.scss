@@ -1,0 +1,78 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.contentUploader {
+  box-sizing: border-box;
+  height: 100%;
+  overflow: auto;
+  padding: 24px;
+
+  &_header {
+    &_title {
+      font-size: 28px;
+      font-weight: normal;
+      margin: 0;
+    }
+  }
+
+  &_content {
+    &.-withMedia {
+      margin-bottom: 46px;
+    }
+
+    &_empty {
+      font-size: 14px;
+      line-height: 24px;
+      margin: 100px auto;
+      text-align: center;
+      width: 235px;
+
+      &_icon {
+        color: $gray-color-black-10;
+        font-size: 48px;
+      }
+    }
+
+    &_media {
+      &_text {
+        font-size: 16px;
+        margin: 25px 0;
+      }
+    }
+  }
+
+  &_footer {
+    background-color: $primary-color-white-100;
+    border-top: 1px solid $gray-color-black-10;
+    bottom: 0;
+    height: 69px;
+    left: 0;
+    position: fixed;
+    right: 0;
+    z-index: 2;
+
+    &_actions {
+      float: right;
+      margin: 15px 24px;
+
+      &_moderation {
+        display: inline-block;
+        margin: 0 18px;
+
+        .odsCheckbox_label {
+          margin-left: 0;
+        }
+      }
+
+      .odsButton {
+        &.-primary {
+          margin-left: 16px;
+          width: 150px;
+        }
+
+        &.-link {
+          margin-right: 28px;
+        }
+      }
+    }
+  }
+}

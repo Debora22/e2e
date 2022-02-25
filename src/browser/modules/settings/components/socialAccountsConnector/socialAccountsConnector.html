@@ -1,0 +1,51 @@
+<div class="socialAccountsConnector">
+  <p>Select an account you want to connect.</p>
+  <div class="socialAccountsConnector_table">
+    <div class="socialAccountsConnector_table_element">
+      <div class="socialAccountsConnector_table_element_content">
+        <div class="socialAccountsConnector_table_element_content_title">Instagram / Facebook</div>
+        <p class="socialAccountsConnector_table_element_content_text">
+          Connect your Facebook account that has privileges in the Business Instagram Accounts.
+          This will allow you to collect from mentions and hashtags and request rights on content.
+        </p>
+      </div>
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl.onAccountConnect('facebook')"
+        ng-disabled="$ctrl.hasFacebookAccount"
+      >Connect</button>
+    </div>
+    <div class="socialAccountsConnector_table_element">
+      <div class="socialAccountsConnector_table_element_content">
+        <div class="socialAccountsConnector_table_element_content_title">Twitter</div>
+        <p class="socialAccountsConnector_table_element_content_text">
+          Connect your Twitter account to collect from hashtags, profiles and request rights on content.
+        </p>
+      </div>
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl.onAccountConnect('twitter')"
+      >Connect</button>
+    </div>
+    <div class="socialAccountsConnector_table_element">
+      <div class="socialAccountsConnector_table_element_content">
+        <div class="socialAccountsConnector_table_element_content_title">Pinterest</div>
+        <p class="socialAccountsConnector_table_element_content_text">
+          Connect your Pinterest account to activate your content.
+        </p>
+      </div>
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl.onAccountConnect('pinterest')"
+      >Connect</button>
+    </div>
+  </div>
+  <button
+    class="odsButton -link"
+    type="button"
+    ng-click="$ctrl.onBackButtonClick()"
+  >Back</button>
+</div>

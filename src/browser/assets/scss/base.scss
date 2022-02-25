@@ -1,0 +1,40 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+@import 'olapic-design-system/elements/typography/typography.scss';
+@import '../../lib/ods/new/elements/indicators/indicators.scss';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: $gray-color-black-80;
+  font-family: $base-font-family;
+  margin: 0;
+  min-width: 300px;
+  position: relative;
+}
+
+a,
+a:focus,
+a:hover {
+  outline: none;
+  text-decoration: none;
+}
+
+input[type=file] {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: $base-font-family;
+}
+
+input,
+button {
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}

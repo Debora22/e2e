@@ -1,0 +1,84 @@
+<div class="advocates">
+  <div class="advocates_header">
+    <h2 class="advocates_header_title">Advocates</h2>
+    <div class="advocates_header_filters">
+      <div class="advocates_header_filters_search">
+        <ods-search-box
+          max-length="100"
+          search="$ctrl.search"
+          search-debounce-time="150"
+          search-min-length="0"
+          suggestions="$ctrl.suggestions"
+          on-search-text-change="$ctrl.onSearchTextChange({ search })"
+          on-search-trigger="$ctrl.onSearchTrigger({ search })"
+          on-suggestion-click="$ctrl.onSuggestionClick({ suggestion: suggestion.label })"
+        ></ods-search-box>
+      </div>
+      <div class="advocates_header_filters_dropdowns">
+        <ods-dropdown
+          class="advocates_header_filters_dropdowns_sort"
+          items-id-property="id"
+          items-label-property="name"
+          prefix="Sorting By:"
+          type="borderless"
+          items="$ctrl.sortList"
+          selected-item="$ctrl.selectedSort"
+          on-item-selected="$ctrl.onSortSelected({ item })"
+        ></ods-dropdown>
+        <ods-dropdown
+          items-id-property="id"
+          items-label-property="name"
+          prefix="Date Range:"
+          type="borderless"
+          items="$ctrl.dateRangeOptions"
+          selected-item="$ctrl.selectedDateRange"
+          on-item-selected="$ctrl.onDateRangeSelection({ dateRange: item })"
+        ></ods-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="advocates_content">
+    <advocates-row
+      advocate="user"
+      currency-symbol="$ctrl.currencySymbol"
+      is-focus-revenue="$ctrl.isFocusRevenue"
+      tooltips="$ctrl.tooltips"
+      ng-repeat="user in $ctrl.advocates track by user.ambassador.id"
+    ></advocates-row>
+    <div
+      class="advocates_content_empty"
+      ng-if="!$ctrl.advocates.length && !$ctrl.loading && $ctrl.allAdvocates.length"
+    >
+      <img ng-src="{{ ::$ctrl.noAdvocatesSearchImage }}"/>
+      <h2>No results found for "{{ $ctrl.search }}" </h2>
+      <p>Please try again...</p>
+    </div>
+    <div
+      class="advocates_content_empty"
+      ng-if="!$ctrl.loading && !$ctrl.allAdvocates.length"
+    >
+      <img ng-src="{{ ::$ctrl.noAdvocatesImage }}"/>
+      <h2>You don't have any advocates yet</h2>
+      <p>Please contact your account manager to build your advocates network.</p>
+    </div>
+  </div>
+  <div
+    class="advocates_footer"
+    ng-if="!$ctrl.loading && $ctrl.advocates.length"
+  >
+    <ods-pagination
+      end="{{ $ctrl.pagination.to }}"
+      start="{{ $ctrl.pagination.from }}"
+      total="{{ $ctrl.pagination.total }}"
+      has-next="$ctrl.pagination.next"
+      has-previous="$ctrl.pagination.prev"
+      on-next-click="$ctrl.onPaginationNextClick()"
+      on-previous-click="$ctrl.onPaginationPreviousClick()"
+    ></ods-pagination>
+    <button
+      class="odsButton -primary advocates_footer_button"
+      type="submit"
+      ng-click="$ctrl.onExportDownload()"
+    >Export</button>
+  </div>
+</div>

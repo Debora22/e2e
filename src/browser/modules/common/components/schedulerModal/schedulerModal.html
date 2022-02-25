@@ -1,0 +1,52 @@
+<div class="schedulerModal">
+  <div class="schedulerModal_header">
+    Schedule {{ ::$ctrl.mediaCount }} Media
+  </div>
+  <div class="schedulerModal_content">
+    <div class="schedulerModal_content_message">
+      Select when do you want your media to be sent to your {{ ::$ctrl.selectedActivation }} account.
+      </br>
+      Date and time are in UTC-0 (GMT time zone. Check
+      <a
+        href="https://www.timeanddate.com/worldclock/timezone/utc"
+        target="_blank"
+        rel="nofollow"
+      >timeanddate.com</a> for more info).
+    </div>
+    <div class="schedulerModal_content_options">
+      <div class="schedulerModal_content_options_calendar">
+        <span class="schedulerModal_content_options_label">Select a date</span>
+        <ods-calendar
+          options="$ctrl.calendarOptions"
+          ng-attr-input-label="Select a date"
+          on-date-change="$ctrl.onDateChange(selectedDates)"
+        ></ods-calendar>
+      </div>
+      <div class="schedulerModal_content_options_time">
+        <span class="schedulerModal_content_options_label">Select a time</span>
+        <ods-dropdown
+          items-id-property="id"
+          items-label-property="value"
+          items="$ctrl.hoursList"
+          selected-item="$ctrl.selectedScheduleTime"
+          on-item-selected="$ctrl.onScheduleTimeSelected(item)"
+        ></ods-dropdown>
+      </div>
+    </div>
+    <div class="schedulerModal_content_message">
+      You can see all your scheduled media in the Scheduler section.
+    </div>
+  </div>
+  <div class="schedulerModal_actions">
+    <button
+      class="odsButton -secondary"
+      type="button"
+      ng-click="$ctrl.onCancel()"
+    >Cancel</button>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-click="$ctrl._onSchedule()"
+    >Schedule</button>
+  </div>
+</div>

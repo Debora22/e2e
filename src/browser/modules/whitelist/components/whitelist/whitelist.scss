@@ -1,0 +1,77 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.whitelist {
+  background-color: $gray-color-black-5;
+  height: 100%;
+  overflow: auto;
+
+  &_content {
+    background-color: $primary-color-white-100;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 1280px;
+    min-height: 100%;
+    padding: 24px;
+  }
+
+  &_title,
+  &_subtitle {
+    font-weight: 100;
+  }
+
+  &_title {
+    font-size: 28px;
+    margin: 0;
+  }
+
+  &_subtitle {
+    font-size: 24px;
+  }
+
+  &_header {
+    border-bottom: solid 2px $gray-color-black-10;
+    flex-shrink: 0;
+    margin-bottom: 30px;
+  }
+
+  &_empty {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    &_content {
+      font-size: 14px;
+      line-height: 24px;
+      text-align: center;
+      width: 430px;
+
+      &_link {
+        background: none;
+        border: none;
+        color: palette(general, primary);
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  &_confirmation {
+    &_list {
+      margin-top: 16px;
+      max-height: 256px;
+      overflow: auto;
+      padding: 0;
+
+      &_item {
+        border-top: solid 1px $gray-color-black-10;
+        font-size: 14px;
+        list-style: none;
+        padding: 12px 8px;
+      }
+    }
+  }
+}

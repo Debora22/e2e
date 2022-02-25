@@ -1,0 +1,42 @@
+<div class="downloadConfirmation">
+  <div ng-if="$ctrl.isMediaFiltered">
+    Of the
+    <strong>{{ $ctrl.totalMedia }}</strong>
+    media you selected, only
+    <strong>{{ $ctrl.mediaToDownload }}</strong>
+    <ng-pluralize
+      count="$ctrl.mediaToDownload"
+      when="{'one': 'is', 'other': 'are'}"
+    ></ng-pluralize>
+    available for download.
+  </div>
+  <div ng-if="!$ctrl.isMediaFiltered">
+    You are about to download
+    <strong>{{ $ctrl.mediaToDownload }}</strong>
+    media.
+  </div>
+  <ul
+    class="downloadConfirmation_filtering"
+    ng-if="$ctrl.isMediaFiltered"
+  >
+    <div>Please note:</div>
+    <li
+      class="downloadConfirmation_filtering_item"
+      ng-if="$ctrl.hasMediaWithoutRights"
+    >Only rights approved media can be downloaded.</li>
+    <li
+      class="downloadConfirmation_filtering_item"
+      ng-if="$ctrl.hasMediaFromYoutube"
+    >YouTube videos can not be downloaded.</li>
+    <li
+      class="downloadConfirmation_filtering_item"
+      ng-if="$ctrl.showWaitWarning"
+    >It might take up to 5 minutes to download all the media, depending on its size and the speed of your internet connection.</li>
+  </ul>
+  <div
+    class="downloadConfirmation_waitingWarning"
+    ng-if="!$ctrl.isMediaFiltered && $ctrl.showWaitWarning"
+  >
+    Please note it might take up to 5 minutes to download all the media, depending on its size and the speed of your internet connection.
+  </div>
+</div>

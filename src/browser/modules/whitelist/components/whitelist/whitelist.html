@@ -1,0 +1,76 @@
+<div class="whitelist">
+  <div class="whitelist_content">
+    <div class="whitelist_header">
+      <h2 class="whitelist_title">Add New User</h2>
+      <whitelist-form
+        loading="$ctrl.loading"
+        sources="$ctrl.sources"
+        was-the-submit-successful="$ctrl.wasTheSubmitSuccessful"
+        on-save-whitelist-users="$ctrl.onSaveWhitelistUsers({
+          whitelistUsers: whitelistUsers,
+          source: source,
+          labels: labels,
+          dateFrom: dateFrom,
+          dateTo: dateTo,
+          isCreate: true,
+        })"
+      ></whitelist-form>
+    </div>
+    <div ng-if="$ctrl.loading || $ctrl.whitelistUsers.length || $ctrl.search || $ctrl.selectedStatus !== $ctrl.statusEmpty">
+      <h4 class="whitelist_subtitle">Automatic Rights List</h4>
+      <whitelist-table
+        loading="$ctrl.loading"
+        pagination="$ctrl.pagination"
+        search="$ctrl.search"
+        search-criteria="$ctrl.searchCriteria"
+        selected-search-criteria="$ctrl.selectedSearchCriteria"
+        selected-sort-type="$ctrl.selectedSortType"
+        selected-status="$ctrl.selectedStatus"
+        selected-whitelist-users="$ctrl.selectedWhitelistUsers"
+        selected-whitelist-users-count="$ctrl.selectedWhitelistUsersCount"
+        sort-types="$ctrl.sortTypes"
+        user-edit-mode="$ctrl.userEditMode"
+        status-types="$ctrl.statusTypes"
+        whitelist-users="$ctrl.whitelistUsers"
+        on-bulk-selection-toggle="$ctrl.onBulkSelectionToggle({ selectAll: selectAll })"
+        on-cancel-edit-mode="$ctrl.onCancelEditMode()"
+        on-delete-whitelist-user="$ctrl.onDeleteWhitelistUser({ whitelistUser: whitelistUser })"
+        on-delete-selected-users="$ctrl.onDeleteSelectedUsers()"
+        on-pagination-next-click="$ctrl.onPaginationNextClick()"
+        on-pagination-previous-click="$ctrl.onPaginationPreviousClick()"
+        on-save-whitelist-users="$ctrl.onSaveWhitelistUsers({
+          whitelistUsers: whitelistUsers,
+          source: source,
+          labels: labels,
+          dateFrom: dateFrom,
+          dateTo: dateTo,
+          isCreate: false,
+        })"
+        on-search-whitelist-users="$ctrl.onSearchWhitelistUsers({
+          search: search,
+          criteria: criteria,
+          force: force,
+          strict: strict,
+        })"
+        on-sorting-change="$ctrl.onSortingChange({ sortType: sortType })"
+        on-status-change="$ctrl.onStatusChange({ status: status })"
+        on-whitelist-user-selected-change="$ctrl.onWhitelistUserSelectedChange({
+          whitelistUser: whitelistUser,
+          isSelected: isSelected,
+          isEditing: isEditing,
+        })"
+      ></whitelist-table>
+    </div>
+    <div
+      class="whitelist_empty"
+      ng-if="!$ctrl.loading && !$ctrl.whitelistUsers.length && !$ctrl.search && $ctrl.selectedStatus === $ctrl.statusEmpty"
+    >
+      <div class="whitelist_empty_content">
+        You don't have any users in your Automatic Rights List yet
+        <br/>
+        <br/>
+        By adding users all their collected content will be automatically rights approved.
+       </div>
+    </div>
+  </div>
+</div>

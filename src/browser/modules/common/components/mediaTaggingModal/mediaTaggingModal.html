@@ -1,0 +1,259 @@
+<div class="mediaTaggingModal">
+  <div
+    class="mediaTaggingModal_single"
+    ng-if="$ctrl.mediaSelectedCount === 0"
+  >
+    Please select at least one media from the left.
+  </div>
+  <div
+    class="mediaTaggingModal_single"
+    ng-if="$ctrl.mediaSelectedCount > 0"
+  >
+    <!-- Streams already tagged -->
+    <div
+      ng-if="$ctrl.streams.length > 0 && $ctrl.currentState === 'idle'"
+    >
+      <button
+        class="mediaTaggingModal_addStream"
+        type="button"
+        ng-click="$ctrl.onAddStreamLink()"
+        ng-if="$ctrl.hasTaggingActionEnabled"
+      >
+        <span class="mediaTaggingModal_addStream_symbol">+</span>Add stream
+      </button>
+
+      <div class="mediaTaggingModal_title">
+        <ng-pluralize
+          count="$ctrl.streams.length"
+          when="{'one': '1 Tagged Stream', 'other': '{} Tagged Streams'}"
+        ></ng-pluralize>
+      </div>
+
+      <div
+        class="mediaTaggingModal_streamList"
+        dnd-list
+        dnd-drop="$ctrl.onDropStream(item, index)"
+      >
+        <div
+          class="mediaTaggingModal_streamList_item"
+          ng-repeat="stream in $ctrl.streams track by stream.id"
+          dnd-draggable="stream"
+          dnd-effect-allowed="move"
+          dnd-disable-if="!$ctrl.canDragStream"
+          ng-class="{ '-draggable': $ctrl.canDragStream }"
+        >
+          <div class="mediaTaggingModal_streamList_item_tools">
+            <img
+              alt="Drag and drop"
+              class="mediaTaggingModal_streamList_item_tools_draggable"
+              width="18"
+              ng-src="{{ ::$ctrl.dragdropIcon }}"
+            />
+            <div class="mediaTaggingModal_streamList_item_tools_position">{{ $index + 1 }}</div>
+          </div>
+          <div class="mediaTaggingModal_streamList_item_img">
+            <div class="mediaTaggingModal_streamList_item_img_element">
+              <div
+                class="mediaTaggingModal_streamList_item_img_element_background"
+                ng-style="{ 'background-image': 'url(' + stream.image + ')' }"
+              ></div>
+              <i class="mediaTaggingModal_streamList_item_img_element_icon fa fa-image"></i>
+            </div>
+          </div>
+          <div class="mediaTaggingModal_streamList_item_info">
+            <div>{{ stream.name }}</div>
+            <div class="info">ID: {{ stream.tag_based_key || 'n/a' }}</div>
+            <div ng-switch="stream.status.name">
+              <span
+                class="tag"
+                ng-switch-when="OK"
+              >IN STOCK</span>
+              <span
+                class="tag"
+                ng-switch-when="INACTIVE"
+              >OUT OF STOCK</span>
+              <span
+                class="tag"
+                ng-switch-default
+              >NO DATA</span>
+            </div>
+            <div class="gradient"></div>
+          </div>
+          <button
+            class="mediaTaggingModal_streamList_item_action -remove"
+            type="button"
+            ng-click="$ctrl.removeStream(stream.id)"
+            ng-if="$ctrl.hasTaggingActionEnabled"
+          >Remove</button>
+          <a
+            class="mediaTaggingModal_streamList_item_action -primary"
+            target="_blank"
+            ng-href="{{ stream.product_url }}"
+            ng-if="stream.product_url"
+          >View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search box, visible on empty state and when adding new streams -->
+    <ods-search-box
+      class="mediaTaggingModal_searchBox"
+      loading="$ctrl.hideSearchResults"
+      search="$ctrl.search"
+      search-debounce-time="300"
+      on-search-text-change="$ctrl.triggerSearch(search)"
+      on-search-trigger="$ctrl.triggerSearch(search)"
+      ng-if="$ctrl.hasTaggingActionEnabled && ($ctrl.streams.length === 0 || $ctrl.currentState !== 'idle')"
+    ></ods-search-box>
+
+    <!-- Stream search results: found streams -->
+    <div
+      class="mediaTaggingModal_searchResults"
+      ng-if="$ctrl.currentState === 'results' && $ctrl.results.length > 0"
+    >
+      <div
+        class="mediaTaggingModal_streamList"
+        infinite-scroll="$ctrl.triggerLoadMoreStreams()"
+        infinite-scroll-disabled="!$ctrl.existMoreStreams"
+        infinite-scroll-immediate-check="false"
+        infinite-scroll-parent
+      >
+        <div
+          class="mediaTaggingModal_streamList_item"
+          ng-repeat="stream in $ctrl.results track by stream.id"
+        >
+          <button
+            class="mediaTaggingModal_streamList_item_img"
+            type="button"
+            ng-class="{ '-added': stream.alreadyAdded }"
+            ng-click="$ctrl.toggleSelectResult($index)"
+            ng-disabled="stream.alreadyAdded"
+          >
+            <div class="mediaTaggingModal_streamList_item_img_element">
+              <div
+                class="mediaTaggingModal_streamList_item_img_element_background"
+                ng-style="{ 'background-image': 'url(' + stream.image + ')' }"
+              ></div>
+              <i class="mediaTaggingModal_streamList_item_img_element_icon fa fa-image"></i>
+              <div class="mediaTaggingModal_streamList_item_img_element_overlay"></div>
+            </div>
+            <span
+              class="mediaTaggingModal_streamList_item_img_check"
+              ng-class="{ '-selected': stream.selected }"
+            >
+              <i class="mediaTaggingModal_streamList_item_img_check_symbol fa fa-check"></i>
+            </span>
+          </button>
+          <div class="mediaTaggingModal_streamList_item_info">
+            <div>{{ stream.name }}</div>
+            <div class="info">ID: {{ stream.tag_based_key || 'n/a' }}</div>
+            <div ng-switch="stream.status.name">
+              <span class="tag" ng-switch-when="OK">IN STOCK</span>
+              <span class="tag" ng-switch-when="INACTIVE">OUT OF STOCK</span>
+              <span class="tag" ng-switch-default>NO DATA</span>
+            </div>
+            <div class="gradient"></div>
+          </div>
+          <button
+            class="mediaTaggingModal_streamList_item_action"
+            type="button"
+            ng-click="$ctrl.toggleSelectResult($index)"
+            ng-if="!stream.alreadyAdded"
+          >{{ stream.selected ? 'Deselect' : 'Select' }}</button>
+          <a
+            class="mediaTaggingModal_streamList_item_action -primary"
+            target="_blank"
+            ng-href="{{ stream.product_url }}"
+            ng-if="stream.product_url"
+          >View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <!-- Streams empty state (when media does not have any stream tagged) -->
+    <div
+      class="mediaTaggingModal_message"
+      ng-if="$ctrl.streams.length === 0 && ($ctrl.currentState === 'idle' || $ctrl.currentState === 'tagging')"
+    >
+      <img
+        alt="Search"
+        width="54"
+        ng-src="{{ ::$ctrl.magnifierIcon }}"
+      />
+      <p>No Streams Tagged</p>
+      <p ng-if="$ctrl.hasTaggingActionEnabled">
+        Enter a full word to search for<br/>
+        products and streams to tag to this media.
+      </p>
+      <p ng-if="!$ctrl.hasTaggingActionEnabled">
+        Sorry, you don’t have permission to Tag Content.<br/>
+        Contact your brand admin or account manager.
+      </p>
+    </div>
+
+    <!-- Tagging: type to search -->
+    <div
+      class="mediaTaggingModal_message"
+      ng-if="$ctrl.streams.length > 0 && $ctrl.currentState === 'tagging'"
+    >
+      <img
+        alt="Search"
+        width="54"
+        ng-src="{{ ::$ctrl.magnifierIcon }}"
+      />
+      <p>
+        Enter a full word to search<br/>
+        for products and streams.
+      </p>
+    </div>
+
+    <!-- Loading state -->
+    <div
+      class="mediaTaggingModal_message"
+      ng-if="$ctrl.currentState === 'loading'"
+    >
+      <p>Loading...</p>
+    </div>
+
+    <!-- Stream search results: couldn't find anything -->
+    <div
+      class="mediaTaggingModal_message"
+      ng-if="$ctrl.currentState === 'results' && $ctrl.results.length === 0"
+    >
+      <img
+        alt="Search"
+        width="54"
+        ng-src="{{ ::$ctrl.magnifierIcon }}"
+      />
+      <p>No Streams Found</p>
+      <p>
+        Please try again...
+      </p>
+    </div>
+
+    <!-- ACTIONS -->
+    <!-- Custom tagging actions -->
+    <div
+      class="mediaTaggingModal_actions"
+      ng-if="$ctrl.showTaggingActions"
+    >
+      <button
+        class="mediaTaggingModal_actions_cancel"
+        type="button"
+        ng-click="$ctrl.backToIdleState()"
+      >Cancel</button>
+      <button
+        class="odsButton -primary mediaTaggingModal_actions_tag"
+        type="button"
+        ng-click="$ctrl.triggerTagging()"
+        ng-disabled="$ctrl.selectedStreams.length === 0"
+      >
+        <ng-pluralize
+          count="$ctrl.selectedStreams.length"
+          when="{'0': 'Tag Stream', 'one': 'Tag 1 Stream', 'other': 'Tag {} Streams'}"
+        ></ng-pluralize>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="settingsSocialAccounts">
+  <div
+    class="settingsSocialAccounts_connectionMessage"
+    ng-if="$ctrl.currentSection === 'connectionMessage' && !$ctrl.socialAccountsLoading"
+  >
+    <img
+      class="settingsSocialAccounts_connectionMessage_image"
+      ng-src="{{ ::$ctrl.socialAccountsImage }}"
+    >
+    <h2 class="settingsSocialAccounts_connectionMessage_title">Connect your Social Accounts</h2>
+    <p class="settingsSocialAccounts_connectionMessage_subtitle">
+      You need to connect social media accounts in order to start collecting content and request rights.
+    </p>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-click="$ctrl.onConnect()"
+    >Connect</button>
+  </div>
+  <social-accounts-connector
+    auth-url="$ctrl.authUrl"
+    has-facebook-account="$ctrl.hasFacebookAccount"
+    on-back-button-click="$ctrl.onBackButtonClick()"
+    on-save-social-account="$ctrl.onSaveSocialAccount()"
+    ng-if="$ctrl.currentSection === 'socialAccountsConnector'"
+  ></social-accounts-connector>
+  <social-accounts
+    has-facebook-account="$ctrl.hasFacebookAccount"
+    social-accounts="$ctrl.socialAccounts"
+    social-mentions-accounts="$ctrl.socialMentionsAccounts"
+    on-connect="$ctrl.onConnect()"
+    on-remove-social-account="$ctrl.onRemoveSocialAccount({ socialAccount: socialAccount })"
+    ng-if="$ctrl.currentSection === 'socialAccounts'"
+  ></social-accounts>
+</div>

@@ -1,0 +1,311 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+$collectionsForm-footer-shadow: rgba(0, 0, 0, 0.3);
+
+.collectionsForm {
+  height: calc(100% - 70px);
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+
+  &_content {
+    display: flex;
+    min-height: 100%;
+  }
+
+  &_data {
+    background: $primary-color-white-100;
+    box-sizing: border-box;
+    flex: 0 0 65%;
+    padding: 36px 16px 0;
+
+    .odsDropdown_message p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &_title {
+      font-size: 32px;
+      margin-bottom: 36px;
+    }
+
+    &_subtitle {
+      background: $primary-color-white-100;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      margin-bottom: 17px;
+      padding: 34px 0 16px;
+      position: relative;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    &_name.odsInput_wrapper {
+      display: flex;
+      min-height: 70px;
+
+      .odsInput_label {
+        cursor: pointer;
+        flex-shrink: 0;
+        font-size: 18px;
+        line-height: 36px;
+        margin-right: 16px;
+        padding: 0;
+      }
+
+      .odsInput_message {
+        left: 152px;
+        position: absolute;
+        top: 36px;
+      }
+    }
+
+    &_row {
+      border-top: 1px solid $gray-color-black-20;
+      padding-bottom: 40px;
+      position: relative;
+
+      &.-rules {
+        z-index: 2;
+
+        .collectionsForm_data_subtitle {
+          margin-bottom: 0;
+        }
+      }
+
+      .odsCheckbox_description p,
+      .odsRadioButton_description p {
+        font-size: 12px;
+      }
+
+      .odsRadioButton_description {
+        margin: 5px 0 3px 26px;
+      }
+
+      .odsInput_wrapper {
+        min-height: initial;
+
+        .odsInput_message {
+          max-width: 100%;
+          position: absolute;
+
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      &_main {
+        background: $primary-color-white-100;
+        display: flex;
+        margin-bottom: 20px;
+        padding: 15px 0 5px;
+        position: relative;
+        z-index: 1;
+
+        &_title {
+          flex-shrink: 0;
+          font-size: 18px;
+          line-height: 36px;
+          margin-right: 16px;
+        }
+
+        &_type {
+          flex-shrink: 0;
+          margin-right: 16px;
+          width: 180px;
+        }
+
+        &_value {
+          flex: 1;
+        }
+      }
+
+      &_rule {
+        display: flex;
+        height: 51px;
+        padding: 10px 0 8px 26px;
+        position: relative;
+
+        .odsDropdown_message {
+          position: absolute;
+        }
+
+        .odsSearchBox {
+          &_searchWrapper {
+            border-color: $gray-color-black-60;
+
+            &_button {
+              background: none;
+              border: none;
+              width: 36px;
+
+              &_icon {
+                font-size: 16px;
+              }
+
+              &.-active {
+                background: none;
+
+                .odsSearchBox_searchWrapper_button_icon {
+                  color: $gray-color-black-60;
+                }
+              }
+            }
+          }
+        }
+
+        &_line {
+          border-bottom: 2px solid $gray-color-black-20;
+          border-left: 2px solid $gray-color-black-20;
+          height: 67px;
+          left: 0;
+          position: absolute;
+          top: -40px;
+          width: 12px;
+        }
+
+        &_operator {
+          flex-shrink: 0;
+          margin-right: 16px;
+          width: 133px;
+        }
+
+        &_type {
+          flex-shrink: 0;
+          margin-right: 16px;
+          width: 147px;
+        }
+
+        &_value {
+          flex: 1;
+        }
+
+        &_remove {
+          background: none;
+          border: none;
+          color: $gray-color-black-60;
+          font-size: 20px;
+          height: 36px;
+          margin-left: 16px;
+          padding: 0;
+        }
+
+        &_title {
+          font-size: 18px;
+          line-height: 36px;
+          margin: 0 16px 0;
+        }
+      }
+    }
+
+    &_add {
+      position: relative;
+
+      &_line {
+        border-bottom: 2px dashed $gray-color-black-20;
+        border-left: 2px dashed $gray-color-black-20;
+        height: 62px;
+        left: 0;
+        position: absolute;
+        top: -36px;
+        width: 12px;
+      }
+
+      &_button {
+        background: none;
+        border: none;
+        color: $primary-color-blue-100;
+        font-size: 16px;
+        margin: 14px 22px 0;
+        padding: 0;
+        text-decoration: underline;
+
+        &_icon {
+          font-size: 20px;
+          margin-right: 8px;
+          position: relative;
+          top: 2px;
+        }
+      }
+    }
+  }
+
+  &_preview {
+    background: $gray-color-black-5;
+    box-sizing: border-box;
+    flex: 0 0 35%;
+    overflow: hidden;
+    padding: 82px 16px 0;
+
+    &_title {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+    }
+
+    &_name {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 12px 0 32px;
+      word-wrap: break-word;
+    }
+
+    &_phrase {
+      border-top: 1px solid $gray-color-black-20;
+      color: $gray-color-black-60;
+      font-size: 24px;
+      line-height: 36px;
+      padding: 18px 0 40px;
+      word-wrap: break-word;
+    }
+
+    .-empty {
+      color: $gray-color-black-40;
+    }
+  }
+
+  &_footer {
+    align-items: center;
+    background: $primary-color-white-100;
+    bottom: 0;
+    box-shadow: 0 -2px 3px 0 $collectionsForm-footer-shadow;
+    box-sizing: border-box;
+    display: flex;
+    height: 70px;
+    left: 0;
+    padding: 16px;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+
+    &_cancel {
+      margin: 0 24px 0 auto;
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    &_data {
+      box-sizing: content-box;
+      flex-basis: 784px;
+      padding-left: calc((100% - 1280px) / 2 + 24px);
+      padding-right: 24px;
+    }
+
+    &_preview {
+      box-sizing: content-box;
+      flex-basis: 400px;
+      padding-left: 24px;
+      padding-right: calc((100% - 1280px) / 2 + 24px);
+    }
+
+    &_footer {
+      padding-left: calc((100% - 1280px) / 2 + 24px);
+      padding-right: calc((100% - 1280px) / 2 + 24px);
+    }
+  }
+}

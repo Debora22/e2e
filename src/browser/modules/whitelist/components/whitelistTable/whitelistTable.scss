@@ -1,0 +1,223 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.whitelistTable {
+  width: 100%;
+
+  &_header {
+    align-items: baseline;
+    display: flex;
+
+    &_filter {
+      display: flex;
+      flex-basis: 17%;
+      margin-right: 20px;
+      min-height: initial;
+      position: relative;
+
+      &_icon {
+        background: $gray-color-black-10;
+        border: solid 10px $gray-color-black-10;
+        border-bottom-right-radius: 3px;
+        border-top-right-radius: 3px;
+        color: $gray-color-black-60;
+        cursor: pointer;
+        padding: 0 4px;
+        position: absolute;
+        right: 0;
+      }
+
+      &_input {
+        border: solid 1px $gray-color-black-10;
+        padding-right: 43px;
+      }
+
+      .odsInput {
+        &_wrapper {
+          margin-right: 16px;
+          min-height: 0;
+          width: 224px;
+        }
+      }
+    }
+
+    &_sorting {
+      display: flex;
+      margin-left: auto;
+      margin-right: 0;
+
+      &_dropdown:first-child {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  &_body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 55px;
+    width: 100%;
+
+    &_row {
+      align-items: baseline;
+      border: 2px solid transparent;
+      border-bottom-color: $gray-color-black-10;
+      display: flex;
+      font-size: 14px;
+      padding: 16px 0;
+      position: relative;
+      width: 100%;
+
+      &.-body {
+        height: 85px;
+      }
+
+      &_username,
+      &_source,
+      &_date,
+      &_label,
+      &_buttons {
+        display: flex;
+        font-size: 14px;
+        padding-left: 10px;
+
+        &.-header {
+          color: $gray-color-black-40;
+          font-size: 10px;
+          height: auto;
+          letter-spacing: 1.2px;
+          margin: 0;
+          text-transform: uppercase;
+        }
+      }
+
+      &_username {
+        align-items: center;
+        flex-basis: 28%;
+        font-size: 16px;
+        height: 53px;
+
+        &.-header {
+          text-indent: 44px;
+        }
+
+        .odsCheckbox_wrapper {
+          margin: 0 12px 0 0;
+        }
+      }
+
+      &_source {
+        flex-basis: 10%;
+        text-transform: capitalize;
+      }
+
+      &_label {
+        flex-basis: 20%;
+
+        &_content {
+          background: $gray-color-black-5;
+          border: solid 2px transparent;
+          border-radius: 15px;
+          display: inline-block;
+          height: 16px;
+          max-width: 232px;
+          min-width: 32px;
+          overflow: hidden;
+          padding: 4px 8px;
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:hover {
+            border: solid 2px $primary-color-blue-100;
+            cursor: pointer;
+          }
+        }
+      }
+
+      &_date {
+        flex: 1;
+        flex-basis: 23%;
+
+        &_view_status {
+          color: $gray-color-black-60;
+          display: flex;
+          font-size: 12px;
+        }
+
+        .whitelistCalendar {
+          max-width: 276px;
+        }
+      }
+
+      &_buttons {
+        flex-basis: 14%;
+        justify-content: space-evenly;
+
+        .odsButton {
+          background-color: transparent;
+          color: $gray-color-black-60;
+          letter-spacing: 0;
+          text-transform: capitalize;
+        }
+      }
+
+      &_info {
+        color: $gray-color-black-60;
+        font-size: 11px;
+        font-style: italic;
+        margin-left: 44px;
+        position: absolute;
+        top: 88px;
+        white-space: nowrap;
+      }
+
+      &.-selected {
+        border-color: $primary-color-blue-60;
+        border-radius: 3px;
+      }
+
+      &.-background {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &_empty {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 72px 0 0;
+
+    &_content {
+      font-size: 14px;
+      line-height: 24px;
+      text-align: center;
+      width: 230px;
+    }
+  }
+
+  &_footer {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    height: 100px;
+    justify-content: center;
+
+    &_buttons,
+    &_empty {
+      flex: 1;
+    }
+
+    .odsButton {
+      background-color: transparent;
+      color: $gray-color-black-60;
+      letter-spacing: 0;
+      text-transform: capitalize;
+
+      &:disabled {
+        color: $gray-color-black-40;
+        cursor: unset;
+      }
+    }
+  }
+}

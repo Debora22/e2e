@@ -1,0 +1,236 @@
+<div class="library">
+  <div class="library_filters">
+    <ods-filter-bar
+      aggregations="$ctrl.aggregations"
+      on-filter-change="$ctrl.onFilterChange({
+        aggregation: aggregation,
+        filter: filter,
+      })"
+    >
+      <ods-filter-bar-top>
+        <ods-filter-bar-date
+          title="Date collected"
+          on-date-range-change="$ctrl.onFilterDateRangeChange({ from, to })"
+          on-instance-ready="$ctrl.onCalendarInstanceReady(selectedDates, dateStr, instance)"
+          ng-show="$ctrl.showFilterBarDate && !$ctrl.filtersLoading"
+        ></ods-filter-bar-date>
+      </ods-filter-bar-top>
+    </ods-filter-bar>
+  </div>
+  <div class="library_content">
+    <div class="library_content_sections">
+      <div
+        class="library_content_sections_item"
+        ng-repeat="section in $ctrl.sections | limitTo: $ctrl.numberOfSectionsBeforeDropdown track by section.name"
+      >
+        <button
+          class="library_content_sections_item_button"
+          type="button"
+          ng-class="{ '-active': section.name === $ctrl.selectedSection.name }"
+          ng-click="$ctrl.onSelectedSectionChange(section, false)"
+        >{{ ::section.name }}</button>
+        <i
+          class="library_content_sections_item_tooltip fa fa-question-circle odsTooltip -icon"
+          ng-class="::{
+            ['-' + section.tooltip.direction]: true,
+            ['-' + section.tooltip.size]: true,
+          }"
+          ng-if="section.tooltip"
+        >
+          <span
+            class="odsTooltip_text"
+            ng-bind-html="section.tooltip.label"
+          ></span>
+        </i>
+      </div>
+      <div
+        class="library_content_sections_item"
+        ng-if="$ctrl.sections.length > $ctrl.numberOfSectionsBeforeDropdown"
+      >
+        <ods-dropdown
+          class="library_content_sections_item_dropdown"
+          items-id-property="name"
+          items-label-property="name"
+          placeholder="OTHER"
+          type="borderless"
+          items="$ctrl.dropdownSections"
+          selected-item="$ctrl.isSectionFromDropdownSelected ? $ctrl.selectedSection : false"
+          on-item-selected="$ctrl.onSelectedSectionChange(item, true)"
+          ng-class="{
+            '-active': $ctrl.isSectionFromDropdownSelected,
+          }"
+        ></ods-dropdown>
+      </div>
+    </div>
+    <div class="library_content_scroll">
+      <div
+        class="library_content_searchBar"
+        ng-if="$ctrl.mediaCount || $ctrl.activeFiltersExist || $ctrl.loading"
+      >
+        <div
+          class="library_content_searchBar_summary"
+          ng-if="$ctrl.mediaCount || ($ctrl.activeFiltersExist && !$ctrl.loading)"
+        >
+          <div class="library_content_searchBar_summary_text">
+            Showing
+            <strong>{{ $ctrl.mediaCount }}</strong>
+            <strong>media</strong><span ng-bind-html="$ctrl.filtersPhrase"><span>
+          </div>
+          <button
+            class="library_content_searchBar_summary_clear"
+            type="button"
+            ng-click="$ctrl.onResetFilters()"
+            ng-if="$ctrl.activeFiltersExist"
+          >Reset all filters</button>
+        </div>
+        <div class="library_content_searchBar_searchWrapper">
+          <ods-search-box
+            loading="$ctrl.suggestionsLoading"
+            max-length="100"
+            search="$ctrl.search"
+            search-debounce-time="150"
+            suggestions="$ctrl.suggestions"
+            suggestions-limit="3"
+            on-search-text-change="$ctrl.onSearchTextChange(search)"
+            on-search-trigger="$ctrl.onSearchTrigger(search)"
+            on-suggestion-click="$ctrl.onSuggestionClick(suggestion,  group)"
+          ></ods-search-box>
+        </div>
+      </div>
+      <div
+        class="library_content_toolBar"
+        ng-if="$ctrl.mediaCount"
+      >
+        <div class="library_content_toolBar_sort">
+          <ods-dropdown
+            items-id-property="id"
+            items-label-property="name"
+            prefix="Sorting By:"
+            type="borderless"
+            items="$ctrl.sortList"
+            selected-item="$ctrl.selectedSort"
+            on-item-selected="$ctrl.onSortSelected(item)"
+          ></ods-dropdown>
+        </div>
+        <div class="library_content_toolBar_pagination"
+        >
+          <ods-pagination
+            end="{{ $ctrl.pagination.to }}"
+            start="{{ $ctrl.pagination.from }}"
+            total="{{ $ctrl.pagination.total }}"
+            has-next="$ctrl.pagination.next"
+            has-previous="$ctrl.pagination.prev"
+            on-next-click="$ctrl.onPaginationNextClick()"
+            on-previous-click="$ctrl.onPaginationPreviousClick()"
+          ></ods-pagination>
+        </div>
+      </div>
+      <div
+        class="library_content_media"
+        ng-if="$ctrl.mediaCount"
+      >
+        <ods-media-card
+          ng-repeat="item in $ctrl.media track by item.id"
+          media-image-size="mobile"
+          type="{{ $ctrl.selectedSection.name === 'Approved Content' ? 'visual' : 'normal' }}"
+          actions="$ctrl.actions"
+          edit-status-map="$ctrl.editStatusMap"
+          item="item"
+          long-caption="70"
+          max-visible-streams="2"
+          max-streams-slider="4"
+          streams="item.streams"
+          on-action-click="$ctrl.onActionClick({
+            action: action,
+            item: item
+          })"
+          on-action-disable-check="$ctrl.onActionDisableCheck({ action: action })"
+          on-action-visibility-check="$ctrl.onActionVisibilityCheck({
+            component: 'card',
+            action: action,
+            location: location
+          })"
+          on-media-selected="$ctrl.onMediaSelected()"
+          on-stream-click="$ctrl.onOpenModal({
+            media: [item],
+            modalSectionId: 'tagToStream'
+          })"
+          on-view-click="$ctrl.onOpenModal({
+            media: [item],
+            modalSectionId: 'info'
+          })"
+        ></ods-media-card>
+      </div>
+      <div
+        class="library_content_empty"
+        ng-if="!$ctrl.mediaCount && !$ctrl.loading"
+      >
+        <p ng-if="$ctrl.search">Sorry, we couldn’t find anything matching your search.</p>
+        <p
+          ng-bind-html="$ctrl.selectedSection.emptyMessage"
+          ng-if="!$ctrl.search"
+        ></p>
+      </div>
+      <div
+        class="library_content_toolBar -bottom"
+        ng-if="$ctrl.mediaCount"
+      >
+        <div class="library_content_toolBar_pagination"
+        >
+          <ods-pagination
+            end="{{ $ctrl.pagination.to }}"
+            start="{{ $ctrl.pagination.from }}"
+            total="{{ $ctrl.pagination.total }}"
+            has-next="$ctrl.pagination.next"
+            has-previous="$ctrl.pagination.prev"
+            on-next-click="$ctrl.onPaginationNextClick()"
+            on-previous-click="$ctrl.onPaginationPreviousClick()"
+          ></ods-pagination>
+        </div>
+      </div>
+    </div>
+    <div
+      class="library_content_bulkBar"
+      ng-if="$ctrl.mediaCount"
+    >
+      <div class="library_content_bulkBar_leftActions">
+        <div class="library_content_bulkBar_leftActions_bulkSelectors">
+          <button
+            class="bulkBarButton"
+            type="button"
+            ng-click="$ctrl.onBulkSelectionToggle({ selectAll: true })"
+            ng-if="!$ctrl.selectedMediaCount"
+          >Select All</button>
+          <button
+            class="bulkBarButton"
+            type="button"
+            ng-click="$ctrl.onBulkSelectionToggle({ selectAll: false })"
+            ng-if="$ctrl.selectedMediaCount"
+          >Deselect All</button>
+          <span
+            class="library_content_bulkBar_leftActions_bulkSelectors_summary"
+            ng-if="$ctrl.selectedMediaCount"
+          >{{ $ctrl.selectedMediaCount }} media selected</span>
+        </div>
+        <button
+          class="bulkBarButton"
+          type="button"
+          ng-class="action.className"
+          ng-click="$ctrl.onActionClick({ action: action })"
+          ng-disabled="!$ctrl.selectedMediaCount || $ctrl.onActionDisableCheck({ action: action })"
+          ng-repeat="action in $ctrl.actions | filter:$ctrl.visibleActionsFilter('secondary') track by $index"
+        >{{ ::action.name }}</button>
+      </div>
+      <div class="library_content_bulkBar_rightActions">
+        <button
+          class="odsButton"
+          type="button"
+          ng-class="$last ? '-primary' : '-secondary'"
+          ng-click="$ctrl.onActionClick({ action: action })"
+          ng-disabled="!$ctrl.selectedMediaCount || $ctrl.onActionDisableCheck({ action: action })"
+          ng-repeat="action in $ctrl.actions | filter:$ctrl.visibleActionsFilter('primary') track by $index"
+        >{{ ::action.name }}</button>
+      </div>
+    </div>
+  </div>
+</div>

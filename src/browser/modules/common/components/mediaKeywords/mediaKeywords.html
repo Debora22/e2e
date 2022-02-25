@@ -1,0 +1,74 @@
+<div class="mediaInfoKeywords">
+  <div class="mediaInfoKeywords_header">
+    <div class="mediaInfoKeywords_header_title">Keywords</div>
+    <div
+      class="mediaInfoKeywords_header_info"
+      ng-if="$ctrl.hasAutomaticKeywords"
+    >
+      <div class="mediaInfoKeywords_header_info_item">
+        <i class="mediaInfoKeywords_header_info_item_icon -automatic"></i>
+        Automatic
+      </div>
+      <div class="mediaInfoKeywords_header_info_item">
+        <i class="mediaInfoKeywords_header_info_item_icon -manual"></i>
+        Manual
+      </div>
+      <i class="fa fa-question-circle odsTooltip -icon -top">
+        <span class="odsTooltip_text">Automatic keywords are added by machine learning technology, manual are owned and added by the brand.</span>
+      </i>
+    </div>
+  </div>
+  <div class="mediaInfoKeywords_list">
+    <ods-keyword
+      class="mediaInfoKeywords_list_item"
+      is-automatic="keyword.isAutomatic"
+      keyword="keyword.name || keyword.value"
+      show-remove="$ctrl.hasKeywordsActionEnabled"
+      on-remove="$ctrl.removeKeyword(keyword)"
+      ng-repeat="keyword in $ctrl.keywords track by $index"
+    ></ods-keyword>
+    <div class="mediaInfoKeywords_list_item -adition">
+      <button
+        class="mediaInfoKeywords_list_item_addAction"
+        type="button"
+        ng-click="$ctrl.enableEdition()"
+        ng-if="$ctrl.hasKeywordsActionEnabled && !$ctrl.isEditing"
+      >+ Add Keyword</button>
+      <input
+        class="mediaInfoKeywords_list_item_addField"
+        maxlength="50"
+        ng-blur="$ctrl.onSearchBlur()"
+        ng-change="$ctrl.searchForKeywords()"
+        ng-if="$ctrl.isEditing"
+        ng-keypress="$ctrl.onSearchKeyPress($event)"
+        ng-keydown="$ctrl.onSearchKeyDown($event)"
+        ng-model="$ctrl.search"
+        ng-model-options='{ debounce: 150 }'
+        ng-pattern-restrict="^[\w\u00C0-\u017F!#$&'*+\-\/=?^_{|}~.,;*˜¨´`°\s]*$"
+        olapic-focus-on="$ctrl.isSearchFocused"
+      />
+      <div
+        class="mediaInfoKeywords_list_item_suggestions"
+        ng-if="$ctrl.isEditing && !$ctrl.loadingKeywords && $ctrl.isKeywordSearchValid()"
+      >
+        <button
+          class="mediaInfoKeywords_list_item_suggestions_item -create"
+          type="button"
+          ng-click="$ctrl.onKeywordClick($ctrl.search)"
+          ng-if="!$ctrl.existKeyword"
+        >Create <strong>{{ $ctrl.search | lowercase }}</strong></button>
+        <button
+          class="mediaInfoKeywords_list_item_suggestions_item"
+          type="button"
+          ng-bind-html="keyword.label"
+          ng-click="$ctrl.onKeywordClick(keyword.name)"
+          ng-repeat="keyword in $ctrl.results track by $index"
+        ></button>
+        <div class="mediaInfoKeywords_list_item_suggestions_help">
+          <span ng-if="!$ctrl.existKeyword">Press ENTER to Create new</span>
+          <span ng-if="$ctrl.existKeyword">Press ENTER to Add</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

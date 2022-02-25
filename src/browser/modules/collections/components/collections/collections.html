@@ -1,0 +1,186 @@
+<div class="collections">
+  <div
+    class="collections_content"
+    ng-show="!$ctrl.isFormVisible"
+  >
+    <div class="collections_header">
+      <div class="collections_header_title">Collections</div>
+      <button
+        class="odsButton -primary collections_header_button"
+        type="button"
+        ng-click="$ctrl.onOpenForm()"
+      >Create New</button>
+    </div>
+    <div class="collections_table">
+      <div class="collections_table_header">
+        <div class="collections_table_header_search">
+          <ods-search-box
+            loading="$ctrl.hideSearchResults"
+            search="$ctrl.search"
+            on-search-text-change="$ctrl.onSearchTextChange({ search: search })"
+          ></ods-search-box>
+        </div>
+        <div class="collections_table_header_statusFilter">
+          <ods-dropdown
+            items-id-property="id"
+            items-label-property="name"
+            prefix="Showing:"
+            type="borderless"
+            items="$ctrl.statusFilterList"
+            selected-item="$ctrl.selectedStatusFilter"
+            on-item-selected="$ctrl.onStatusFilterSelected({ item: item })"
+          ></ods-dropdown>
+        </div>
+        <div class="collections_table_header_sort">
+          <ods-dropdown
+            items-id-property="id"
+            items-label-property="name"
+            prefix="Sorting By:"
+            type="borderless"
+            items="$ctrl.sortList"
+            selected-item="$ctrl.selectedSort"
+            on-item-selected="$ctrl.onSortSelected({ item: item })"
+          ></ods-dropdown>
+        </div>
+      </div>
+      <div class="collections_table_body">
+        <div class="collections_table_body_messages">
+          <div
+            class="odsMessageBanner -error collections_table_body_messages_item"
+            ng-if="$ctrl.allCollections.length && !$ctrl.loading && !$ctrl.socialMentionsAccounts.length"
+          >
+            All your Instagram mention and hashtag collections are
+            <strong>not collecting</strong>.
+            Please go to your
+            <button
+              class="odsButton -link -inline"
+              type="button"
+              ng-click="$ctrl.onGoToSocialAccounts()"
+            >Social Account Settings</button>
+            and make sure you have a Facebook Account connected.
+          </div>
+        </div>
+        <div
+          class="collections_table_body_row"
+          ng-repeat="collection in $ctrl.collections track by collection.filter.id"
+          ng-class="{ '-profile': collection.base.type === 'profile' }"
+        >
+          <div class="collections_table_body_row_data">
+            <div class="collections_table_body_row_data_name">
+              <span class="collections_table_body_row_data_name_text">
+                {{ collection.name }}
+              </span>
+              <div
+                class="collections_table_body_row_data_name_profile"
+                ng-if="collection.base.type === 'profile'"
+              >
+                <i class="fa fa-question-circle odsTooltip -icon -right -large">
+                  <span class="odsTooltip_text">Collects content from all your Instagram accounts connected to your Facebook account. All the content collected will be rights approved.</span>
+                </i>
+                <span class="collections_table_body_row_data_name_tag">New</span>
+              </div>
+            </div>
+            <div
+              class="collections_table_body_row_data_description"
+              ng-bind-html="collection.phrase"
+            ></div>
+            <div class="collections_table_body_row_data_lastUpdate">
+              <span ng-if="collection.filter.updated_at">
+                Last update on {{ collection.filter.updated_at | date:'MM/dd/yyyy hh:mm a' | lowercase }}
+              </span>
+            </div>
+          </div>
+          <div class="collections_table_body_row_tools">
+            <div class="odsOnOffToggle_wrapper collections_table_body_row_tools_toggle">
+              <input
+                class="odsOnOffToggle_checkbox"
+                type="checkbox"
+                ng-attr-id="status_{{ collection.filter.id }}"
+                ng-checked="collection.status === 'active'"
+                ng-click="$ctrl.changeCollectionStatus($event, collection)"
+              />
+              <label
+                class="odsOnOffToggle_label"
+                ng-attr-for="status_{{ collection.filter.id }}"
+              >
+                <span class="on">ON</span>
+                <span class="off">OFF</span>
+              </label>
+            </div>
+            <div
+              class="collections_table_body_row_tools_buttons"
+              ng-if="collection.base.type !== 'profile'"
+            >
+              <button
+                class="collections_table_body_row_tools_button"
+                type="button"
+                ng-click="$ctrl.onDeleteCollection({ collection: collection })"
+              >Delete</button>
+              <button
+                class="collections_table_body_row_tools_button"
+                type="button"
+                ng-click="$ctrl.onOpenForm({ collection: collection })"
+              >Edit</button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="collections_table_body_empty"
+          ng-if="!$ctrl.allCollections.length && !$ctrl.loading"
+        >
+          <div class="collections_table_body_empty_content">
+            You are currently not collecting any content. Please
+            <button
+              class="odsButton -link -inline"
+              type="button"
+              ng-click="$ctrl.onOpenForm()"
+            >create a collection</button>
+            now to get started!
+          </div>
+        </div>
+        <div
+          class="collections_table_body_empty"
+          ng-if="!$ctrl.collections.length && !$ctrl.loading && $ctrl.allCollections.length"
+        >
+          <div class="collections_table_body_empty_content">
+            Sorry, we couldn't find any collections matching your search. Please try again.
+          </div>
+        </div>
+        <div
+          class="collections_table_body_pagination"
+          ng-if="$ctrl.collections.length"
+        >
+          <ods-pagination
+            end="{{ $ctrl.pagination.to }}"
+            start="{{ $ctrl.pagination.from }}"
+            total="{{ $ctrl.pagination.total }}"
+            has-next="$ctrl.pagination.next"
+            has-previous="$ctrl.pagination.prev"
+            on-next-click="$ctrl.onPaginationNextClick()"
+            on-previous-click="$ctrl.onPaginationPreviousClick()"
+          ></ods-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <collections-form
+    base-type-list="$ctrl.baseTypeList"
+    collection="$ctrl.collection"
+    has-moderation-services="$ctrl.hasModerationServices"
+    has-video-collection="$ctrl.hasVideoCollection"
+    has-video-moderation-services="$ctrl.hasVideoModerationServices"
+    rule-operator-list="$ctrl.ruleOperatorList"
+    rule-type-list="$ctrl.ruleTypeList"
+    social-mentions-accounts="$ctrl.socialMentionsAccounts"
+    streams-loading="$ctrl.streamsLoading"
+    on-cancel="$ctrl.onCloseForm()"
+    on-generate-phrase="$ctrl.onGeneratePhrase()"
+    on-delete="$ctrl.onDeleteCollection({ collection: collection })"
+    on-go-to-social-accounts="$ctrl.onGoToSocialAccounts()"
+    on-search-for-streams="$ctrl.onSearchForStreams({ text: text })"
+    on-submit="$ctrl.onSaveCollection({ collection: collection })"
+    on-validate-collection-name="$ctrl.onValidateCollectionName({ collection: collection })"
+    on-validate-hashtag-limit="$ctrl.onValidateHashtagLimit({ collection: collection })"
+    ng-if="$ctrl.isFormVisible"
+  ></collections-form>
+</div>

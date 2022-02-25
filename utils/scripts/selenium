@@ -1,0 +1,6 @@
+#!/bin/sh -x
+
+# set -e    # (un) comment this line to enable / disable the tests
+webdriver-manager update
+webdriver-manager start
+exit 0

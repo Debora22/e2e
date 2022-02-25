@@ -1,0 +1,32 @@
+<div class="whitelistModal">
+  <div class="whitelistModal_header">
+    <h2 class="whitelistModal_header_heading">
+      Added Users
+    </h2>
+  </div>
+  <div class="whitelistModal_content">
+    <div class="odsInput_Wrapper">
+      <textarea
+        class="odsInput_input -multiline"
+        ng-model="$ctrl.usernames"
+      ></textarea>
+      <div class="odsInput_Message">
+        <p class="whitelistModal_content_label">
+          You can add user names starting with or without @, and separated by comma (,) or white spaces.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="whitelistModal_footer">
+    <button
+      class="odsButton -secondary"
+      type="button"
+      ng-click="$ctrl.onCancel()"
+    >Cancel</button>
+    <button
+      class="odsButton -primary"
+      type="button"
+      ng-click="$ctrl.onSubmit({ usernames: $ctrl.usernames })"
+    >Done</button>
+  </div>
+</div>

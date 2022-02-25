@@ -1,0 +1,132 @@
+<div class="mediaRightsExtension">
+  <div
+    class="odsMessageBanner -info"
+    ng-if="!$ctrl.isExtensionInstalled"
+  >
+    With the
+    <strong>Olapic Rights Requester</strong>
+    Chrome Extension you can obtain rights for Instagram content collected from hashtags and/or tags.
+    <a
+      class="mediaRightsExtension_link"
+      target="_blank"
+      ng-href="https://chrome.google.com/webstore/detail/olapic-rights-requester/{{::$ctrl.rightsExtensionId}}"
+    >Add the Chrome Extension</a>
+    to your web browser.<br/>
+    After installing remember to refresh your browser window.
+  </div>
+  <div
+    class="odsMessageBanner -info"
+    ng-if="$ctrl.isExtensionInstalled && !$ctrl.isExtensionUpToDate"
+  >
+    Your
+    <strong>Olapic Rights Requester</strong>
+    Chrome Extension is outdated.
+    <br/>
+    You will need to
+    <a
+      class="mediaRightsExtension_link"
+      target="_blank"
+      ng-href="https://chrome.google.com/webstore/detail/olapic-rights-requester/{{::$ctrl.rightsExtensionId}}"
+    >remove it and then add it back</a>.
+    <br/>
+    After adding it remember to refresh your browser window.
+  </div>
+  <div
+    class="odsMessageBanner -info"
+    ng-if="$ctrl.isExtensionInstalled && $ctrl.isExtensionUpToDate && $ctrl.socialMentionsAccounts.length === 0"
+  >
+    <strong>Before continuing</strong>,
+    please make sure you have a Facebook Account
+    <button
+      class="mediaRightsExtension_link"
+      type="button"
+      ng-click="$ctrl.onGoToSocialAccounts()"
+    >connected</button>
+    to the Content Engine.
+  </div>
+  <form
+    class="mediaRightsExtension_form"
+    name="rightsExtensionFrom"
+    novalidate
+    ng-if="$ctrl.isExtensionInstalled && $ctrl.isExtensionUpToDate && $ctrl.socialMentionsAccounts.length > 0"
+    ng-submit="$ctrl.onOpenRightsExtension({ selectedRightsMessageGroup: $ctrl.selectedRightsMessageGroup })"
+  >
+    <div ng-if="$ctrl.instagramProfile.name">
+      <p class="mediaRightsExtension_form_text">You are currently logged in with:</p>
+      <div class="mediaRightsExtension_form_profile">
+        <div
+          class="mediaRightsExtension_form_profile_image"
+          ng-style="{ 'background-image': 'url(' + $ctrl.instagramProfile.picture + ')' }"
+        ></div>
+        <div class="mediaRightsExtension_form_profile_username">{{ $ctrl.instagramProfile.name }}</div>
+        <div class="mediaRightsExtension_form_profile_name">{{ $ctrl.instagramProfile.fullName }}</div>
+      </div>
+    </div>
+    <div class="mediaRightsExtension_form_accounts">
+      <div ng-if="!$ctrl.profileExistInSocialMentionsAccounts">
+        Please log in into
+        <ng-pluralize
+          count="{{ $ctrl.socialMentionsAccounts.length }}"
+          when="{
+            'one': 'this Instagram Account',
+            'other': 'one of these Instagram Accounts'
+          }"
+        ></ng-pluralize>
+        to continue:
+      </div>
+      <div ng-if="$ctrl.profileExistInSocialMentionsAccounts && $ctrl.socialMentionsAccounts.length > 1">You can post with any of the following Instagram Accounts:</div>
+      <ul
+        class="mediaRightsExtension_form_accounts_list"
+        ng-if="!$ctrl.profileExistInSocialMentionsAccounts || $ctrl.socialMentionsAccounts.length > 1"
+      >
+        <li
+          class="mediaRightsExtension_form_accounts_list_item"
+          ng-repeat="socialMentionsAccount in $ctrl.socialMentionsAccounts track by $index"
+        >@{{ socialMentionsAccount.username }}</li>
+      </ul>
+    </div>
+    <div
+      class="mediaRightsExtension_form_row"
+      ng-if="$ctrl.profileExistInSocialMentionsAccounts && !$ctrl.onlyPIIMessage"
+    >
+      <ods-dropdown
+        class="mediaRightsExtension_form_row_element"
+        name="rightsMessageGroup"
+        required
+        items-id-property="id"
+        items-label-property="name"
+        label="Rights Message Group"
+        items="$ctrl.rightsMessageGroups"
+        selected-item="$ctrl.selectedRightsMessageGroup"
+        on-item-selected="$ctrl.onRightsMessageGroupSelected(item)"
+        ng-model="$ctrl.selectedRightsMessageGroup"
+      ></ods-dropdown>
+      <i class="fa fa-question-circle odsTooltip -icon -left">
+        <span class="odsTooltip_text">A new browser window will open for you to post the Rights Messages.</span>
+      </i>
+    </div>
+    <div
+      class="mediaRightsExtension_form_buttons"
+      ng-class="{ '-bottom': $ctrl.isBulk }"
+    >
+      <a
+        class="odsButton -primary mediaRightsExtension_form_buttons_login"
+        target="_blank"
+        ng-if="!$ctrl.instagramProfile.name || !$ctrl.profileExistInSocialMentionsAccounts"
+        ng-href="{{ $ctrl.instagramProfile.name ? 'https://www.instagram.com/accounts/logout/' : 'https://www.instagram.com/' }}"
+      >Log in</a>
+      <a
+        class="odsButton -secondary"
+        href="https://www.instagram.com/accounts/logout/"
+        target="_blank"
+        ng-if="$ctrl.profileExistInSocialMentionsAccounts && $ctrl.socialMentionsAccounts.length > 1"
+      >Switch Account</a>
+      <button
+        class="odsButton -primary"
+        type="submit"
+        ng-disabled="!$ctrl.hasApproveActionEnabled || !rightsExtensionFrom.$valid || !$ctrl.selectedCountMap.total"
+        ng-if="$ctrl.profileExistInSocialMentionsAccounts"
+      >Continue</button>
+    </div>
+  </form>
+</div>

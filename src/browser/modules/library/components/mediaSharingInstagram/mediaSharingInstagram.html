@@ -1,0 +1,179 @@
+<div class="mediaSharingInstagram">
+  <div
+    class="odsSmallIndicator -fullHeight"
+    ng-if="$ctrl.isLoadingInstagramAccounts"
+  ></div>
+  <div
+    class="mediaSharingInstagram_content"
+    ng-if="!$ctrl.isLoadingInstagramAccounts"
+  >
+    <div
+      class="mediaSharingInstagram_content_error"
+      ng-if="$ctrl.instagramBusinessAccountsErrorMessage"
+    >
+      <i class="fa fa-exclamation-triangle"></i>
+      <div ng-if="!$ctrl.facebookUsername">
+        You do not have a Facebook account connected to your Olapic account.
+        <br/>
+        Please go to the Settings Page and access Social Accounts to connect a Facebook account. This allows Olapic to access the list of Instagram accounts you have access to for publishing.
+      </div>
+      <div ng-if="$ctrl.facebookUsername">
+        <div ng-if="$ctrl.instagramBusinessAccountsErrorMessage === $ctrl.instagramBusinessAccountsErrorsTypes.errorGetting">
+          You are connected to
+          <strong>{{ ::$ctrl.facebookUsername }}</strong>,
+          but there was an error accessing your Instagram Accounts. Please try again. If you are unable to resolve this error, please contact your support team.
+        </div>
+        <div ng-if="$ctrl.instagramBusinessAccountsErrorMessage === $ctrl.instagramBusinessAccountsErrorsTypes.preconditionFailed">
+          You are connected to
+          <strong>{{ ::$ctrl.facebookUsername }}</strong>,
+          but there was an error accessing your Instagram Accounts. Please verify this account has the required permissions to access Instagram Publishing or connect another Facebook account.
+        </div>
+        <div ng-if="$ctrl.instagramBusinessAccountsErrorMessage === $ctrl.instagramBusinessAccountsErrorsTypes.empty">
+          You are connected to
+          <strong>{{ ::$ctrl.facebookUsername }}</strong>,
+          but this account doesn't have any valid Instagram account associated. Please connect a Facebook account that is associated with your company's Instagram Business Account.
+        </div>
+        <div ng-if="$ctrl.instagramBusinessAccountsErrorMessage === $ctrl.instagramBusinessAccountsErrorsTypes.noMediaSelected">
+          Please select an image from the left.
+        </div>
+        <div ng-if="$ctrl.instagramBusinessAccountsErrorMessage === $ctrl.instagramBusinessAccountsErrorsTypes.isBulk">
+          Bulk publishing is not supported for Instagram.
+          <br/>
+          Please select a single image.
+        </div>
+        <div ng-if="$ctrl.instagramBusinessAccountsErrorMessage === $ctrl.instagramBusinessAccountsErrorsTypes.isVideo">
+          Video publishing is not supported for Instagram.
+          <br/>
+          Please select an image.
+        </div>
+      </div>
+    </div>
+    <div
+      class="mediaSharingInstagram_content_options"
+      ng-if="!$ctrl.instagramBusinessAccountsErrorMessage"
+    >
+      <div class="odsMessageBanner -info">
+        Before sharing, please make sure that the minimum aspect ratio of the media you want to share is 1:1 (square) and a maximum of 16:9 or 9:16 (landscape or portrait).
+      </div>
+      <ods-dropdown
+        items-id-property="id"
+        items-label-property="username"
+        items="$ctrl.instagramBusinessAccounts"
+        label="Instagram Account"
+        placeholder="Please select an Instagram Account"
+        type="border"
+        selected-item="$ctrl.selectedInstagramAccount"
+        on-item-selected="$ctrl.onSelectedInstagramAccount(item)"
+      ></ods-dropdown>
+      <div class="mediaSharingInstagram_content_options_message">Only Business Accounts are listed. If you can't find the account that you need, please contact the support team.</div>
+      <svg
+        class="mediaSharingInstagram_content_options_divider"
+        viewBox="0 0 441 11"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          vector-effect="non-scaling-stroke"
+          stroke-width="1"
+          d="M0 0.5H211.5L221 10L230.5 0.5H441"
+          stroke="#CCCCCC"
+        />
+      </svg>
+      <div class="mediaSharingInstagram_content_options_caption">
+        <div>Instagram Caption</div>
+        <div class="mediaSharingInstagram_content_options_message">Media will be shared with the original caption. You can edit it before sharing it. The caption cannot hold more than 30 hashtags.</div>
+        <div
+          class="mediaSharingInstagram_content_options_caption_container"
+          ng-class="{ '-expanded': $ctrl.isCaptionExpanded }"
+          ng-if="!$ctrl.isEditingCaption"
+        >
+          <span>{{ $ctrl.editedCaption }}</span>
+          <div class="mediaSharingInstagram_content_options_caption_container_more">
+            <button
+              class="mediaSharingInstagram_content_options_caption_container_more_link"
+              type="button"
+              ng-click="$ctrl.onToggleCaptionExpanded()"
+              ng-if="$ctrl.editedCaption"
+            >{{ $ctrl.isCaptionExpanded ? 'less' : 'more' }}</button>
+            <button
+              class="mediaSharingInstagram_content_options_caption_container_more_link odsButton -link"
+              type="button"
+              ng-click="$ctrl.onToggleEditCaption()"
+            >{{ $ctrl.editedCaption ? 'Edit' : 'Add' }} Caption</button>
+          </div>
+        </div>
+
+        <!-- Edit Caption -->
+        <div
+          class="mediaSharingInstagram_content_options_caption_edit"
+          ng-if="$ctrl.isEditingCaption"
+        >
+          <textarea
+            class="odsInput_input -multiline"
+            placeholder="Edit your caption. This caption will replace the original."
+            ng-attr-maxlength="{{ $ctrl.captionMaxlength }}"
+            ng-model="$ctrl.editedCaption"
+          ></textarea>
+          <div
+            class="mediaSharingInstagram_content_options_caption_edit_actions"
+          >
+            <span
+              class="mediaSharingInstagram_content_options_message_characters"
+              ng-class="{ '-error': $ctrl.editedCaption.length >= $ctrl.captionMaxlength }"
+            >Number of Characters: {{ $ctrl.editedCaption.length }}</span>
+            <button
+              class="odsButton -link"
+              type="button"
+              ng-click="$ctrl.onCancelEditCaption()"
+            >Cancel</button>
+            <button
+              class="odsButton -link"
+              type="button"
+              ng-click="$ctrl.onResetCaption()"
+              ng-if="$ctrl.editedCaption !== $ctrl.originalCaption"
+            >Revert to original</button>
+            <button
+              class="odsButton -link"
+              type="button"
+              target="_blank"
+              ng-click="$ctrl.onToggleEditCaption()"
+            >Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mediaSharingInstagram_actions">
+    <a
+      class="odsButton -link"
+      target="_blank"
+      ng-href="{{ ::$ctrl.helpUrl }}"
+    >Help</a>
+    <div>
+      <button
+        class="odsButton -secondary"
+        type="button"
+        ng-click="$ctrl.onSchedulerModalOpen()"
+        ng-disabled="!$ctrl.selectedInstagramAccount || $ctrl.isEditingCaption"
+      >Schedule</button>
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl._onShare()"
+        ng-disabled="!$ctrl.selectedInstagramAccount || $ctrl.isEditingCaption"
+      >Share Now</button>
+    </div>
+  </div>
+  <ods-modal
+    size="small"
+    on-close="$ctrl.onSchedulerModalClose()"
+    ng-if="$ctrl.isSchedulerModalVisible"
+  >
+    <scheduler-modal
+      media-count="$ctrl.selectedMediaCount"
+      selected-activation="'instagram'"
+      on-cancel="$ctrl.onSchedulerModalClose()"
+      on-schedule="$ctrl._onShare(scheduleTime)"
+    ></scheduler-modal>
+  </ods-modal>
+</div>

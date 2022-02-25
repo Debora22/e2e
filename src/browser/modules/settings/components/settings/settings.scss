@@ -1,0 +1,35 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.settings {
+  display: flex;
+  height: 100%;
+
+  &_sidebar {
+    background-color: $gray-color-black-5;
+    height: 100%;
+    padding-top: 24px;
+    width: 221px;
+
+    &_item {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 100;
+      line-height: 32px;
+      padding: 4px 10px;
+
+      &:hover {
+        color: $primary-color-black-100;
+      }
+
+      &.-selected {
+        background-color: $primary-color-white-100;
+      }
+    }
+  }
+
+  &_content {
+    flex: 1;
+    overflow: scroll;
+    padding: 0 24px;
+  }
+}

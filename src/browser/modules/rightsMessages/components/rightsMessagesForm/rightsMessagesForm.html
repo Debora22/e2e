@@ -1,0 +1,252 @@
+<form
+  class="rightsMessagesForm"
+  name="form"
+  novalidate
+  ng-submit="$ctrl.submit(form)"
+>
+  <div class="rightsMessagesForm_content">
+    <div class="rightsMessagesForm_content_body">
+      <div class="rightsMessagesForm_content_body_header">Create Rights Messages</div>
+      <div ng-form="messageBase">
+        <div
+          class="odsInput_wrapper"
+          ng-class="{ '-error': $ctrl.isFieldInError(messageBase, 'rightsGroupName') }"
+        >
+          <label
+            class="odsInput_label"
+            for="rightsGroupName"
+          >Rights Group Name</label>
+          <input
+            id="rightsGroupName"
+            class="odsInput_input"
+            name="rightsGroupName"
+            type="text"
+            ng-class="{ '-error': $ctrl.isFieldInError(messageBase, 'rightsGroupName') }"
+            ng-model="$ctrl.rightsMessage.name"
+            required
+          />
+          <div class="odsInput_message">
+            <p>
+              Some examples of Rights Group Names are "Spanish Rights Requests" or "Valentine's Day Campaign Requests".
+            </p>
+            <p class="-error">
+              <span ng-if="messageBase.rightsGroupName.$error.required">Please enter a group name.</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="odsInput_wrapper"
+          ng-class="{ '-error': $ctrl.isFieldInError(messageBase, 'rightsApprovalHashtag') }"
+        >
+          <label
+            class="odsInput_label"
+            for="rightsApprovalHashtag"
+          >Approval Hashtag</label>
+          <input
+            id="rightsApprovalHashtag"
+            class="odsInput_input"
+            name="rightsApprovalHashtag"
+            type="text"
+            ng-class="{ '-error': $ctrl.isFieldInError(messageBase, 'rightsApprovalHashtag') }"
+            ng-change="$ctrl.onGroupChange()"
+            ng-model="$ctrl.rightsMessage.hashtag"
+            required
+          />
+          <div class="odsInput_message">
+            <p>
+              Input a hashtag that content creators will use to give your brand rights to use that media. This hashtag has to be different than the hashtag you are collecting from and will be the user's consent. Examples: #yesYourBrandName.
+            </p>
+            <p class="-error">
+              <span ng-if="messageBase.rightsApprovalHashtag.$error.required">Please enter an approval hashtag.</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="odsInput_wrapper"
+          ng-class="{ '-error': $ctrl.isFieldInError(messageBase, 'rightsTOS') }"
+        >
+          <label
+            class="odsInput_label"
+            for="rightsTOS"
+          >Terms of Service URL</label>
+          <input
+            id="rightsTOS"
+            class="odsInput_input"
+            name="rightsTOS"
+            type="text"
+            ng-class="{ '-error': $ctrl.isFieldInError(messageBase, 'rightsTOS') }"
+            ng-change="$ctrl.onGroupChange()"
+            ng-model="$ctrl.rightsMessage.tosUrl"
+            required
+            olapic-validator-functions="{ 'noShortlink': $ctrl.validateTosUrl }"
+          />
+          <div class="odsInput_message">
+            <p>We encourage that you edit your current TOS to cover the use of UGC.</p>
+            <p class="-error">
+              <span ng-if="messageBase.rightsTOS.$error.required">Please enter a URL.</span>
+              <span
+                ng-if="messageBase.rightsTOS.$error.noShortlink"
+              >Please avoid using shortlinks as they are more likely to be flagged as spam.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="rightsMessagesForm_content_body_messages">
+        <div
+          class="rightsMessagesForm_content_body_messages_item"
+          ng-repeat="message in $ctrl.rightsMessage.messages track by $index"
+        >
+          <div
+            class="rightsMessagesForm_content_body_messages_item_title -expandable"
+            ng-click="$ctrl.changeRightsMessage($index)"
+          >
+            Message {{ $index + 1 }}
+            <i
+              class="rightsMessagesForm_content_body_messages_item_title_icon -status"
+              ng-class="{
+                ['-' + message.status.title]: true,
+                ['fa fa-' + message.status.icon]: true,
+              }"
+              ng-if="message.status"
+            ></i>
+            <i
+              class="rightsMessagesForm_content_body_messages_item_title_icon fa"
+              ng-class="$ctrl.rightsMessageIndex === $index ? 'fa-chevron-up' : 'fa-chevron-down'"
+            ></i>
+          </div>
+          <div
+            class="rightsMessagesForm_content_body_messages_item_body"
+            id="message{{ $index }}"
+            ng-form="message{{ $index }}"
+            ng-if="$ctrl.rightsMessageIndex === $index"
+          >
+            <div
+              class="odsInput_wrapper"
+            >
+              <ods-dropdown
+                id="message{{ $index }}SocialNetwork"
+                name="message{{ $index }}SocialNetwork"
+                required
+                items-id-property="id"
+                items-label-property="label"
+                disabled="message.id"
+                label="Social Network"
+                placeholder="Select Network"
+                error="$ctrl.isFieldInErrorByIndex(form, $index, 'SocialNetwork')"
+                error-message="Please select a social network."
+                items="$ctrl.networks"
+                selected-item="message.network"
+                on-item-selected="$ctrl.onNetworkSelected(message, item)"
+                ng-model="message.network"
+              ></ods-dropdown>
+            </div>
+            <div
+              class="odsInput_wrapper"
+              ng-class="{ '-error': $ctrl.isFieldInErrorByIndex(form, $index, 'Name') }"
+            >
+              <label
+                class="odsInput_label"
+                for="message{{ $index }}Name"
+              >Message Name</label>
+              <input
+                id="message{{ $index }}Name"
+                class="odsInput_input"
+                name="message{{ $index }}Name"
+                type="text"
+                placeholder="Message {{ $index + 1 }}"
+                ng-class="{ '-error': $ctrl.isFieldInErrorByIndex(form, $index, 'Name') }"
+                ng-model="message.name"
+                required
+              />
+              <div class="odsInput_message">
+                <p class="-error">
+                  Please enter a name.
+                </p>
+              </div>
+            </div>
+            <div
+              class="odsInput_wrapper"
+              ng-class="{ '-error': $ctrl.isFieldInErrorByIndex(form, $index, 'Message') }"
+            >
+              <label
+                class="odsInput_label"
+                for="message{{ $index }}Message"
+              >
+                Rights Message
+                (<span
+                  ng-class="{ 'rightsMessagesForm_content_body_messages_item_body_negative': message.remainingChars < 0 }"
+                >{{ message.remainingChars}}</span>
+                characters
+                <span ng-if="message.template.length">remaining)</span>
+                <span ng-if="!message.template.length">max)</span>
+              </label>
+              <textarea
+                id="message{{ $index }}Message"
+                class="odsInput_input -multiline rightsMessagesForm_content_body_messages_item_body_noResize"
+                name="message{{ $index }}Message"
+                placeholder="{{ $ctrl.message.placeholder }}"
+                ng-class="{ '-error': $ctrl.isFieldInErrorByIndex(form, $index, 'Message') }"
+                ng-change="$ctrl.validateTemplateLength(message)"
+                ng-model="message.template"
+                required
+                olapic-elastic
+              ></textarea>
+              <div class="odsInput_message">
+                <p>
+                  Each Message must be as different as you can.  Remember to insert
+                  <span
+                    class="rightsMessagesForm_content_body_messages_item_body_tag"
+                    olapic-copy-to-clipboard="{{ $ctrl.message.tag.hashtag }}"
+                    olapic-copy-to-clipboard-after-copy="$ctrl.onShowMessageAfterCopy()"
+                  >{{ $ctrl.message.tag.hashtag }}</span>
+                  for the approval hashtag and
+                  <span
+                    class="rightsMessagesForm_content_body_messages_item_body_tag"
+                    olapic-copy-to-clipboard="{{ $ctrl.message.tag.tos }}"
+                    olapic-copy-to-clipboard-after-copy="$ctrl.onShowMessageAfterCopy()"
+                  >{{ $ctrl.message.tag.tos }}</span>
+                  for Terms of Service URL that you have entered before.
+                </p>
+                <p class="-error">
+                  Please enter a rights message.
+                </p>
+              </div>
+            </div>
+            <div class="rightsMessagesForm_content_body_messages_item_body_next">
+              <button
+                class="odsButton -secondary"
+                type="submit"
+                ng-click="$ctrl.exitOnSave = false"
+              >Next</button>
+          </div>
+          </div>
+        </div>
+        <div
+          class="rightsMessagesForm_content_body_messages_item"
+          ng-if="$ctrl.rightsMessage.messages.length < 20"
+        >
+          <button
+            class="odsButton -link rightsMessagesForm_content_body_messages_item_title"
+            type="button"
+            ng-click="$ctrl.onAddTemplateToMessage()"
+          >Add message</button>
+        </div>
+      </div>
+    </div>
+    <div class="rightsMessagesForm_content_example">
+      <div class="rightsMessagesForm_content_example_image"></div>
+    </div>
+  </div>
+  <div class="rightsMessagesForm_footer">
+    <button
+      class="odsButton -link"
+      type="button"
+      ng-click="$ctrl.close()"
+    >Back</button>
+    <button
+      class="odsButton -primary"
+      type="submit"
+      ng-click="$ctrl.exitOnSave = true"
+    >Save</button>
+  </div>
+</form>

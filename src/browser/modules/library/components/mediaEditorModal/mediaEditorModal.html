@@ -1,0 +1,187 @@
+<div class="mediaEditorModal">
+  <div class="mediaEditorModal_info">
+    <div class="mediaEditorModal_info_single">
+      <div
+        class="mediaEditorModal_info_single_content"
+        ng-if="$ctrl.isMediaEditEnabled()"
+      >
+        <div
+          class="odsSmallIndicator -fullScreen"
+          ng-if="$ctrl.loading"
+        ></div>
+        <div class="mediaEditorModal_info_single_cropper">
+          <ods-image-cropper
+            class="odsImageCropper"
+            check-cross-origin="false"
+            check-orientation="true"
+            fill="$ctrl.selectedSize === $ctrl.sizes.square"
+            fit="$ctrl.selectedSize === $ctrl.sizes.original"
+            fixed-crop-box="false"
+            image="{{ $ctrl.firstMedia.images[$ctrl.mediaImageSize] }}"
+            reset="$ctrl.resetCropper"
+            rotate-factor="$ctrl.rotateAngle"
+            on-fill="$ctrl.updateCropperData()"
+            on-fit="$ctrl.updateCropperData()"
+            on-move="$ctrl.updateCropperData()"
+            on-ready="$ctrl.onCropperReady(cropper)"
+            on-reset="$ctrl.onCropperReset()"
+            on-rotate="$ctrl.updateCropperData()"
+          ></ods-image-cropper>
+        </div>
+      </div>
+      <div
+        class="mediaEditorModal_info_single_content"
+        ng-if="!$ctrl.isMediaEditEnabled()"
+      >
+        <div
+          class="mediaEditorModal_info_single_image"
+          ng-style="{ 'background-image': 'url(' + $ctrl.firstMedia.images.normal + ')' }"
+          ng-if="!$ctrl.firstMedia.video_url"
+        ></div>
+        <ods-video-player
+          class="mediaEditorModal_info_single_video"
+          media-image="{{ $ctrl.firstMedia.images.normal }}"
+          media-source="{{ $ctrl.firstMedia.source.name }}"
+          media-video-url="{{ $ctrl.firstMedia.video_url }}"
+          ng-if="$ctrl.firstMedia.video_url"
+        ></ods-video-player>
+      </div>
+    </div>
+  </div>
+  <div class="mediaEditorModal_section">
+    <p class="mediaEditorModal_section_list_item">Edit Media</p>
+    <div
+      class="mediaEditorModal_section_main"
+      ng-if="$ctrl.isMediaEditEnabled()"
+    >
+      <div class="mediaEditorModal_rigthPanel">
+        <span class="mediaEditorModal_rigthPanel_title">Original Size:</span>
+        <span class="mediaEditorModal_rigthPanel_content">
+          <span ng-if="!$ctrl.loading">{{ $ctrl.originalMediaWidth }} x {{ $ctrl.originalMediaHeight }} px</span>
+          <span ng-if="$ctrl.loading">...</span>
+        </span>
+      </div>
+      <div class="mediaEditorModal_rigthPanel">
+        <span class="mediaEditorModal_rigthPanel_title">Cropped Size:</span>
+        <span class="mediaEditorModal_rigthPanel_content">
+          <span ng-if="!$ctrl.loading">{{ $ctrl.croppedWidth }} x {{ $ctrl.croppedHeight }} px</span>
+          <span ng-if="$ctrl.loading">...</span>
+        </span>
+        <div
+          class="mediaEditorModal_rigthPanel_alert"
+          ng-if="$ctrl.sizeErrorMessage"
+        >The image may lose quality and look blurry if you crop below {{ $ctrl.minCroppedImageWidth }} px</div>
+      </div>
+      <div class="mediaEditorModal_rigthPanel_editOptions">
+        <p class="mediaEditorModal_rigthPanel_editOptions_title">CROP ASPECT RATIO</p>
+        <button
+          class="mediaEditorModal_rigthPanel_editOptions_button"
+          type="button"
+          ng-click="$ctrl.updateSelectedSize($ctrl.sizes.original)"
+          ng-disabled="$ctrl.loading"
+        >
+          <div
+            class="mediaEditorModal_rigthPanel_editOptions_button_icon -aspectRatio"
+            ng-class="{
+              '-selected': $ctrl.selectedSize === $ctrl.sizes.original,
+              '-rotated': $ctrl.isRotated,
+            }"
+          >
+            <img ng-src="{{ $ctrl.aspectRatioOriginalIcon }}"/>
+          </div>
+          <p class="mediaEditorModal_rigthPanel_editOptions_description">Original</p>
+        </button>
+        <button
+          class="mediaEditorModal_rigthPanel_editOptions_button"
+          type="button"
+          ng-click="$ctrl.updateSelectedSize($ctrl.sizes.square)"
+          ng-disabled="$ctrl.loading"
+        >
+          <div
+            class="mediaEditorModal_rigthPanel_editOptions_button_icon -aspectRatio"
+            ng-class="{ '-selected': $ctrl.selectedSize === $ctrl.sizes.square }"
+          >
+            <img ng-src="{{ ::$ctrl.aspectRatioSquareIcon }}"/>
+          </div>
+          <p class="mediaEditorModal_rigthPanel_editOptions_description">Square</p>
+        </button>
+      </div>
+      <div class="mediaEditorModal_rigthPanel_editOptions rotate">
+        <p class="mediaEditorModal_rigthPanel_editOptions_title">ROTATE</p>
+        <button
+          class="mediaEditorModal_rigthPanel_editOptions_button"
+          type="button"
+          ng-click="$ctrl.rotate($ctrl.angles.left)"
+          ng-disabled="$ctrl.loading"
+        >
+          <div class="mediaEditorModal_rigthPanel_editOptions_button_icon">
+            <img ng-src="{{ ::$ctrl.rotateLeftIcon }}"/>
+          </div>
+          <p class="mediaEditorModal_rigthPanel_editOptions_description">Left</p>
+        </button>
+        <button
+          class="mediaEditorModal_rigthPanel_editOptions_button"
+          type="button"
+          ng-click="$ctrl.rotate($ctrl.angles.right)"
+          ng-disabled="$ctrl.loading"
+        >
+          <div class="mediaEditorModal_rigthPanel_editOptions_button_icon">
+            <img ng-src="{{ ::$ctrl.rotateRightIcon }}"/>
+          </div>
+          <p class="mediaEditorModal_rigthPanel_editOptions_description">Right</p>
+        </button>
+      </div>
+    </div>
+    <div
+      class="mediaEditorModal_section_main"
+      ng-if="!$ctrl.isMediaEditEnabled()"
+    >
+      <div class="odsMessageBanner -info">
+        <div ng-if="$ctrl.firstMedia.assets_edit_status === 'PENDING'">
+          Your edits are being processed. Please refresh the page and try again.
+        </div>
+        <div ng-if="$ctrl.firstMedia.video_url">
+          Video editing is not supported. Please select a photo to continue.
+        </div>
+        <div ng-if="$ctrl.firstMedia.parent_id">
+          Editing of syndicated media in child accounts is currently not supported.
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="mediaEditorModal_actions">
+    <div class="mediaEditorModal_actions_leftActions">
+      <button
+        class="bulkBarButton"
+        type="button"
+        ng-click="$ctrl.reset()"
+        ng-if="$ctrl.isMediaEditEnabled()"
+      >Reset to Original</button>
+    </div>
+    <div class="mediaEditorModal_actions_rightActions">
+      <div ng-if="$ctrl.isMediaEditEnabled()">
+        <button
+          class="odsButton"
+          type="button"
+          ng-class="'-secondary'"
+          ng-click="$ctrl.onCancel()"
+        >Cancel</button>
+        <button
+          class="odsButton"
+          type="button"
+          ng-class="'-primary'"
+          ng-click="$ctrl.saveEditedMedia()"
+        >Save Changes</button>
+      </div>
+      <div ng-if="!$ctrl.isMediaEditEnabled()">
+        <button
+          class="odsButton"
+          type="button"
+          ng-class="'-primary'"
+          ng-click="$ctrl.onCancel()"
+        >Close</button>
+      </div>
+    </div>
+  </div>
+</div>

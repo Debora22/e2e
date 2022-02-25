@@ -1,0 +1,154 @@
+@import 'olapic-design-system/elements/common/_zIndex.scss';
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.mediaInfoKeywords {
+  border-top: 2px solid $gray-color-black-10;
+  box-sizing: border-box;
+  line-height: 22px;
+  padding: 24px 0 16px 0;
+
+  &_header {
+    display: flex;
+
+    &_title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 24px;
+      margin-bottom: 16px;
+    }
+
+    &_info {
+      &_item {
+        display: inline;
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0 5px;
+
+        &_icon {
+          border-radius: 50%;
+          display: inline-block;
+          height: 8px;
+          margin: 4px 4px 0 0;
+          width: 8px;
+
+          &.-automatic {
+            background-color: $gray-color-black-80;
+          }
+
+          &.-manual {
+            background-color: $primary-color-blue-100;
+          }
+        }
+      }
+    }
+  }
+
+  &_list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+
+    &_item {
+      margin: 0 8px 8px 0;
+      position: relative;
+
+      &.-adition {
+        height: 30px;
+        width: 160px;
+      }
+
+      &_addAction {
+        background: none;
+        border: none;
+        color: $primary-color-blue-100;
+        font-size: 14px;
+        line-height: 30px;
+        margin-left: 8px;
+        padding: 0;
+
+        &:hover {
+          color: palette(general, primary);
+        }
+      }
+
+      &_addField {
+        background: none;
+        border: 0;
+        font-size: 14px;
+        line-height: 30px;
+        padding: 0;
+        text-transform: lowercase;
+      }
+
+      &_suggestions {
+        background: $primary-color-white-100;
+        border: 1px solid $gray-color-black-40;
+        border-radius: 3px;
+        box-shadow: 0 2px 6px 0 $tooltip-shadow;
+        display: flex;
+        flex-direction: column;
+        left: 0;
+        position: absolute;
+        top: 38px;
+        z-index: $searchBox-zIndex;
+
+        &::after,
+        &::before {
+          border-style: solid;
+          bottom: 100%;
+          content: '';
+          display: block;
+          height: 0;
+          position: absolute;
+          width: 0;
+        }
+
+        &::after {
+          border-color: transparent transparent $primary-color-white-100 transparent;
+          border-width: 0 7px 15px 7px;
+          left: 9px;
+        }
+
+        &::before {
+          border-color: transparent transparent $gray-color-black-60 transparent;
+          border-width: 0 8px 16px 8px;
+          left: 8px;
+        }
+
+        &_item {
+          background: none;
+          border: none;
+          font-size: 14px;
+          line-height: 36px;
+          padding: 0 8px;
+          text-align: left;
+          white-space: nowrap;
+
+          &:focus {
+            outline: none;
+          }
+
+          &:focus,
+          &:hover {
+            background-color: $primary-color-blue-20;
+          }
+
+          &.-create {
+            border-bottom: 1px solid $gray-color-black-40;
+          }
+        }
+
+        &_help {
+          background-color: $gray-color-black-5;
+          font-size: 9px;
+          height: 25px;
+          line-height: 27px;
+          padding: 0 5px;
+        }
+      }
+    }
+  }
+}

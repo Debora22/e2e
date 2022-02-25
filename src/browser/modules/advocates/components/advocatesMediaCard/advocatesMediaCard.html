@@ -1,0 +1,68 @@
+<div class="advocatesMediaCard">
+  <div
+    class="advocatesMediaCard_detail"
+    ng-if="$ctrl.isDetailVisible"
+  >
+    <img
+      class="advocatesMediaCard_detail_thumbnail"
+      ng-src="{{ ::$ctrl.mediaData.media_url }}"
+    >
+    <div class="advocatesMediaCard_detail_caption">
+      {{ ::$ctrl.mediaData.caption }}
+    </div>
+    <div>
+      <div
+        class="advocatesMediaCard_detail_data"
+        ng-if="$ctrl.isFocusRevenue"
+      >
+        <strong>CONVERSIONS:</strong>
+        {{ ::$ctrl.mediaData.conversions }}
+        ({{ ::$ctrl.mediaData.cvr }} CVR)
+      </div>
+      <div
+        class="advocatesMediaCard_detail_data"
+        ng-if="!$ctrl.isFocusRevenue"
+      >
+        <strong>SHOPPING CLICKS:</strong>
+        {{ ::$ctrl.mediaData.clicks | number:0 }}
+      </div>
+      <div class="advocatesMediaCard_detail_data">
+        <strong>LIGHTBOX VIEWS:</strong>
+        {{ ::$ctrl.mediaData.views | number:0 }}
+      </div>
+      <div class="advocatesMediaCard_detail_data">
+        <strong>DATE APPROVED:</strong>
+        {{ ::$ctrl.mediaData.date_approved | date:'MM/dd/yyyy' }}
+      </div>
+    </div>
+  </div>
+  <div
+    class="advocatesMediaCard_image"
+    ng-if="!$ctrl.isDetailVisible"
+    ng-style="::{ 'background-image': 'url(' + $ctrl.mediaData.media_url + ')' }"
+  ></div>
+  <div
+    class="advocatesMediaCard_footer"
+    ng-click="$ctrl.onToggleDetailVisibility()"
+  >
+    <div class="advocatesMediaCard_footer_rights">
+      <span
+        class="advocatesMediaCard_footer_rights_circle"
+        ng-class="{ '-approved': $ctrl.mediaData.rights }"
+      ></span>
+      {{ ::$ctrl.mediaData.rights ? 'Rights Approved' : 'No Rights'}}
+    </div>
+    <i
+      class="advocatesMediaCard_arrow fa"
+      ng-class="$ctrl.isDetailVisible ? 'fa-chevron-down': 'fa-chevron-up'"
+    ></i>
+    <div class="advocatesMediaCard_footer_value">
+      <span ng-if="$ctrl.isFocusRevenue">
+        {{ ::$ctrl.currencySymbol }}{{ ::$ctrl.mediaData.revenue.amount | number:2 }}
+      </span>
+      <span ng-if="!$ctrl.isFocusRevenue">
+        {{ ::$ctrl.mediaData.ctr }}%
+      </span>
+    </div>
+  </div>
+</div>

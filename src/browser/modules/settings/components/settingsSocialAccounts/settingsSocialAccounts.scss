@@ -1,0 +1,25 @@
+.settingsSocialAccounts {
+  margin: 24px 0;
+
+  &_connectionMessage {
+    margin: 150px auto;
+    text-align: center;
+    width: 430px;
+
+    &_image {
+      height: 168px;
+      width: 213px;
+    }
+
+    &_title {
+      font-size: 24px;
+      font-weight: normal;
+      line-height: 36px;
+    }
+
+    &_subtitle {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+}

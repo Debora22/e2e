@@ -1,0 +1,188 @@
+<div class="rightsMessages">
+  <div
+    class="rightsMessages_content"
+    ng-if="!$ctrl.isFormVisible"
+  >
+    <div class="rightsMessages_header">
+      <div class="rightsMessages_header_title">Rights Messages</div>
+      <button
+        class="odsButton -primary rightsMessages_header_button"
+        type="button"
+        ng-click="$ctrl.onOpenForm({
+          event: $ctrl.events.navigation.create,
+        })"
+      >Create New</button>
+    </div>
+    <div class="rightsMessages_table">
+      <div
+        class="rightsMessages_table_messages"
+        ng-if="$ctrl.showTableMessage"
+      >
+        <div class="odsMessageBanner -info rightsMessages_table_messages_item">
+          If you want to ask for rights in bulk on Instagram, you have to create at least 5 different rights messages to avoid being flagged as spam.
+          <button
+            class="rightsMessages_table_messages_item_icon"
+            type="button"
+            ng-click="$ctrl.closeTableMessage()"
+          ></button>
+        </div>
+      </div>
+      <div class="rightsMessages_table_header">
+        <div class="rightsMessages_table_header_name">Name</div>
+        <div class="rightsMessages_table_header_instagram">Instagram</div>
+        <div class="rightsMessages_table_header_twitter">Twitter</div>
+      </div>
+      <div class="rightsMessages_table_body">
+        <div
+          class="rightsMessages_table_body_row"
+          ng-repeat="rightsMessage in $ctrl.rightsMessages | orderBy:'-updated_at' track by rightsMessage.id"
+        >
+          <div
+            class="rightsMessages_table_body_row_header"
+            ng-click="$ctrl.toggleExpandRightsMessages(rightsMessage.id)"
+          >
+            <div class="rightsMessages_table_body_row_header_name">{{ rightsMessage.name }}</div>
+            <div class="rightsMessages_table_body_row_header_networks">
+              <div class="rightsMessages_table_body_row_header_networks_item">
+                  <div
+                    class="rightsMessages_table_body_row_header_networks_item_left"
+                    ng-if="rightsMessage.details.instagram.current_templates < rightsMessage.details.instagram.required_templates"
+                  >
+                    <i class="fa fa-circle rightsMessages_table_body_row_header_networks_item_icon"></i>
+                    {{ rightsMessage.details.instagram.current_templates }}
+                    of
+                    {{ rightsMessage.details.instagram.required_templates }}
+                  </div>
+                  <div
+                    class="rightsMessages_table_body_row_header_networks_item_ready"
+                    ng-if="rightsMessage.details.instagram.current_templates >= rightsMessage.details.instagram.required_templates"
+                  >
+                    <i class="fa fa-circle rightsMessages_table_body_row_header_networks_item_icon -complete"></i>Complete
+                  </div>
+              </div>
+              <div class="rightsMessages_table_body_row_header_networks_item">
+                  <div
+                    class="rightsMessages_table_body_row_header_networks_item_left"
+                    ng-if="rightsMessage.details.twitter.current_templates < rightsMessage.details.twitter.required_templates"
+                  >
+                    <i class="fa fa-circle rightsMessages_table_body_row_header_networks_item_icon"></i>
+                    {{ rightsMessage.details.twitter.current_templates }}
+                    of
+                    {{ rightsMessage.details.twitter.required_templates }}
+                  </div>
+                  <div
+                      class="rightsMessages_table_body_row_header_networks_item_ready"
+                      ng-if="rightsMessage.details.twitter.current_templates >= rightsMessage.details.twitter.required_templates"
+                  >
+                    <i class="fa fa-circle rightsMessages_table_body_row_header_networks_item_icon -complete"></i>Complete
+                  </div>
+              </div>
+            </div>
+            <div class="rightsMessages_table_body_row_header_tools">
+              <button
+                class="rightsMessages_table_body_row_header_tools_button"
+                type="button"
+                ng-click="$ctrl.onDelete({ rightsMessage: rightsMessage }); $event.stopPropagation();"
+              >Delete</button>
+              <button
+                class="rightsMessages_table_body_row_header_tools_button"
+                type="button"
+                ng-click="$ctrl.onOpenForm({
+                  rightsMessage: rightsMessage,
+                  event: $ctrl.events.navigation.edit,
+                }); $event.stopPropagation();"
+              >Edit</button>
+              <i
+                class="rightsMessages_table_body_row_header_tools_expand fa"
+                ng-class="$ctrl.expandedRightsMessages[rightsMessage.id] ? 'fa-chevron-up' : 'fa-chevron-down'"
+              ></i>
+            </div>
+          </div>
+          <div
+            class="rightsMessages_table_body_row_messages"
+            ng-show="$ctrl.expandedRightsMessages[rightsMessage.id]"
+          >
+            <div
+              class="rightsMessages_table_body_row_messages_row"
+              ng-repeat="template in rightsMessage.templates track by template.id"
+            >
+              <div class="rightsMessages_table_body_row_messages_row_name">
+                <i
+                  class="rightsMessages_table_body_row_messages_row_name_icon"
+                  ng-class="{
+                    ['fa fa-' + template.social_network]: true,
+                  }"
+                ></i>
+                {{ template.name }}
+              </div>
+              <div class="rightsMessages_table_body_row_messages_row_tools">
+                <button
+                  class="rightsMessages_table_body_row_messages_row_tools_button"
+                  type="button"
+                  ng-click="$ctrl.onDelete({
+                    rightsMessage: rightsMessage,
+                    template: template,
+                  });"
+                >Delete</button>
+                <button
+                  class="rightsMessages_table_body_row_messages_row_tools_button"
+                  type="button"
+                  ng-click="$ctrl.onOpenForm({
+                    rightsMessage: rightsMessage,
+                    templateIndex: $index,
+                    event: $ctrl.events.navigation.edit,
+                  });"
+                >Edit</button>
+              </div>
+            </div>
+            <div class="rightsMessages_table_body_row_messages_row -add">
+              <button
+                class="odsButton -link"
+                type="button"
+                ng-click="$ctrl.onOpenForm({
+                  rightsMessage: rightsMessage,
+                  templateIndex: rightsMessage.templates.length,
+                  event: $ctrl.events.navigation.addMessage,
+                })"
+              >Add message</button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rightsMessages_table_body_empty"
+          ng-if="!$ctrl.rightsMessages.length && !$ctrl.loading"
+        >
+          <div class="rightsMessages_table_body_empty_content">
+            <strong>No Rights Message Yet</strong>
+            <br/>
+            You will need to
+            <button
+              class="odsButton -link -inline"
+              type="button"
+              ng-click="$ctrl.onOpenForm({
+                event: $ctrl.events.navigation.create,
+              })"
+            >create a message</button>
+            to approve and request rights on content.
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <rights-messages-form
+    events="$ctrl.events"
+    message="$ctrl.message"
+    networks="$ctrl.networks"
+    rights-message="$ctrl.rightsMessage"
+    rights-message-index="$ctrl.rightsMessageIndex"
+    on-add-template-to-message="$ctrl.onAddTemplateToMessage()"
+    on-change-rights-message="$ctrl.onChangeRightsMessage({ index })"
+    on-close="$ctrl.onCloseForm()"
+    on-show-message-after-copy="$ctrl.onShowMessageAfterCopy()"
+    on-submit="$ctrl.onSubmit({ exitOnSave })"
+    on-validate-template-length="$ctrl.onValidateTemplateLength({ template })"
+    on-validate-tos-url="$ctrl.onValidateTosUrl({ tosUrl })"
+    ng-if="$ctrl.isFormVisible"
+  ></rights-messages-form>
+</div>

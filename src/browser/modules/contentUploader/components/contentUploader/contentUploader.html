@@ -1,0 +1,90 @@
+<div class="contentUploader">
+  <div class="contentUploader_header">
+    <h2 class="contentUploader_header_title">Content Uploader</h2>
+    <p>You can upload content from your hard drive, the content will appear as source hard drive.</p>
+  </div>
+  <dropzone
+    media-types="$ctrl.mediaTypes"
+    on-files-selected="$ctrl.onMediaAdd({ media: files })"
+  ></dropzone>
+  <div
+    class="contentUploader_content"
+    ng-class="{ '-withMedia': $ctrl.media.length }"
+  >
+    <div
+      class="contentUploader_content_empty"
+      ng-if="!$ctrl.media.length"
+    >
+      <div ng-if="!$ctrl.uploadedMedia.amount">
+        <i class="fa fa-cloud-upload contentUploader_content_empty_icon"></i>
+        <p>The content will appear here, you can edit username, tag to streams, add caption and keywords.</p>
+      </div>
+      <p ng-if="$ctrl.uploadedMedia.amount">
+        <strong>{{ $ctrl.uploadedMedia.amount }}</strong> {{ $ctrl.uploadedMedia.successMessage }}
+      </p>
+    </div>
+    <div
+      class="contentUploader_content_media"
+      ng-if="$ctrl.media.length"
+    >
+      <p class="contentUploader_content_media_text">
+        You are uploading
+        <strong>{{ $ctrl.media.length }}</strong>
+        media that will be attributed to username
+        <strong>
+          <span ng-if="!$ctrl.user.name.startsWith('@')">@</span>{{ $ctrl.user.name }}
+        </strong>
+        <button
+          class="odsButton -link"
+          type="button"
+          ng-click="$ctrl.onModalOpen()"
+        >(change)</button>
+      </p>
+      <image-card
+        image="media"
+        on-image-delete="$ctrl.onMediaDelete({ media: item })"
+        on-modal-open="$ctrl.onModalOpen({ media: item })"
+        ng-repeat="media in $ctrl.media track by $index"
+      ></image-card>
+    </div>
+  </div>
+  <div
+    class="contentUploader_footer"
+    ng-if="$ctrl.media.length"
+  >
+    <div class="contentUploader_footer_actions">
+      <button
+        class="odsButton -link"
+        type="button"
+        ng-click="$ctrl.onModalOpen({ section: 'tag' })"
+      >Tag to Stream</button>
+      <button
+        class="odsButton -link"
+        type="button"
+        ng-click="$ctrl.onModalOpen({ section: 'edit' })"
+      >Add keywords</button>
+      <div
+        class="contentUploader_footer_actions_moderation"
+        ng-if="$ctrl.hasModerationServices"
+      >
+        <div class="odsCheckbox_wrapper">
+          <input
+            class="odsCheckbox_checkbox"
+            type="checkbox"
+            ng-change="$ctrl.onModerationCheckboxToggle()"
+            ng-model="$ctrl.skipModerationServices"
+          >
+        </div>
+        <label
+          class="odsCheckbox_label"
+          ng-click="$ctrl.onModerationCheckboxToggle()"
+        >Skip moderation services</label>
+      </div>
+      <button
+        class="odsButton -primary"
+        type="button"
+        ng-click="$ctrl.onMediaUpload()"
+      >Upload</button>
+    </div>
+  </div>
+</div>

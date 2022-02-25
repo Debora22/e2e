@@ -1,0 +1,16 @@
+@import 'olapic-design-system/elements/colors/colors.scss';
+
+.downloadConfirmation {
+  &_filtering {
+    margin: 24px 0 0;
+    padding: 0;
+
+    &_item {
+      margin-left: 16px;
+    }
+  }
+
+  &_waitingWarning {
+    margin-top: 24px;
+  }
+}

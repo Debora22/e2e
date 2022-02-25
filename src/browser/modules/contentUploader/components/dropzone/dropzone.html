@@ -1,0 +1,26 @@
+<div
+  class="dropzone"
+  ngf-drop="$ctrl.onFilesSelected({ files: $files })"
+  ngf-fix-orientation="true"
+  ngf-max-size="20MB"
+  ngf-multiple="true"
+  ngf-pattern="$ctrl.mediaTypes.toString()"
+>
+  <div class="dropzone_content">
+    <p class="dropzone_content_text">
+      Drag and drop
+      <br>
+      or
+    </p>
+    <button
+      class="odsButton -secondary dropzone_content_button"
+      type="button"
+      ngf-accept="$ctrl.mediaTypes.toString()"
+      ngf-fix-orientation="true"
+      ngf-max-size="20MB"
+      ngf-multiple="true"
+      ngf-select="$ctrl.onFilesSelected({ files: $files })"
+    >Browse</button>
+    <p>You can upload jpg and png files of up to 20MB each.</p>
+  </div>
+</div>
